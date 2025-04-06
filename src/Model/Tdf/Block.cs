@@ -1,8 +1,8 @@
 ﻿namespace ii.TotalAnnihilation.Model.Tdf;
 
-public class TdfWeaponBlock
+public class Block
 {
     public string SectionName { get; set; }
     public Dictionary<string, string> Properties { get; } = [];
-    public TdfDamageBlock Damage { get; set; }
+    public List<Block> Blocks { get; } = [];
 }

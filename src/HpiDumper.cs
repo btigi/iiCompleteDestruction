@@ -3,7 +3,7 @@ using System.IO.Compression;
 using System.Runtime.InteropServices;
 using System.Text;
 
-namespace ii.TotalAnnihilation.Model;
+namespace ii.TotalAnnihilation;
 
 public class HpiDumper
 {

@@ -1,4 +1,5 @@
-﻿using System.IO.Compression;
+﻿using ii.TotalAnnihilation.Model.Hpi;
+using System.IO.Compression;
 using System.Runtime.InteropServices;
 using System.Text;
 

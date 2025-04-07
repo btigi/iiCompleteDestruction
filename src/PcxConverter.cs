@@ -5,7 +5,6 @@ namespace ii.TotalAnnihilation;
 
 public class PcxConverter
 {
-
     public Image Parse(string filePath)
     {
         using var br = new BinaryReader(File.Open(filePath, FileMode.Open));

@@ -1,6 +1,6 @@
 ﻿using System.Runtime.InteropServices;
 
-namespace ii.TotalAnnihilation.Model.Hpi;
+namespace ii.CompleteDestruction.Model.Hpi;
 
 [StructLayout(LayoutKind.Sequential, Pack = 1)]
 public struct HPIHEADER2

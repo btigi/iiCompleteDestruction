@@ -1,7 +1,7 @@
-iiTotalAnnihilation
+iiCompleteDestruction
 =========
 
-iiTotalAnnihilation is a C# library targetting .NET8 providing basic functions to support modifications to Total Annihilation, the 1997 RTS by Cavedog Entertainment.
+iiCompleteDestruction is a C# library targetting .NET8 providing basic functions to support modifications to Total Annihilation, the 1997 RTS by Cavedog Entertainment.
 The library currently supports dumping the contents of HPIs and related archives.
 
 ## Usage
@@ -59,7 +59,7 @@ To clone and run this application, you'll need [Git](https://git-scm.com) and [.
 
 ```
 # Clone this repository
-$ git clone https://github.com/btigi/iiTotalAnnihilation
+$ git clone https://github.com/btigi/iiCompleteDestruction
 
 # Go into the repository
 $ cd src
@@ -70,7 +70,7 @@ $ dotnet build
 
 ## Licencing
 
-iiTotalAnnihilation is licensed under the MIT license. Full licence details are available in license.md
+iiCompleteDestruction is licensed under the MIT license. Full licence details are available in license.md
 
 The HPI related code is largely based on original work by [JoeD](https://github.com/joe-d-cws/hpidump)
 

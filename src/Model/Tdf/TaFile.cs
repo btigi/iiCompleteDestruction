@@ -1,4 +1,4 @@
-﻿namespace ii.TotalAnnihilation.Model.Tdf;
+﻿namespace ii.CompleteDestruction.Model.Tdf;
 
 public class TaFile
 {

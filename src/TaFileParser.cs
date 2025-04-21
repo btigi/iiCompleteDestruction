@@ -1,7 +1,7 @@
-﻿using ii.TotalAnnihilation.Model.Tdf;
+﻿using ii.CompleteDestruction.Model.Tdf;
 using System.Text.RegularExpressions;
 
-namespace ii.TotalAnnihilation;
+namespace ii.CompleteDestruction;
 
 public class TaFileParser
 {

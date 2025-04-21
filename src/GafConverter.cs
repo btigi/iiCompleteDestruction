@@ -1,8 +1,8 @@
 ﻿using SixLabors.ImageSharp;
 using SixLabors.ImageSharp.PixelFormats;
-using ii.TotalAnnihilation.Model.Gaf;
+using ii.CompleteDestruction.Model.Gaf;
 
-namespace ii.TotalAnnihilation;
+namespace ii.CompleteDestruction;
 
 public class GafConverter
 {

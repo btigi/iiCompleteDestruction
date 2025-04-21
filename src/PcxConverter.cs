@@ -1,7 +1,7 @@
 ﻿using SixLabors.ImageSharp;
 using SixLabors.ImageSharp.PixelFormats;
 
-namespace ii.TotalAnnihilation;
+namespace ii.CompleteDestruction;
 
 public class PcxConverter
 {

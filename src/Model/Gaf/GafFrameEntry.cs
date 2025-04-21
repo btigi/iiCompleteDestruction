@@ -1,4 +1,4 @@
-﻿namespace ii.TotalAnnihilation.Model.Gaf;
+﻿namespace ii.CompleteDestruction.Model.Gaf;
 
 public class GafFrameEntry
 {

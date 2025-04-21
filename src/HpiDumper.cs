@@ -1,9 +1,9 @@
-﻿using ii.TotalAnnihilation.Model.Hpi;
+﻿using ii.CompleteDestruction.Model.Hpi;
 using System.IO.Compression;
 using System.Runtime.InteropServices;
 using System.Text;
 
-namespace ii.TotalAnnihilation;
+namespace ii.CompleteDestruction;
 
 public class HpiDumper
 {

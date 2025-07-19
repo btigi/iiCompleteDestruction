@@ -8,7 +8,7 @@ public class GafConverter
 {
     private const byte Transparency = 0;
 
-    public List<Image> Parse(string filePath)
+    public List<Image> Parse(string filePath, bool processUnsupportedVersions = false)
     {
         var palette = ReadPalette(@"PALETTE.PAL");
 
@@ -22,7 +22,7 @@ public class GafConverter
             Padding = br.ReadInt32()
         };
 
-        if (header.Version != 0x00010100)
+        if (header.Version != 0x00010100 && !processUnsupportedVersions)
         {
             throw new InvalidDataException("Unsupported GAF version.");
         }
@@ -46,7 +46,7 @@ public class GafConverter
             };
 
             var frameEntries = new List<GafFrameEntry>();
-            for (int i = 0; i < entry.NumberOfFrames; i++)
+            for (var i = 0; i < entry.NumberOfFrames; i++)
             {
                 var frameEntry = new GafFrameEntry
                 {
@@ -75,9 +75,10 @@ public class GafConverter
 
                 if (frameData.NumberOfSubFrames == 0)
                 {
+                    br.BaseStream.Seek(frameData.OffsetToFrameData, SeekOrigin.Begin);
+
                     if (frameData.CompressionMethod == 1)
                     {
-                        br.BaseStream.Seek(frameData.OffsetToFrameData, SeekOrigin.Begin);
                         var currentRow = 0;
                         var pixelDataIndex = 0;
                         var pixelData = new byte[frameData.Width * frameData.Height];
@@ -140,7 +141,7 @@ public class GafConverter
                         }
 
                         var rgbaData = new byte[frameData.Width * frameData.Height * 4];
-                        for (int i = 0; i < pixelData.Length; i++)
+                        for (var i = 0; i < pixelData.Length; i++)
                         {
                             var paletteIndex = pixelData[i];
                             var color = palette[paletteIndex];
@@ -161,7 +162,7 @@ public class GafConverter
 
                         var bytesRead = br.Read(pixelData, 0, dataSize);
                         var rgbaData = new byte[frameData.Width * frameData.Height * 4];
-                        for (int i = 0; i < pixelData.Length; i++)
+                        for (var i = 0; i < pixelData.Length; i++)
                         {
                             var paletteIndex = pixelData[i];
                             var color = palette[paletteIndex];
@@ -174,6 +175,137 @@ public class GafConverter
 
                         var image = Image.LoadPixelData<Rgba32>(rgbaData, frameData.Width, frameData.Height);
                         result.Add(image);
+                    }
+                }
+                else
+                {
+                    br.BaseStream.Seek(frameData.OffsetToFrameData, SeekOrigin.Begin);
+                    
+                    var subFramePointers = new int[frameData.NumberOfSubFrames];
+                    for (var i = 0; i < frameData.NumberOfSubFrames; i++)
+                    {
+                        subFramePointers[i] = br.ReadInt32();
+                    }
+                    
+                    foreach (var subFramePointer in subFramePointers)
+                    {
+                        br.BaseStream.Seek(subFramePointer, SeekOrigin.Begin);
+                        
+                        var subFrameData = new GafFrameData
+                        {
+                            Width = br.ReadInt16(),
+                            Height = br.ReadInt16(),
+                            XOffset = br.ReadInt16(),
+                            YOffset = br.ReadInt16(),
+                            Unknown1 = br.ReadByte(),
+                            CompressionMethod = br.ReadByte(),
+                            NumberOfSubFrames = br.ReadInt16(),
+                            Unknown2 = br.ReadInt32(),
+                            OffsetToFrameData = br.ReadInt32(),
+                            Unknown3 = br.ReadInt32()
+                        };
+                        
+                        br.BaseStream.Seek(subFrameData.OffsetToFrameData, SeekOrigin.Begin);
+                        
+                        if (subFrameData.CompressionMethod == 1)
+                        {
+                            var currentRow = 0;
+                            var pixelDataIndex = 0;
+                            var pixelData = new byte[subFrameData.Width * subFrameData.Height];
+                            while (currentRow < subFrameData.Height)
+                            {
+                                var bytesThisRow = br.ReadUInt16();
+                                var rowBytes = br.ReadBytes(bytesThisRow);
+                                var rowBytesIndex = 0;
+                                var bytesLeftThisRow = (int)subFrameData.Width;
+
+                                while (bytesLeftThisRow > 0 && rowBytesIndex < rowBytes.Length)
+                                {
+                                    var mask = rowBytes[rowBytesIndex];
+                                    rowBytesIndex++;
+
+                                    if ((mask & 0x01) == 0x01)
+                                    {
+                                        // Don't overflow the bytes for this row
+                                        var count = Math.Min(mask >> 1, bytesLeftThisRow);
+                                        for (var i = 0; i < count; i++)
+                                        {
+                                            pixelData[pixelDataIndex] = Transparency;
+                                            pixelDataIndex++;
+                                        }
+                                        bytesLeftThisRow -= count;
+                                    }
+                                    else if ((mask & 0x02) == 0x02)
+                                    {
+                                        // Don't overflow the bytes for this row
+                                        var count = Math.Min((mask >> 2) + 1, bytesLeftThisRow);
+                                        var paletteIndex = rowBytes[rowBytesIndex];
+                                        rowBytesIndex++;
+                                        for (var i = 0; i < count; i++)
+                                        {
+                                            pixelData[pixelDataIndex] = paletteIndex;
+                                            pixelDataIndex++;
+                                        }
+                                        bytesLeftThisRow -= count;
+                                    }
+                                    else
+                                    {
+                                        var inBytes = (mask >> 2) + 1;
+                                        // Don't overflow the bytes for this row
+                                        var outBytes = Math.Min(inBytes, bytesLeftThisRow);
+                                        Array.Copy(rowBytes, rowBytesIndex, pixelData, pixelDataIndex, outBytes);
+                                        pixelDataIndex += outBytes;
+                                        rowBytesIndex += outBytes;
+                                        bytesLeftThisRow -= outBytes;
+                                    }
+                                }
+
+                                // Fill out any remaining pixels in the last row
+                                for (var i = 0; i < bytesLeftThisRow; i++)
+                                {
+                                    pixelData[pixelDataIndex] = Transparency;
+                                    pixelDataIndex++;
+                                }
+
+                                currentRow++;
+                            }
+
+                            var rgbaData = new byte[subFrameData.Width * subFrameData.Height * 4];
+                            for (var i = 0; i < pixelData.Length; i++)
+                            {
+                                var paletteIndex = pixelData[i];
+                                var color = palette[paletteIndex];
+
+                                rgbaData[i * 4] = color.Red;
+                                rgbaData[i * 4 + 1] = color.Green;
+                                rgbaData[i * 4 + 2] = color.Blue;
+                                rgbaData[i * 4 + 3] = 255;
+                            }
+
+                            var image = Image.LoadPixelData<Rgba32>(rgbaData, subFrameData.Width, subFrameData.Height);
+                            result.Add(image);
+                        }
+                        else
+                        {
+                            var dataSize = subFrameData.Width * subFrameData.Height;
+                            var pixelData = new byte[dataSize];
+
+                            var bytesRead = br.Read(pixelData, 0, dataSize);
+                            var rgbaData = new byte[subFrameData.Width * subFrameData.Height * 4];
+                            for (var i = 0; i < pixelData.Length; i++)
+                            {
+                                var paletteIndex = pixelData[i];
+                                var color = palette[paletteIndex];
+
+                                rgbaData[i * 4] = color.Red;
+                                rgbaData[i * 4 + 1] = color.Green;
+                                rgbaData[i * 4 + 2] = color.Blue;
+                                rgbaData[i * 4 + 3] = 255;
+                            }
+
+                            var image = Image.LoadPixelData<Rgba32>(rgbaData, subFrameData.Width, subFrameData.Height);
+                            result.Add(image);
+                        }
                     }
                 }
             }
@@ -198,7 +330,7 @@ public class GafConverter
             throw new InvalidDataException($"Palette file must be exactly {ExpectedFileSize} bytes.");
         }
 
-        for (int i = 0; i < PaletteSize; i++)
+        for (var i = 0; i < PaletteSize; i++)
         {
             var r = br.ReadByte();
             var g = br.ReadByte();

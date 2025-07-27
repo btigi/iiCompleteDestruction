@@ -75,7 +75,7 @@ public class HpiDumper
                 {
                     nres++;
                     if (resList.Count <= nres)
-                    { 
+                    {
                         resList.Add("");
                     }
                 }
@@ -227,7 +227,8 @@ public class HpiDumper
 
     private static int ZLibDecompress(byte[] outData, byte[] inData, HPICHUNK chunk)
     {
-        using var compressedStream = new MemoryStream(inData);
+        // Skip the 2-byte zlib header (CMF and FLG bytes) and 4-byte checksum at the end
+        using var compressedStream = new MemoryStream(inData, 2, inData.Length - 6);
         using var deflateStream = new DeflateStream(compressedStream, CompressionMode.Decompress);
         using var outputStream = new MemoryStream();
         deflateStream.CopyTo(outputStream);
@@ -306,7 +307,7 @@ public class HpiDumper
         {
             DeCount = len / 65536;
             if (len % 65536 != 0)
-            { 
+            {
                 DeCount++;
             }
             DeLen = DeCount * sizeof(int);
@@ -464,7 +465,7 @@ public class HpiDumper
         byte b;
         int i = offset;
         while ((b = data[i++]) != 0)
-        { 
+        {
             bytes.Add(b);
         }
         return Encoding.ASCII.GetString(bytes.ToArray());
@@ -517,20 +518,20 @@ public class HpiDumper
         }
 
         if (!string.IsNullOrEmpty(outDir))
-        { 
+        {
             Console.WriteLine("Extracting {0} to {1}", hpiName, outDir);
         }
         else
-        { 
+        {
             Console.WriteLine("Extracting {0}", hpiName);
         }
 
         if (h1.Key != 0)
-        { 
+        {
             Key = ~((h1.Key * 4) | (h1.Key >> 6));
         }
         else
-        { 
+        {
             Key = 0;
         }
 

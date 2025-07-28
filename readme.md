@@ -12,6 +12,7 @@ The library currently supports dumping the contents of HPIs and related archives
 | GUI    | ✔   |   ✗   | TDF
 | HPI    | ✔   |   ✗   | 
 | OTA    | ✔   |   ✗   | TDF
+| PCX    | ✔   |   ✗   | 
 | SCT    | ✗   |   ✗   |
 | TNT    | 🟢   |   ✗   |
 | TDF    | ✔   |   ✗   | TDF

@@ -4,6 +4,19 @@ iiCompleteDestruction
 iiCompleteDestruction is a C# library targetting .NET8 providing basic functions to support modifications to Total Annihilation, the 1997 RTS by Cavedog Entertainment.
 The library currently supports dumping the contents of HPIs and related archives.
 
+| Name   | Read | Write | Comment
+|--------|:----:|-------|--------
+| CCX    | ✔   |   ✗   | HPI
+| FBI    | ✔   |   ✗   | TDF
+| GP3    | ✔   |   ✗   | HPI
+| GUI    | ✔   |   ✗   | TDF
+| HPI    | ✔   |   ✗   | 
+| OTA    | ✔   |   ✗   | TDF
+| SCT    | ✗   |   ✗   |
+| TNT    | 🟢   |   ✗   |
+| TDF    | ✔   |   ✗   | TDF
+| UFO    | ✔   |   ✗   | HPI
+
 ## Usage
 
 Sample code to use the library is provided below.

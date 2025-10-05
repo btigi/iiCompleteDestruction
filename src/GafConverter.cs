@@ -8,6 +8,19 @@ public class GafConverter
 {
     private const byte Transparency = 0;
 
+    public class GafImageEntry
+    {
+        public string Name { get; set; } = string.Empty;
+        public List<Image> Frames { get; set; } = new();
+    }
+
+    public class GafWriteOptions
+    {
+        public bool UseCompression { get; set; } = false;
+        public short XOffset { get; set; } = 0;
+        public short YOffset { get; set; } = 0;
+    }
+
     public List<Image> Parse(string filePath, bool processUnsupportedVersions = false)
     {
         var palette = ReadPalette(@"PALETTE.PAL");
@@ -314,6 +327,257 @@ public class GafConverter
         }
 
         return result;
+    }
+
+    public void Write(string filePath, List<GafImageEntry> entries, GafWriteOptions? options = null)
+    {
+        options ??= new GafWriteOptions();
+        var palette = ReadPalette(@"PALETTE.PAL");
+
+        using var bw = new BinaryWriter(File.Create(filePath));
+
+        bw.Write(0x00010100);
+        bw.Write(entries.Count);
+        bw.Write(0);
+
+        // Reserve space for entry pointers
+        var entryPointerPosition = bw.BaseStream.Position;
+        for (var i = 0; i < entries.Count; i++)
+        {
+            bw.Write(0); // Placeholder
+        }
+
+        var entryPointers = new int[entries.Count];
+
+        for (var entryIndex = 0; entryIndex < entries.Count; entryIndex++)
+        {
+            var entry = entries[entryIndex];
+            entryPointers[entryIndex] = (int)bw.BaseStream.Position;
+
+            // Write entry header
+            bw.Write((short)entry.Frames.Count); // NumberOfFrames
+            bw.Write((short)0); // Unknown1
+            bw.Write(0); // Unknown2
+
+            // Write name (32 bytes, null-padded)
+            var nameBytes = new byte[32];
+            var sourceNameBytes = System.Text.Encoding.ASCII.GetBytes(entry.Name);
+            Array.Copy(sourceNameBytes, nameBytes, Math.Min(sourceNameBytes.Length, 31));
+            bw.Write(nameBytes);
+
+            // Reserve space for frame entry pointers
+            var frameEntryPosition = bw.BaseStream.Position;
+            for (var i = 0; i < entry.Frames.Count; i++)
+            {
+                bw.Write(0); // OffsetToFrameData placeholder
+                bw.Write(0); // Unknown
+            }
+
+            var framePointers = new int[entry.Frames.Count];
+
+            // Write frame data
+            for (var frameIndex = 0; frameIndex < entry.Frames.Count; frameIndex++)
+            {
+                var frame = entry.Frames[frameIndex];
+                framePointers[frameIndex] = (int)bw.BaseStream.Position;
+
+                var width = (short)frame.Width;
+                var height = (short)frame.Height;
+
+                // Write frame data header
+                bw.Write(width);
+                bw.Write(height);
+                bw.Write(options.XOffset);
+                bw.Write(options.YOffset);
+                bw.Write((byte)0); // Unknown1
+                bw.Write((byte)(options.UseCompression ? 1 : 0)); // CompressionMethod
+                bw.Write((short)0); // NumberOfSubFrames
+                bw.Write(0); // Unknown2
+
+                var pixelDataPosition = bw.BaseStream.Position;
+                bw.Write(0); // OffsetToFrameData placeholder
+                bw.Write(0); // Unknown3
+
+                var pixelDataOffset = (int)bw.BaseStream.Position;
+
+                // Convert image to palette-indexed format
+                var pixelData = ImageToPaletteIndexed(frame, palette);
+
+                if (options.UseCompression)
+                {
+                    WriteCompressedPixelData(bw, pixelData, width);
+                }
+                else
+                {
+                    bw.Write(pixelData);
+                }
+
+                // Update OffsetToFrameData
+                var currentPosition = bw.BaseStream.Position;
+                bw.BaseStream.Seek(pixelDataPosition, SeekOrigin.Begin);
+                bw.Write(pixelDataOffset);
+                bw.BaseStream.Seek(currentPosition, SeekOrigin.Begin);
+            }
+
+            // Update frame entry pointers
+            var endPosition = bw.BaseStream.Position;
+            bw.BaseStream.Seek(frameEntryPosition, SeekOrigin.Begin);
+            for (var i = 0; i < framePointers.Length; i++)
+            {
+                bw.Write(framePointers[i]);
+                bw.Write(0); // Unknown
+            }
+            bw.BaseStream.Seek(endPosition, SeekOrigin.Begin);
+        }
+
+        // Update entry pointers
+        bw.BaseStream.Seek(entryPointerPosition, SeekOrigin.Begin);
+        foreach (var pointer in entryPointers)
+        {
+            bw.Write(pointer);
+        }
+    }
+
+    private byte[] ImageToPaletteIndexed(Image image, Colour[] palette)
+    {
+        var width = image.Width;
+        var height = image.Height;
+        var pixelData = new byte[width * height];
+
+        var rgbaImage = image.CloneAs<Rgba32>();
+
+        rgbaImage.ProcessPixelRows(accessor =>
+        {
+            for (var y = 0; y < accessor.Height; y++)
+            {
+                var row = accessor.GetRowSpan(y);
+                for (var x = 0; x < accessor.Width; x++)
+                {
+                    var pixel = row[x];
+                    var index = FindClosestPaletteIndex(pixel, palette);
+                    pixelData[y * width + x] = (byte)index;
+                }
+            }
+        });
+
+        return pixelData;
+    }
+
+    private int FindClosestPaletteIndex(Rgba32 pixel, Colour[] palette)
+    {
+        // If pixel is fully transparent, use transparency index
+        if (pixel.A == 0)
+        {
+            return Transparency;
+        }
+
+        var minDistance = int.MaxValue;
+        var closestIndex = 0;
+
+        for (var i = 0; i < palette.Length; i++)
+        {
+            var color = palette[i];
+            var dr = pixel.R - color.Red;
+            var dg = pixel.G - color.Green;
+            var db = pixel.B - color.Blue;
+            var distance = dr * dr + dg * dg + db * db;
+
+            if (distance < minDistance)
+            {
+                minDistance = distance;
+                closestIndex = i;
+
+                if (distance == 0) 
+                    break; // Perfect match
+            }
+        }
+
+        return closestIndex;
+    }
+
+    private void WriteCompressedPixelData(BinaryWriter bw, byte[] pixelData, short width)
+    {
+        var height = pixelData.Length / width;
+
+        for (var row = 0; row < height; row++)
+        {
+            var rowStart = row * width;
+            var rowData = new List<byte>();
+
+            var col = 0;
+            while (col < width)
+            {
+                var currentPixel = pixelData[rowStart + col];
+
+                // Check for transparency run
+                if (currentPixel == Transparency)
+                {
+                    var runLength = 1;
+                    while (col + runLength < width && 
+                           pixelData[rowStart + col + runLength] == Transparency && 
+                           runLength < 127)
+                    {
+                        runLength++;
+                    }
+
+                    rowData.Add((byte)((runLength << 1) | 0x01));
+                    col += runLength;
+                }
+                // Check for same color run
+                else
+                {
+                    var runLength = 1;
+                    while (col + runLength < width && 
+                           pixelData[rowStart + col + runLength] == currentPixel && 
+                           runLength < 63)
+                    {
+                        runLength++;
+                    }
+
+                    if (runLength >= 3)
+                    {
+                        rowData.Add((byte)(((runLength - 1) << 2) | 0x02));
+                        rowData.Add(currentPixel);
+                        col += runLength;
+                    }
+                    else
+                    {
+                        // Direct copy
+                        var copyLength = 1;
+                        while (col + copyLength < width && copyLength < 63)
+                        {
+                            var nextPixel = pixelData[rowStart + col + copyLength];
+                            if (nextPixel == Transparency) break;
+
+                            // Check if it's worth starting a run
+                            if (copyLength >= 2)
+                            {
+                                var ahead = 0;
+                                while (col + copyLength + ahead < width && 
+                                       pixelData[rowStart + col + copyLength + ahead] == nextPixel &&
+                                       ahead < 3)
+                                {
+                                    ahead++;
+                                }
+                                if (ahead >= 3) break;
+                            }
+
+                            copyLength++;
+                        }
+
+                        rowData.Add((byte)((copyLength - 1) << 2));
+                        for (var i = 0; i < copyLength; i++)
+                        {
+                            rowData.Add(pixelData[rowStart + col + i]);
+                        }
+                        col += copyLength;
+                    }
+                }
+            }
+
+            bw.Write((ushort)rowData.Count);
+            bw.Write(rowData.ToArray());
+        }
     }
 
     private Colour[] ReadPalette(string filePath)

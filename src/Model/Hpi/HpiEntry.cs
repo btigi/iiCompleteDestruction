@@ -3,7 +3,7 @@
 namespace ii.CompleteDestruction.Model.Hpi;
 
 [StructLayout(LayoutKind.Sequential, Pack = 1)]
-public struct HPIENTRY
+public struct HpiEntry
 {
     public int NameOffset;
     public int CountOffset;

@@ -8,5 +8,5 @@ public class HpiArchive
 public class HpiFileEntry
 {
     public string RelativePath { get; set; } = string.Empty;
-    public byte[] Data { get; set; } = Array.Empty<byte>();
+    public byte[] Data { get; set; } = [];
 }

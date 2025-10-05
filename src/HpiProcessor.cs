@@ -9,7 +9,7 @@ public class HpiProcessor
 {
     private const uint Signature = 0x49504148; // HAPI
 
-    private HPIVERSION _hpiVersion;
+    private HpiVersion _hpiVersion;
     private int _key;
     private byte[] _directory = null!;
     private FileStream _hpiFile = null!;
@@ -49,7 +49,7 @@ public class HpiProcessor
         WriteVersionHeader(writer);
         
         var headerPosition = stream.Position;
-        stream.Seek(Marshal.SizeOf<HPIHEADER1>(), SeekOrigin.Current);
+        stream.Seek(Marshal.SizeOf<HpiHeader>(), SeekOrigin.Current);
         
         var fileDataMap = new Dictionary<string, (int offset, int length)>();
         foreach (var file in fileList)
@@ -70,13 +70,13 @@ public class HpiProcessor
 
     private void ReadVersionHeader()
     {
-        var versionBytes = new byte[Marshal.SizeOf<HPIVERSION>()];
+        var versionBytes = new byte[Marshal.SizeOf<HpiVersion>()];
         _hpiFile.Read(versionBytes, 0, versionBytes.Length);
 
         var handle = GCHandle.Alloc(versionBytes, GCHandleType.Pinned);
         try
         {
-            _hpiVersion = Marshal.PtrToStructure<HPIVERSION>(handle.AddrOfPinnedObject());
+            _hpiVersion = Marshal.PtrToStructure<HpiVersion>(handle.AddrOfPinnedObject());
         }
         finally
         {
@@ -103,7 +103,7 @@ public class HpiProcessor
         return bytesRead;
     }
 
-    private static int LZ77Decompress(byte[] output, byte[] input, HPICHUNK chunk)
+    private static int LZ77Decompress(byte[] output, byte[] input, HpiChunk chunk)
     {
         var decompressBuffer = new byte[4096];
         var inputIndex = 0;
@@ -151,7 +151,7 @@ public class HpiProcessor
         }
     }
 
-    private static int ZLibDecompress(byte[] outData, byte[] inData, HPICHUNK chunk)
+    private static int ZLibDecompress(byte[] outData, byte[] inData, HpiChunk chunk)
     {
         // Skip the 2-byte zlib header (CMF and FLG bytes) and 4-byte checksum at the end
         using var compressedStream = new MemoryStream(inData, 2, inData.Length - 6);
@@ -163,7 +163,7 @@ public class HpiProcessor
         return decompressedBytes.Length;
     }
 
-    private int Decompress(byte[] output, byte[] input, HPICHUNK chunk)
+    private int Decompress(byte[] output, byte[] input, HpiChunk chunk)
     {
         var checksum = CalculateChecksum(input, chunk);
         if (chunk.Checksum != checksum)
@@ -179,7 +179,7 @@ public class HpiProcessor
         };
     }
 
-    private static int CalculateChecksum(byte[] input, HPICHUNK chunk)
+    private static int CalculateChecksum(byte[] input, HpiChunk chunk)
     {
         var checksum = 0;
         for (var i = 0; i < chunk.CompressedSize; i++)
@@ -213,10 +213,10 @@ public class HpiProcessor
             var chunkBytes = new byte[chunkSizes[i]];
             ReadAndDecrypt(offset, chunkBytes, chunkSizes[i]);
 
-            var chunk = ByteArrayToStructure<HPICHUNK>(chunkBytes, 0);
+            var chunk = ByteArrayToStructure<HpiChunk>(chunkBytes, 0);
             offset += chunkSizes[i];
 
-            var chunkHeaderSize = Marshal.SizeOf<HPICHUNK>();
+            var chunkHeaderSize = Marshal.SizeOf<HpiChunk>();
             var compressedData = new byte[chunkBytes.Length - chunkHeaderSize];
             Buffer.BlockCopy(chunkBytes, chunkHeaderSize, compressedData, 0, compressedData.Length);
 
@@ -239,8 +239,8 @@ public class HpiProcessor
 
         for (var i = 0; i < entryCount; i++)
         {
-            var currentEntryOffset = entryListOffset + i * Marshal.SizeOf<HPIENTRY>();
-            var entry = ByteArrayToStructure<HPIENTRY>(_directory, currentEntryOffset);
+            var currentEntryOffset = entryListOffset + i * Marshal.SizeOf<HpiEntry>();
+            var entry = ByteArrayToStructure<HpiEntry>(_directory, currentEntryOffset);
 
             var entryName = ReadString(_directory, entry.NameOffset - 20);
             var dataOffset = BitConverter.ToInt32(_directory, entry.CountOffset - 20);
@@ -305,13 +305,13 @@ public class HpiProcessor
     {
         _hpiFile.Seek(8, SeekOrigin.Begin);
 
-        var headerBytes = new byte[Marshal.SizeOf<HPIHEADER1>()];
+        var headerBytes = new byte[Marshal.SizeOf<HpiHeader>()];
         _hpiFile.Read(headerBytes, 0, headerBytes.Length);
         
         var handle = GCHandle.Alloc(headerBytes, GCHandleType.Pinned);
         try
         {
-            var header = Marshal.PtrToStructure<HPIHEADER1>(handle.AddrOfPinnedObject());
+            var header = Marshal.PtrToStructure<HpiHeader>(handle.AddrOfPinnedObject());
             
             _key = header.Key != 0 ? ~((header.Key * 4) | (header.Key >> 6)) : 0;
 
@@ -333,7 +333,7 @@ public class HpiProcessor
 
     private static void WriteMainHeader(BinaryWriter writer, int directoryStart, int directoryEnd)
     {
-        var header = new HPIHEADER1
+        var header = new HpiHeader
         {
             DirectorySize = directoryEnd,
             Key = 0, // No encryption
@@ -404,19 +404,19 @@ public class HpiProcessor
         var compressed = outputStream.ToArray();
         
         // Build HPICHUNK header
-        var chunk = new HPICHUNK
+        var chunk = new HpiChunk
         {
             Marker = 0x48535153, // SQSH
             Unknown1 = 0x02,
             CompMethod = 2, // ZLib
             Encrypt = 0,
-            CompressedSize = compressed.Length - Marshal.SizeOf<HPICHUNK>(),
+            CompressedSize = compressed.Length - Marshal.SizeOf<HpiChunk>(),
             DecompressedSize = data.Length,
             Checksum = 0
         };
         
         // Calculate checksum
-        var checksumData = new byte[compressed.Length - Marshal.SizeOf<HPICHUNK>()];
+        var checksumData = new byte[compressed.Length - Marshal.SizeOf<HpiChunk>()];
         Array.Copy(compressed, 0, checksumData, 0, checksumData.Length);
         var checksum = 0;
         for (var i = 0; i < checksumData.Length; i++)

@@ -4,28 +4,15 @@ using ii.CompleteDestruction.Model.Gaf;
 
 namespace ii.CompleteDestruction;
 
-public class GafConverter
+public partial class GafProcessor
 {
     private const byte Transparency = 0;
 
-    public class GafImageEntry
-    {
-        public string Name { get; set; } = string.Empty;
-        public List<Image> Frames { get; set; } = new();
-    }
-
-    public class GafWriteOptions
-    {
-        public bool UseCompression { get; set; } = false;
-        public short XOffset { get; set; } = 0;
-        public short YOffset { get; set; } = 0;
-    }
-
-    public List<Image> Parse(string filePath, bool processUnsupportedVersions = false)
+    public List<GafImageEntry> Read(string filePath, bool processUnsupportedVersions = false)
     {
         var palette = ReadPalette(@"PALETTE.PAL");
 
-        var result = new List<Image>();
+        var result = new List<GafImageEntry>();
         using var br = new BinaryReader(File.Open(filePath, FileMode.Open));
 
         var header = new GafHeader
@@ -46,7 +33,6 @@ public class GafConverter
             entryPointers[i] = br.ReadInt32();
         }
 
-        var entries = new List<GafEntry>();
         foreach (var pointer in entryPointers)
         {
             br.BaseStream.Seek(pointer, SeekOrigin.Begin);
@@ -56,6 +42,12 @@ public class GafConverter
                 Unknown1 = br.ReadInt16(),
                 Unknown2 = br.ReadInt32(),
                 Name = br.ReadBytes(32)
+            };
+
+            var gafImageEntry = new GafImageEntry
+            {
+                Name = System.Text.Encoding.ASCII.GetString(entry.Name).TrimEnd('\0'),
+                Frames = new List<GafFrame>()
             };
 
             var frameEntries = new List<GafFrameEntry>();
@@ -166,7 +158,13 @@ public class GafConverter
                         }
 
                         var image = Image.LoadPixelData<Rgba32>(rgbaData, frameData.Width, frameData.Height);
-                        result.Add(image);
+                        gafImageEntry.Frames.Add(new GafFrame
+                        {
+                            Image = image,
+                            XOffset = frameData.XOffset,
+                            YOffset = frameData.YOffset,
+                            UseCompression = frameData.CompressionMethod == 1
+                        });
                     }
                     else
                     {
@@ -187,7 +185,13 @@ public class GafConverter
                         }
 
                         var image = Image.LoadPixelData<Rgba32>(rgbaData, frameData.Width, frameData.Height);
-                        result.Add(image);
+                        gafImageEntry.Frames.Add(new GafFrame
+                        {
+                            Image = image,
+                            XOffset = frameData.XOffset,
+                            YOffset = frameData.YOffset,
+                            UseCompression = frameData.CompressionMethod == 1
+                        });
                     }
                 }
                 else
@@ -296,7 +300,13 @@ public class GafConverter
                             }
 
                             var image = Image.LoadPixelData<Rgba32>(rgbaData, subFrameData.Width, subFrameData.Height);
-                            result.Add(image);
+                            gafImageEntry.Frames.Add(new GafFrame
+                            {
+                                Image = image,
+                                XOffset = subFrameData.XOffset,
+                                YOffset = subFrameData.YOffset,
+                                UseCompression = subFrameData.CompressionMethod == 1
+                            });
                         }
                         else
                         {
@@ -317,21 +327,26 @@ public class GafConverter
                             }
 
                             var image = Image.LoadPixelData<Rgba32>(rgbaData, subFrameData.Width, subFrameData.Height);
-                            result.Add(image);
+                            gafImageEntry.Frames.Add(new GafFrame
+                            {
+                                Image = image,
+                                XOffset = subFrameData.XOffset,
+                                YOffset = subFrameData.YOffset,
+                                UseCompression = subFrameData.CompressionMethod == 1
+                            });
                         }
                     }
                 }
             }
 
-            entries.Add(entry);
+            result.Add(gafImageEntry);
         }
 
         return result;
     }
 
-    public void Write(string filePath, List<GafImageEntry> entries, GafWriteOptions? options = null)
+    public void Write(string filePath, List<GafImageEntry> entries)
     {
-        options ??= new GafWriteOptions();
         var palette = ReadPalette(@"PALETTE.PAL");
 
         using var bw = new BinaryWriter(File.Create(filePath));
@@ -381,16 +396,16 @@ public class GafConverter
                 var frame = entry.Frames[frameIndex];
                 framePointers[frameIndex] = (int)bw.BaseStream.Position;
 
-                var width = (short)frame.Width;
-                var height = (short)frame.Height;
+                var width = (short)frame.Image.Width;
+                var height = (short)frame.Image.Height;
 
                 // Write frame data header
                 bw.Write(width);
                 bw.Write(height);
-                bw.Write(options.XOffset);
-                bw.Write(options.YOffset);
+                bw.Write(frame.XOffset);
+                bw.Write(frame.YOffset);
                 bw.Write((byte)0); // Unknown1
-                bw.Write((byte)(options.UseCompression ? 1 : 0)); // CompressionMethod
+                bw.Write((byte)(frame.UseCompression ? 1 : 0)); // CompressionMethod
                 bw.Write((short)0); // NumberOfSubFrames
                 bw.Write(0); // Unknown2
 
@@ -401,9 +416,9 @@ public class GafConverter
                 var pixelDataOffset = (int)bw.BaseStream.Position;
 
                 // Convert image to palette-indexed format
-                var pixelData = ImageToPaletteIndexed(frame, palette);
+                var pixelData = ImageToPaletteIndexed(frame.Image, palette);
 
-                if (options.UseCompression)
+                if (frame.UseCompression)
                 {
                     WriteCompressedPixelData(bw, pixelData, width);
                 }

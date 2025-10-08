@@ -1,63 +1,59 @@
 ﻿using ii.CompleteDestruction.Model.Tnt;
+using SixLabors.ImageSharp;
+using SixLabors.ImageSharp.PixelFormats;
 
 namespace ii.CompleteDestruction;
 
-public class TntProcessor
+public partial class TntProcessor
 {
     private const int TileWidth = 32;
     private const int TileHeight = 32;
 
-    public (int PixelWidth, int PixelHeight, int TileWidth, int TileHeight) GetMapDimensions(string filePath)
-    {
-        using var br = new BinaryReader(File.Open(filePath, FileMode.Open));
-        var header = ReadHeader(br);
+    public const ushort FeatureNone = 0xFFFF;
+    public const ushort FeatureVoid = 0xFFFC;
+    public const ushort FeatureUnknown = 0xFFFE;
 
-        var tileWidth = (int)(header.Width / 2);
-        var tileHeight = (int)(header.Height / 2);
-
-        var pixelWidth = tileWidth * TileWidth;
-        var pixelHeight = tileHeight * TileHeight;
-
-        return (pixelWidth, pixelHeight, tileWidth, tileHeight);
-    }
-
-    public (int RawWidth, int RawHeight, int ActualWidth, int ActualHeight) GetMinimapDimensions(string filePath)
-    {
-        using var br = new BinaryReader(File.Open(filePath, FileMode.Open));
-        var header = ReadHeader(br);
-
-        br.BaseStream.Seek(header.MinimapOffset, SeekOrigin.Begin);
-
-        var rawWidth = br.ReadInt32();
-        var rawHeight = br.ReadInt32();
-
-        var rawData = br.ReadBytes(rawWidth * rawHeight);
-        var actualDimensions = GetMinimapActualSize(rawData, rawWidth, rawHeight);
-
-        return (rawWidth, rawHeight, actualDimensions.width, actualDimensions.height);
-    }
-
-    public (byte[] MainMapBytes, byte[] MinimapBytes) Process(string filePath)
+    public TntFile Read(string filePath, TaPalette palette)
     {
         using var br = new BinaryReader(File.Open(filePath, FileMode.Open));
 
+        var result = new TntFile();
         var header = ReadHeader(br);
+        var minimapImage = ProcessMinimap(br, header, palette);
+        var mainMapImage = ProcessMainMap(br, header, palette);
 
-        var minimapBytes = ProcessMinimap(br, header);
+        var mapAttributes = new List<MapAttribute>();
+        br.BaseStream.Seek(header.MapAttributeOffset, SeekOrigin.Begin);
+        for (var i = 0; i < header.TileCount; i++)
+        {
+            var mapAttribute = new MapAttribute()
+            {
+                Elevation = br.ReadInt16(),
+                TileAnimationIndex = br.ReadUInt16(),
+                Unknown = br.ReadInt16()
+            };
+            mapAttributes.Add(mapAttribute);
+        }
 
-        var mainMapBytes = ProcessMainMap(br, header);
+        var tileAnimations = new List<TileAnimation>();
+        br.BaseStream.Seek(header.TileAnimationOffset, SeekOrigin.Begin);
+        for (var i = 0; i < header.TileAnimationCount; i++)
+        {
+            var tileAnimation = new TileAnimation()
+            {
+                Index = br.ReadInt32(),
+                Name = System.Text.Encoding.ASCII.GetString(br.ReadBytes(128)).TrimEnd('\0'),
+            };
+            tileAnimations.Add(tileAnimation);
+        }
 
-        return (mainMapBytes, minimapBytes);
-    }
+        result.Map = mainMapImage;
+        result.Minimap = minimapImage;
+        result.SeaLevel = header.SeaLevel;
+        result.MapAttributes = mapAttributes;
+        result.TileAnimations = tileAnimations;
 
-    public (byte[] MainMapRgba, byte[] MinimapRgba) ProcessToRgba(string filePath, TaPalette palette)
-    {
-        var (mainMapIndices, minimapIndices) = Process(filePath);
-
-        var mainMapRgba = palette.ToRgbaBytes(mainMapIndices);
-        var minimapRgba = palette.ToRgbaBytes(minimapIndices);
-
-        return (mainMapRgba, minimapRgba);
+        return result;
     }
 
     private TntHeader ReadHeader(BinaryReader reader)
@@ -91,7 +87,7 @@ public class TntProcessor
         };
     }
 
-    private byte[] ProcessMinimap(BinaryReader br, TntHeader header)
+    private Image ProcessMinimap(BinaryReader br, TntHeader header, TaPalette palette)
     {
         br.BaseStream.Seek(header.MinimapOffset, SeekOrigin.Begin);
 
@@ -102,10 +98,11 @@ public class TntProcessor
         var actualDimensions = GetMinimapActualSize(rawData, width, height);
         var actualData = CropMinimap(rawData, width, height, actualDimensions.width, actualDimensions.height);
 
-        return actualData;
+        var mainMapRgba = palette.ToRgbaBytes(actualData);
+        return Image.LoadPixelData<Rgba32>(mainMapRgba, actualDimensions.width, actualDimensions.height);
     }
 
-    private byte[] ProcessMainMap(BinaryReader br, TntHeader header)
+    private Image ProcessMainMap(BinaryReader br, TntHeader header, TaPalette palette)
     {
         var mapWidthInTiles = (int)(header.Width / 2);  // Convert from 16-pixel units to 32-pixel tiles
         var mapHeightInTiles = (int)(header.Height / 2);
@@ -159,10 +156,11 @@ public class TntProcessor
             }
         }
 
-        return mapBytes;
+        var mainMapRgba = palette.ToRgbaBytes(mapBytes);
+        return Image.LoadPixelData<Rgba32>(mainMapRgba, mapWidth, mapHeight);
     }
 
-    public static (int width, int height) GetMinimapActualSize(byte[] data, int width, int height)
+    private static (int width, int height) GetMinimapActualSize(byte[] data, int width, int height)
     {
         const byte EndByte = 0x64;
 

@@ -4,7 +4,7 @@ using SixLabors.ImageSharp.PixelFormats;
 
 namespace ii.CompleteDestruction;
 
-public partial class TntProcessor
+public class TntProcessor
 {
     private const int TileWidth = 32;
     private const int TileHeight = 32;

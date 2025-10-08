@@ -37,4 +37,30 @@ public class TaPalette
         }
         return rgbaBytes;
     }
+
+    public byte FindClosestColorIndex(byte r, byte g, byte b)
+    {
+        int closestIndex = 0;
+        int minDistance = int.MaxValue;
+
+        for (int i = 0; i < _palette.Length; i++)
+        {
+            var color = _palette[i];
+            int dr = r - color.R;
+            int dg = g - color.G;
+            int db = b - color.B;
+            int distance = dr * dr + dg * dg + db * db; // Squared Euclidean distance
+
+            if (distance < minDistance)
+            {
+                minDistance = distance;
+                closestIndex = i;
+                
+                if (distance == 0)
+                    break; // Exact match found
+            }
+        }
+
+        return (byte)closestIndex;
+    }
 }

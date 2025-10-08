@@ -37,6 +37,7 @@ public partial class TntProcessor
 
         var tileAnimations = new List<TileAnimation>();
         br.BaseStream.Seek(header.TileAnimationOffset, SeekOrigin.Begin);
+        _ = br.ReadInt32(); // unknown
         for (var i = 0; i < header.TileAnimationCount; i++)
         {
             var tileAnimation = new TileAnimation()
@@ -54,6 +55,212 @@ public partial class TntProcessor
         result.TileAnimations = tileAnimations;
 
         return result;
+    }
+
+    public void Write(string filePath, TntFile tntFile, TaPalette palette)
+    {
+        using var bw = new BinaryWriter(File.Open(filePath, FileMode.Create));
+
+        // Convert images to palette indices
+        var mapBytes = ImageToPaletteIndices(tntFile.Map, palette);
+        var minimapBytes = ImageToPaletteIndices(tntFile.Minimap, palette);
+
+        var mapWidthInTiles = tntFile.Map.Width / TileWidth;
+        var mapHeightInTiles = tntFile.Map.Height / TileHeight;
+        var (tiles, tileIndices) = ExtractTiles(mapBytes, tntFile.Map.Width, tntFile.Map.Height);
+
+        const uint headerSize = 60;
+        var mapDataOffset = headerSize;
+        var mapDataSize = (uint)(tileIndices.Length * 2);
+        var mapAttributeOffset = mapDataOffset + mapDataSize;
+        var mapAttributeSize = (uint)(tntFile.MapAttributes.Count * 6);
+        var mapTileOffset = mapAttributeOffset + mapAttributeSize;
+        var mapTileSize = (uint)(tiles.Count * TileWidth * TileHeight);
+        var tileAnimationOffset = mapTileOffset + mapTileSize;
+        var tileAnimationSize = (uint)(4 + tntFile.TileAnimations.Count * 132);
+        var minimapOffset = tileAnimationOffset + tileAnimationSize;
+
+        // Write header
+        WriteHeader(bw, new TntHeader
+        {
+            Version = 0x2000,
+            Width = (uint)(mapWidthInTiles * 2), // Convert 32-pixel tiles to 16-pixel units
+            Height = (uint)(mapHeightInTiles * 2),
+            MapDataOffset = mapDataOffset,
+            MapAttributeOffset = mapAttributeOffset,
+            MapTileOffset = mapTileOffset,
+            TileCount = (uint)tiles.Count,
+            TileAnimationCount = (uint)tntFile.TileAnimations.Count,
+            TileAnimationOffset = tileAnimationOffset,
+            SeaLevel = tntFile.SeaLevel,
+            MinimapOffset = minimapOffset,
+            Unknown1 = 0,
+            Unknown2 = 0,
+            Unknown3 = 0,
+            Unknown4 = 0,
+            Unknown5 = 0
+        });
+
+        // Write map data (tile indices)
+        foreach (var tileIndex in tileIndices)
+        {
+            bw.Write(tileIndex);
+        }
+
+        // Write map attributes
+        foreach (var mapAttribute in tntFile.MapAttributes)
+        {
+            bw.Write(mapAttribute.Elevation);
+            bw.Write(mapAttribute.TileAnimationIndex);
+            bw.Write(mapAttribute.Unknown);
+        }
+
+        // Write tiles
+        foreach (var tile in tiles)
+        {
+            bw.Write(tile);
+        }
+
+        // Write tile animations
+        bw.Write(0); // unknown
+        foreach (var tileAnimation in tntFile.TileAnimations)
+        {
+            bw.Write(tileAnimation.Index);
+            var nameBytes = new byte[128];
+            var sourceNameBytes = System.Text.Encoding.ASCII.GetBytes(tileAnimation.Name);
+            Array.Copy(sourceNameBytes, nameBytes, Math.Min(sourceNameBytes.Length, 128));
+            bw.Write(nameBytes);
+        }
+
+        // Write minimap
+        bw.Write(tntFile.Minimap.Width);
+        bw.Write(tntFile.Minimap.Height);
+        
+        // Pad minimap to match original format (with 0x64 padding)
+        var paddedMinimapWidth = tntFile.Minimap.Width;
+        var paddedMinimapHeight = tntFile.Minimap.Height;
+        var paddedMinimap = new byte[paddedMinimapWidth * paddedMinimapHeight];
+        Array.Fill(paddedMinimap, (byte)0x64);
+        
+        // Copy actual minimap data
+        for (int y = 0; y < tntFile.Minimap.Height; y++)
+        {
+            for (int x = 0; x < tntFile.Minimap.Width; x++)
+            {
+                paddedMinimap[y * paddedMinimapWidth + x] = minimapBytes[y * tntFile.Minimap.Width + x];
+            }
+        }
+        
+        bw.Write(paddedMinimap);
+    }
+
+    private void WriteHeader(BinaryWriter writer, TntHeader header)
+    {
+        writer.Write(header.Version);
+        writer.Write(header.Width);
+        writer.Write(header.Height);
+        writer.Write(header.MapDataOffset);
+        writer.Write(header.MapAttributeOffset);
+        writer.Write(header.MapTileOffset);
+        writer.Write(header.TileCount);
+        writer.Write(header.TileAnimationCount);
+        writer.Write(header.TileAnimationOffset);
+        writer.Write(header.SeaLevel);
+        writer.Write(header.MinimapOffset);
+        writer.Write(header.Unknown1);
+        writer.Write(header.Unknown2);
+        writer.Write(header.Unknown3);
+        writer.Write(header.Unknown4);
+        writer.Write(header.Unknown5);
+    }
+
+    private byte[] ImageToPaletteIndices(Image image, TaPalette palette)
+    {
+        var paletteIndices = new byte[image.Width * image.Height];
+        int index = 0;
+        
+        if (image is Image<Rgba32> rgba32Image)
+        {
+            rgba32Image.ProcessPixelRows(accessor =>
+            {
+                for (int y = 0; y < accessor.Height; y++)
+                {
+                    var pixelRow = accessor.GetRowSpan(y);
+                    for (int x = 0; x < pixelRow.Length; x++)
+                    {
+                        var pixel = pixelRow[x];
+                        paletteIndices[index++] = FindClosestPaletteIndex(pixel.R, pixel.G, pixel.B, palette);
+                    }
+                }
+            });
+        }
+        else
+        {
+            using var clonedImage = image.CloneAs<Rgba32>();
+            clonedImage.ProcessPixelRows(accessor =>
+            {
+                for (int y = 0; y < accessor.Height; y++)
+                {
+                    var pixelRow = accessor.GetRowSpan(y);
+                    for (int x = 0; x < pixelRow.Length; x++)
+                    {
+                        var pixel = pixelRow[x];
+                        paletteIndices[index++] = FindClosestPaletteIndex(pixel.R, pixel.G, pixel.B, palette);
+                    }
+                }
+            });
+        }
+
+        return paletteIndices;
+    }
+
+    private byte FindClosestPaletteIndex(byte r, byte g, byte b, TaPalette palette)
+    {
+        return palette.FindClosestColorIndex(r, g, b);
+    }
+
+    private (List<byte[]> tiles, ushort[] tileIndices) ExtractTiles(byte[] mapBytes, int mapWidth, int mapHeight)
+    {
+        var mapWidthInTiles = mapWidth / TileWidth;
+        var mapHeightInTiles = mapHeight / TileHeight;
+        
+        var uniqueTiles = new Dictionary<string, int>();
+        var tiles = new List<byte[]>();
+        var tileIndices = new ushort[mapWidthInTiles * mapHeightInTiles];
+
+        for (int tileY = 0; tileY < mapHeightInTiles; tileY++)
+        {
+            for (int tileX = 0; tileX < mapWidthInTiles; tileX++)
+            {
+                var tileData = new byte[TileWidth * TileHeight];
+                
+                // Extract tile data from map
+                for (int y = 0; y < TileHeight; y++)
+                {
+                    for (int x = 0; x < TileWidth; x++)
+                    {
+                        var srcX = tileX * TileWidth + x;
+                        var srcY = tileY * TileHeight + y;
+                        var srcIndex = srcY * mapWidth + srcX;
+                        var destIndex = y * TileWidth + x;
+                        tileData[destIndex] = mapBytes[srcIndex];
+                    }
+                }
+
+                // Check if this tile already exists
+                var tileHash = Convert.ToBase64String(tileData);
+                if (!uniqueTiles.TryGetValue(tileHash, out var tileIndex))
+                {
+                    tileIndex = tiles.Count;
+                    tiles.Add(tileData);
+                    uniqueTiles[tileHash] = tileIndex;
+                }
+
+                tileIndices[tileY * mapWidthInTiles + tileX] = (ushort)tileIndex;
+            }
+        }
+
+        return (tiles, tileIndices);
     }
 
     private TntHeader ReadHeader(BinaryReader reader)

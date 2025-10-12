@@ -5,7 +5,9 @@ iiCompleteDestruction is a C# library targetting .NET8 providing basic functions
 
 | Name   | Read | Write | Comment
 |--------|:----:|-------|--------
+| BOS    | ✗   |   ✗   | 
 | CCX    | ✔   |   ✔   | HPI
+| COB    | ✗   |   ✗   | 
 | FBI    | ✔   |   ✗   | TDF
 | GAF    | ✔   |   ✔   | 
 | GP3    | ✔   |   ✔   | HPI

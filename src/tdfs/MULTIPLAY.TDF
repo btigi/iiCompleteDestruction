@@ -1,0 +1,5 @@
+// Multiplayer maps resource file
+
+// Currently used only to announce the presence of multiplayer maps
+
+[EXIST]	{}

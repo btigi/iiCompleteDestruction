@@ -3,6 +3,7 @@
 public class Block
 {
     public string SectionName { get; set; } = string.Empty;
-    public Dictionary<string, string> Properties { get; } = [];
+    public List<Property> Properties { get; } = []; // Properties with their values and comments
+    public string Comments { get; set; } = string.Empty; // Standalone comments within the block
     public List<Block> Blocks { get; } = [];
 }

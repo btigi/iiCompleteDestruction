@@ -1,0 +1,88 @@
+[HEADER]
+{
+campaignside=ARM;
+}
+
+[MISSION0]
+{
+missionfile=Charging the Line.ota;
+missionname=Charging the Line;
+}
+
+[MISSION1]
+{
+missionfile=Dawn Directive.ota;
+missionname=Dawn Directive;
+}
+
+[MISSION2]
+{
+missionfile=Waiting.ota;
+missionname=Waiting;
+}
+
+[MISSION3]
+{
+missionfile=The Vulcans Forge Hotspot.ota;
+missionname=The Vulcans Forge Hotspot;
+}
+
+[MISSION4]
+{
+missionfile=Crawling Destruction.ota;
+missionname=Crawling Destruction;
+}
+
+[MISSION5]
+{
+missionfile=Battle of Ansapp Sea.ota;
+missionname=Battle of Ansapp Sea;
+}
+
+[MISSION6]
+{
+missionfile=Between Two Lakes.ota;
+missionname=Between Two Lakes;
+}
+
+[MISSION7]
+{
+missionfile=Hunting Nhanons.ota;
+missionname=Hunting Nhanons;
+}
+
+[MISSION8]
+{
+missionfile=Sub Hunting.ota;
+missionname=Sub Hunting;
+}
+
+[MISSION9]
+{
+missionfile=Ambush on Novespin IV.ota;
+missionname=Ambush on Novespin IV;
+}
+
+[MISSION10]
+{
+missionfile=Force the Strait.ota;
+missionname=Force the Strait;
+}
+
+[MISSION11]
+{
+missionfile=Destroy the FMD.ota;
+missionname=Destroy the FMD;
+}
+
+[MISSION12]
+{
+missionfile=Kaki Island Assault.ota;
+missionname=Kaki Island Assault;
+}
+
+[MISSION13]
+{
+missionfile=Fighting Under Fire.ota;
+missionname=Fighting Under Fire;
+}

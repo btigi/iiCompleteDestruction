@@ -1,0 +1,4949 @@
+/* Translate.tdf -- Translations of strings referenced in the game code */
+
+/*
+The recordname is the base string that is referenced by the code.  Note that
+they are case-sensitive, so "kills" and "KILLS" are two different strings.
+The entries in each record indicate the translated strings by language.
+Simply specify the language and provide the translation.  If a translation
+is not provided for a language, the base string will be used instead.
+*/
+
+
+// Ingame and Panel Messages
+
+[KILLS]
+	{
+	piglatin = ILLSKAY;
+	German = ABSCHÜSSE;
+	French = VICTIMES;
+	}
+[Kills]
+	{
+	German = Abschüsse;
+	French = Victimes;
+	}
+[Kill]
+	{
+	German = Abschuß;
+	French = Victime;
+	}
+
+
+[kill]
+	{
+	German = Abschuß;
+	French = victime;
+	}
+
+[LOSSES]
+	{
+	piglatin = OSSESLAY;
+	German = VERLUSTE;
+	French = PERTES;
+	}
+[Losses]
+	{
+	German = Verluste;
+	French = Pertes;
+	}
+[kills]
+	{
+	piglatin = illskay;
+	German = Abschüsse;
+	French = victimes;
+	}
+[Veteran]
+	{
+	piglatin = Eteranvay;
+	German = Veteran;
+	French = Vétéran;
+	}
+[Newbie]
+	{
+	piglatin = Ewbienay;
+	German = Frischling;
+	French = Novice;
+	}
+[PAUSED]
+	{
+	piglatin = AUSEDPAY;
+	German = PAUSE;
+	French = PAUSE;
+	}
+
+// Loading screen
+
+[Map]
+	{
+	piglatin = Apmay;
+	German = Karte;
+	French = Carte;
+	}
+[Terrain]
+	{
+	piglatin = Erraintay;
+	German = Gelände;
+	French = Terrain;
+	}
+[Textures]
+	{
+	piglatin = Exturestay;
+	German = Texturen;
+	French = Textures;
+	}
+[Units]
+	{
+	piglatin = Unitsay;
+	German = Einheiten;
+	French = Unités;
+	}
+[Features]
+	{
+	piglatin = Eaturesfay;
+	German = Eigenschaften;
+	French = Topographie;
+	}
+[FEATURES]
+	{
+	German = Eigenschaften;
+	French = Topographie;
+	}
+
+[MoveInfo]
+	{
+	piglatin = OvemayInfoay;
+	German = Bewegungsinfo;
+	French = Mouvement;
+	}
+[Explosions]
+	{
+	piglatin = Explosionsay;
+	German = Explosionen;
+	French = Explosions;
+	}
+[Synchronization complete]
+	{
+	piglatin = IncronizationSay ompletecay;
+	German = Synchronisation abgeschlossen;
+	French = Synchronisation terminée;
+	}
+[player ready]
+	{
+	piglatin = Ayerplay eadyray;
+	German = Spieler bereit;
+	French = Joueur prêt;
+	}
+[players ready]
+	{
+	piglatin = Ayersplay eadyray;
+	German = Spieler bereit;
+	French = Joueurs prêt;
+	}
+[Waiting for other players]
+	{
+	piglatin = Aitingway orfay ethay otheray ayersplay;
+	German = Warte auf andere Spieler.;
+	French = Attente des autres joueurs.;
+	}
+[Synchronizing]
+	{
+	piglatin = Incronizingsay;
+	German = Synchronisiere...;
+	French = Synchronisation;
+	}
+[Waiting for the Creator]
+	{
+	piglatin = Aitingqay orfay ethay Eatorcray;
+	German = Warte auf den Schöpfer;
+	French = Attente du créateur;
+	}
+
+// Sides
+
+[Arm]
+	{
+	piglatin=rmAay;
+	German = Arm;
+	French = Arm;
+	}
+[ARM]
+	{
+	piglatin=RMAay;
+	German = ARM;
+	French = ARM;
+	}
+[Core]
+	{
+	piglatin=oreCay;
+	German = Core;
+	French = Core;
+	}
+[CORE]
+	{
+	piglatin=ORECay;
+	German = CORE;
+	French = CORE;
+	}
+[Arm Campaign]
+	{
+	German = Arm Missionen;
+	French = Missions Arm;
+	}
+[Core Campaign]
+	{
+	German = Core Missionen;
+	French = Missions Core;
+	}
+
+
+// Menus
+
+[No Narration]
+	{
+	German = Erzählung;
+	French = Narration;
+	}
+
+[Narration]
+	{
+	German = Erzählung;
+	French = Narration;
+	}
+
+
+[Start]
+	{
+	piglatin=tartSay;
+	German = Start;
+	French = Démarrer;
+	}
+[Select]
+	{
+	piglatin=electSay;
+	German = Auswahl;
+	French = Sélection;
+	}
+[Previous Menu]
+	{
+	piglatin=revious MenuPay;
+	German = Zurück;
+	French = Menu précédent;
+	}
+[Next]
+	{
+	piglatin=extNay;
+	German = Weiter;
+	French = Suivant;
+	}
+[Previous]
+	{
+	piglatin=reviousPay;
+	German = Zurück;
+	French = Précédent;
+	}
+[SOUND]
+	{
+	piglatin=OUNDSay;
+	German = SOUND;
+	French = SON;
+	}
+[INTERFACE]
+	{
+	piglatin=NTERFACEIay;
+	German = STEUERUNG;
+	French = INTERFACE;
+	}
+[VISUALS]
+	{
+	piglatin=ISUALSVay;
+	German = OPTIK;
+	French = VISUEL;
+	}
+[MUSIC]
+	{
+	piglatin=USICMay;
+	German = MUSIK;
+	French = MUSIQUE;
+	}
+
+[Set Difficulty]
+	{
+	German = Schwierigkeit;
+	French = Difficulté;
+	}
+
+[Skirmish]
+	{
+	piglatin=kirmishSay;
+	German = Gefecht;
+	French = Bataille;
+	}
+
+[Skirmish (%d players]
+	{
+	German = Gefecht (%d Spieler);
+	French = Bataille (%d joueurs);
+	}
+[New Campaign]
+	{
+	piglatin=ew CampaignNay;
+	German = Neuer Feldzug;
+	French = Nouv. Campagne;
+	}
+
+[NEW CAMPAIGN]
+	{
+	German = NEUER FELDZUG;
+	French = NOUVELLE CAMPAGNE;
+	}
+	
+[Start Campaign]
+	{
+	piglatin=tart CampaignSay;
+	German = Feldzug starten;
+	French = Commencer campagne;
+	}
+[Select Campaign]
+	{
+	piglatin=elect CampaignSay;
+	German = Feldzug auswählen;
+	French = Choisir la campagne;
+	}
+
+[SELECT CAMPAIGN:]
+	{
+	German = FELDZUG AUSWÄHLEN;
+	French = CHOISIR LA CAMPAGNE;
+	}
+
+[Select Any Mission]
+	{
+	piglatin=elect Any MissionSay;
+	German = Irgeneine Mission auswählen;
+	French = Choisir n'importe quelle mission;
+	}
+[Select Mission]
+	{
+	piglatin=elect MissionSay;
+	German = Mission auswählen;
+	French = Choisir une mission;
+	}
+[Start Mission]
+	{
+	piglatin=tart MissionSay;
+	German = Mission beginnen;
+	French = Commencer la mission;
+	}
+[Undo Changes]
+	{
+	piglatin=ndo ChangesUay;
+	German = Keine Änderung;
+	French = Annuler modifs.;
+	}
+[Restore Defaults]
+	{
+	piglatin=estore DefaultsRay;
+	German = wieder Standard;
+	French = Par Défaut;
+	}
+[Restore Default]
+	{
+	German = wieder Standard;
+	French = Défaut;
+	}
+[Exit to Menu]
+	{
+	piglatin=xit to Main MenuEay;
+	German = Hauptmenü;
+	French = Retour au menu principal;
+	}
+[Exit Game]
+	{
+	piglatin=xit GameEay;
+	German = Spiel verlassen;
+	French = Quitter le jeu;
+	}
+[Please Select Map]
+	{
+	piglatin=lease Select MapPay;
+	German = Karte wählen;
+	French = Carte;
+	}
+[Load Map]
+	{
+	piglatin=oad MapLay;
+	German = Karte laden;
+	French = Charger carte;
+	}
+[Select Side]
+	{
+	piglatin=elect SideSay;
+	German = Seite wählen;
+	French = Choix du camp;
+	}
+
+// Generic gameplay stuff
+
+[Player]
+	{
+	piglatin=layerPay;
+	German = Spieler;
+	French = Joueur;
+	}
+
+[Players]
+	{
+	piglatin=layerPay;
+	German = Spieler;
+	French = Joueur;
+	}
+
+
+[Players:]
+	{
+	German = Spieler:;
+	French = Joueur:;
+	}
+
+[Allies]
+	{
+	piglatin=lliesAay;
+	German = Verbündete;
+	French = Alliés;
+	}
+[ALLIES]
+	{
+	piglatin=LLIESAay;
+	German = VERBÜNDETE;
+	French = ALLIES;
+	}
+[Ally]
+	{
+	piglatin=llyAay;
+	German = Verbündeter;
+	French = Allié;
+	}
+[Side]
+	{
+	piglatin=ideSay;
+	German = Seite;
+	French = Camp;
+	}
+[Metal]
+	{
+	piglatin=etalMay;
+	German = Metall;
+	French = Métal;
+	}
+[METAL]
+	{
+	German = METALL;
+	French = METAL;
+	}
+[Energy]
+	{
+	piglatin=nergyEay;
+	German = Energie;
+	French = Energie;
+	}
+[ENERGY]
+	{
+	German = Energie;
+	French = Energie;
+	}
+
+[Color]
+	{
+	piglatin=olorCay;
+	German = Farbe;
+	French = Couleur;
+	}
+
+[mb]
+	{
+	German = mb;
+	French = mb;
+	}
+
+[Yes]
+	{
+	piglatin=esYay;
+	German = Ja;
+	French = Oui;
+	}
+[No]
+	{
+	piglatin=oNay;
+	German = Nein;
+	French = Non;
+	}
+[OK]
+	{
+	piglatin=KOay;
+	German = OK;
+	French = OK;
+	}
+[Ok]
+	{
+	piglatin=kOay;
+	German = Ok;
+	French = Ok;
+	}
+[Cancel]
+	{
+	piglatin=ancelCay;
+	German = Abbruch;
+	French = Annuler;
+	}
+[CANCEL]
+	{
+	piglatin=ANCELCay;
+	German = ABBRUCH;
+	French = ANNULER;
+	}
+
+// Victory/Defeat Screen
+
+[Energy Produced]
+	{
+	German = Energie produziert;
+	French = Energie Produite;
+	}
+[Metal Produced]
+	{
+	German = Metall produziert;
+	French = Métal Extrait;
+	}
+[Energy Wasted]
+	{
+	German = Energie vergeudet;
+	French = Excédent d’Energie;
+	}
+[Metal Wasted]
+	{
+	German = Metall vergeudet;
+	French = Excédent de Métal;
+	}
+
+// Options menu
+
+[Options Menu]
+	{
+	German = Optionen;
+	French = Options;
+	}
+[GAME OPTIONS]
+	{
+	German = SPIELOPTIONEN;
+	French = OPTIONS DE JEU;
+	}
+
+[Resume]
+	{
+	piglatin=esumeRay;
+	German = Weiter;
+	French = Continuer;
+	}
+[Save Game]
+	{
+	piglatin=ave GameSay;
+	German = Speichern;
+	French = Sauvegarde;
+	}
+[Load Game]
+	{
+	piglatin=oad GameLay;
+	German = Laden;
+	French = Chargement;
+	}
+[Preferences]
+	{
+	piglatin=referencesPay;
+	German = Einstellungen;
+	French = Préférences;
+	}
+[End Mission]
+	{
+	piglatin=nd MissionEay;
+	German = Mission beenden;
+	French = Fin de la mission;
+	}
+[Help]
+	{
+	piglatin=elpHay;
+	German = Hilfe;
+	French = Aide;
+	}
+[Briefing]
+	{
+	piglatin=riefingBay;
+	German = Briefing;
+	French = Briefing;
+	}
+[Mission Objective]
+	{
+	piglatin=ission ObjectiveMay;
+	German = Einsatzziel;
+	French = Objectif de mission ;
+	}
+
+// Player settings
+
+[UNUSED]
+	{
+	piglatin=nusedUay;
+	German = Unbenutzt;
+	French = Inutilisé;
+	}
+[AI]
+	{
+	piglatin=IAay;
+	German = KI;
+	French = IA;
+	}
+[BLOCKED]
+	{
+	piglatin=lockedBay;
+	German = Gesperrt;
+	French = Bloqué;
+	}
+[No Limit]
+	{
+	piglatin=o LimitNay;
+	German = Ohne Lim.;
+	French = Sans lim.;
+	}
+
+// CD controls
+
+[CD Player]
+	{
+	piglatin=D PlayerCay;
+	German = CD-Spieler;
+	French = Lecteur de CD;
+	}
+[No Music]
+	{
+	piglatin=o MusicNay;
+	German = Keine Musik;
+	French = Pas de musique;
+	}
+[Repeat Track]
+	{
+	piglatin=epeat TrackRay;
+	German = Stück wiedeholen;
+	French = Répéter piste;
+	}
+[Repeat Track #]
+	{
+	piglatin=epeat Track #Ray;
+	German = Stück Nr.# wiederholen;
+	French = Répéter piste No.;
+	}
+[Repeat]
+	{
+	German = Wiederholen;
+	French = Répéter;
+	}
+
+[Random Tracks]
+	{
+	piglatin=andom TracksRay;
+	German = Zufall;
+	French = Lecture aléatoire;
+	}
+[Specify Tracks]
+	{
+	piglatin=pecify TracksSay;
+	German = Stücke festlegen;
+	French = Choisir pistes;
+	}
+[Play All Tracks]
+	{
+	piglatin=lay All TracksPay;
+	German = Alle Stücke spielen;
+	French = Globale;
+	}
+[Play All]
+	{
+	German = Alle Stücke;
+	French = Globale;
+	}
+[Track]
+	{
+	piglatin=rackTay;
+	German = Stück;
+	French = Piste;
+	}
+
+[Custom]
+	{
+	German = Spezifisch;
+	French = Spécifique;
+	}
+
+
+[No Action]
+	{
+	piglatin=o ActionNay;
+	German = Keine Action;
+	French = Pas d'action;
+	}
+[Battle]
+	{
+	piglatin=attleBay;
+	German = Schlacht;
+	French = Bataille;
+	}
+[Defeat]
+	{
+	piglatin=efeatDay;
+	German = Niederlage;
+	French = Défaite;
+	}
+[Unused]
+	{
+	German = Unbenutzt;
+	French = Inutilisé;
+	}
+
+
+[NO DISC]
+	{
+	German = Keine CD eingelegt;
+	French = Pas de CD;
+	}
+
+
+// Speeds
+
+[Normal]
+	{
+	piglatin=ormalNay;
+	German = Normal;
+	French = Normale;
+	}
+[Slow]
+	{
+	piglatin=lowSay;
+	German = Langsam;
+	French = Lente;
+	}
+[Slower]
+	{
+	piglatin=lowerSay;
+	German = Langsamer;
+	French = Très lente;
+	}
+[Fast]
+	{
+	piglatin=astFay;
+	German = Schnell;
+	French = Rapide;
+	}
+[Faster]
+	{
+	piglatin=asterFay;
+	German = Schneller;
+	French = Très rapide;
+	}
+[Game Speed]
+	{
+	piglatin=ame SpeedGay;
+	German = Tempo;
+	French = Vitesse;
+	}
+[Mouse Speed]
+	{
+	piglatin=ouse SpeedMay;
+	German = Mausgeschwindigkeit;
+	French = Vitesse de la souris;
+	}
+[Screen Scroll]
+	{
+	piglatin=creen ScrollSay;
+	German = Bildschirmscrolling;
+	French = Défilement écran;
+	}
+[Screen Text Delay]
+	{
+	piglatin=creen Text DelaySay;
+	German = Textverzögerung;
+	French = Délai textes;
+	}
+[Interface]
+	{
+	piglatin=nterfaceIay;
+	German = Steuerung;
+	French = Interface;
+	}
+[Unit Chat]
+	{
+	piglatin=nit ChatUay;
+	German = Einheiten-Chat;
+	French = Dialogue unités;
+	}
+[Text Lines]
+	{
+	piglatin=ext LinesTay;
+	German = Textzeilen;
+	French = Texte;
+	}
+[Game]
+	{
+	piglatin=ameGay;
+	German = Spiel;
+	French = Jeu;
+	}
+[Mouse]
+	{
+	piglatin=ouseMay;
+	German = Maus;
+	French = Souris;
+	}
+[Screen]
+	{
+	piglatin=creenSay;
+	German = Bildschirm;
+	French = Ecran;
+	}
+[Text Delay (secs)]
+	{
+	piglatin=ext Delay (secs)Tay;
+	German = Verzörgerung (Sek.);
+	French = Afficher texte;
+	}
+[Button Interface]
+	{
+	piglatin=utton InterfaceBay;
+	German = Steuerungsknopf;
+	French = Interface;
+	}
+[Control]
+	{
+	German = Steuerung;
+	French = Contrôle;
+	}
+
+
+// Gamespeed
+
+[Quick]
+	{
+	piglatin=uickQay;
+	German = Schnell;
+	French = Rapide;
+	}
+[Sluggish]
+	{
+	piglatin=luggishSay;
+	German = Träge;
+	French = Lente;
+	}
+[Rapid Fire]
+	{
+	piglatin=apid FireRay;
+	German = Schnellfeuer;
+	French = Tir Rapide;
+	}
+
+// Chat settings
+
+[No Chat]
+	{
+	piglatin=o ChatNay;
+	German = Keine Meldungen;
+	French = Pas de dialogue;
+	}
+[Only important info]
+	{
+	piglatin=nly important infoOay;
+	German = Nur wichtige Informationen;
+	French = Infos importantes uniquement;
+	}
+[Medium chat]
+	{
+	piglatin=edium chatMay;
+	German = Meldungen-Mittel;
+	French = Dialogue normal;
+	}
+[Detailed chat]
+	{
+	piglatin=etailed chatDay;
+	German = Meldungen-Detailliert;
+	French = Dialogue détaillé;
+	}
+[High chat level]
+	{
+	piglatin=igh chat levelHay;
+	German = Hoher Meldungs-Level;
+	French = Dialogue complet;
+	}
+[All info chatted]
+	{
+	piglatin=ll info chattedAay;
+	German = Meldungen über alle Infos;
+	French = Toutes les informations;
+	}
+[ENEMIES]
+	{
+	piglatin=NEMIESEay;
+	German = GEGNER;
+	French = ENNEMIS;
+	}
+
+
+[Enemies]
+	{
+	piglatin=NEMIESEay;
+	German = Gegner;
+	French = Ennemis;
+	}
+
+
+
+[All]
+	{
+	piglatin=LLAay;
+	German = Alle;
+	French = Tous;
+	}
+
+
+[ALL]
+	{
+	piglatin=LLAay;
+	German = ALLE;
+	French = TOUS;
+	}
+[TALK TO:]
+	{
+	piglatin=ALK TO:Tay;
+	German = SPRICH MIT:;
+	French = PARLER A:;
+	}
+
+[Unit Sounds]
+	{
+	German = Sound Einheiten;
+	French = Son des unités;
+	}
+[UNIT SOUNDS]
+	{
+	German = SOUND EINHEITEN;
+	French = SON DES UNITES;
+	}
+
+
+// Sound settings
+
+[On]
+	{
+	German = An;
+	French = Oui;
+	}
+//[Off|Mono|3D]
+//	{
+//	German = Aus|Mono|3D;
+//	French = Rien|Mono|3-D;
+//	}
+
+[Off]
+	{
+	piglatin=ffOay;
+	German = Aus;
+	French = Rien;
+	}
+//[Off|On]
+//	{
+//	German = Aus|An;
+//	French = Rien|Oui;
+//	}
+[Mono]
+	{
+	piglatin=onoMay;
+	German = Mono;
+	French = Mono;
+	}
+[Stereo]
+	{
+	piglatin=tereoSay;
+	German = Stereo;
+	French = Stéréo;
+	}
+[3d]
+	{
+	piglatin=d3ay;
+	German = 3D;
+	French = 3-D;
+	}
+[Sound Effects Volume]
+	{
+	piglatin=ound Effects VolumeSay;
+	German = Lautstärke der Soundeffekte;
+	French = Volume effets sonores;
+	}
+[Music Volume]
+	{
+	piglatin=usic VolumeMay;
+	German = Musiklautstärke;
+	French = Volume musique;
+	}
+[Sound Volume]
+	{
+	piglatin=ound VolumeSay;
+	German = Sound-Lautstärke;
+	French = Volume son;
+	}
+[Sound Mode]
+	{
+	piglatin=ound ModeSay;
+	German = Soundmodus;
+	French = Mode sonore;
+	}
+[No Chatting]
+	{
+	piglatin=o ChattingNay;
+	German = Keine Chats;
+	French = Pas de dialogues;
+	}
+[TEST]
+	{
+	piglatin=ESTTay;
+	German = TEST;
+	French = TEST;
+	}
+
+[Sound Test]
+	{
+	German = Sound Test;
+	French = Test Son;
+	}
+	
+[SOUND TEST]
+	{
+	German = SOUND TEST;
+	French = SOUND TEST;
+	}
+
+[Building Sounds]
+	{
+	piglatin=uilding SoundsBay;
+	German = Baugeräusche;
+	French = Sons de construction;
+	}
+[Building]
+	{
+	German = Bauen;
+	French = Construire;
+	}
+
+[Unit Speech]
+	{
+	piglatin=nit SpeechUay;
+	German = Einheitensprache;
+	French = Dialogues unités;
+	}
+[Unit Chat Level]
+	{
+	piglatin=nit Chat LevelUay;
+	German = Chat-level;
+	French = Dialogue des unités;
+	}
+[Unit Text Acks]
+	{
+	German = Anzeige Meldungen;
+	French = Dialogue des unités;
+	}
+[Chat Level Info]
+	{
+	piglatin=hat Level InfoCay;
+	German = Info Chat-Level;
+	French = Niveau informations;
+	}
+[Unit Acknowledgement]
+	{
+	piglatin=nit AcknowledgementUay;
+	German = Info Chat-Level;
+	French = Confirmation unité;
+	}
+
+// Difficulty settings
+
+[Difficulty]
+	{
+	piglatin=ifficultyDay;
+	German = Schwierigkeit;
+	French = Difficulté;
+	}
+[Easy]
+	{
+	piglatin=asyEay;
+	German = Leicht;
+	French = Facile;
+	}
+[Medium]
+	{
+	piglatin=ediumMay;
+	German = Mittel;
+	French = Moyenne;
+	}
+[Hard]
+	{
+	piglatin=ardHay;
+	German = Schwer;
+	French = Difficile;
+	}
+
+// Other Creepy settings
+
+[Mapped]
+	{
+	German = Alle Gebiete;
+	French = Tout;
+	}
+
+[Unmapped]
+	{
+	German = Endeckt;
+	French = Exploré;
+	}
+
+
+// Starting resource levels
+
+[Low]
+	{
+	piglatin=owLay;
+	German = Gering;
+	French = Faible;
+	}
+[High]
+	{
+	piglatin=ighHay;
+	German = Hoch;
+	French = Elevé;
+	}
+
+// Interface menu
+
+[Left]
+	{
+	piglatin=eftLay;
+	German = Links;
+	French = Gauche;
+	}
+[Right]
+	{
+	piglatin=ightRay;
+	German = Rechts;
+	French = Droite;
+	}
+[Left Click]
+	{
+	piglatin=eft ClickLay;
+	German = Linksklick;
+	French = Clic gauche;
+	}
+[Right Click]
+	{
+	piglatin=ight ClickRay;
+	German = Rechtsklick;
+	French = Clic droit;
+	}
+//[Left Click|Right Click]
+//	{
+//	German = Linksklick|Rechtsklick;
+//	French = Clic gauche|Clic droit;
+//	}
+
+// Visuals menu
+
+[Shading]
+	{
+	piglatin=hadingSay;
+	German = Shading;
+	French = Ombres;
+	}
+[Antialias]
+	{
+	piglatin=ntialiasAay;
+	German = Anti-Alias;
+	French = Antialias;
+	}
+[Anti-aliasing]
+	{
+	German = Anti-Aliasing;
+	French = Antialias;
+	}
+[Map Mode]
+	{
+	piglatin=ap ModeMay;
+	German = Kartenmodus;
+	French = Mode carte;
+	}
+[Gamma]
+	{
+	piglatin=ammaGay;
+	German = Helligkeit;
+	French = Gamma;
+	}
+[Gamma Correction]
+	{
+	piglatin=amma CorrectionGay;
+	German = Gammakorrektur;
+	French = Correction gamma;
+	}
+[Line Of Sight]
+	{
+	piglatin=ine Of SightLay;
+	German = Sichtlinie;
+	French = Champ de vision;
+	}
+[Object rendering]
+	{
+	piglatin=bject renderingOay;
+	German = Objekt-Rendering;
+	French = Calcul des objets;
+	}
+[Screen Size]
+	{
+	piglatin=creen SizeSay;
+	German = Bildschirmgröße;
+	French = Taille écran;
+	}
+[Size]
+	{
+	German = Größe;
+	French = Taille;
+	}
+
+[Shadows]
+	{
+	German = Shatten;
+	French = Ombres Portées;
+	}
+[Building Shadows]
+	{
+	piglatin=uilding ShadowsBay;
+	German = Gebäudeschatten;
+	French = Ombres des bâtiments;
+	}
+[Vehicle Shadows]
+	{
+	piglatin=ehicle ShadowsVay;
+	German = Fahrzeugschatten;
+	French = Ombres des véhicules;
+	}
+[True]
+	{
+	piglatin=rueTay;
+	German = Echt;
+	French = Réelle;
+	}
+[Set]
+	{
+	piglatin=etSay;
+	German = Einstellen;
+	French = Défini;
+	}
+
+// Video mode menu
+
+[Select Videomode]
+	{
+	piglatin=elect VideomodeSay;
+	German = Grafikmodus wählen;
+	French = Choix du mode vidéo;
+	}
+[Select Mode]
+	{
+	piglatin=elect ModeSay;
+	German = Modus wählen;
+	French = Choix du mode;
+	}
+
+// Save / Load game menus
+
+[Name Of Game to Load]
+	{
+	piglatin=ame Of Game to LoadNay;
+	German = Name des zu ladenden Spiels;
+	French = Nom de la partie à charger;
+	}
+[Name Of Game to Save]
+	{
+	piglatin=ame Of Game to SaveNay;
+	German = Name des zu sichernden Spiels;
+	French = Nom de la partie à sauvegarder;
+	}
+[Reset List]
+	{
+	German = Umstellen;
+	French = Raffûter;
+	}
+
+[Delete Game]
+	{
+	piglatin=elete GameDay;
+	German = Spiel löschen;
+	French = Effacer;
+	}
+
+[Delete List]
+	{
+	German = Liste löschen;
+	French = Effacer;
+	}
+[Cancel Save]
+	{
+	piglatin=ancel SaveCay;
+	German = Speichern abbrechen;
+	French = Annuler sauvegarde;
+	}
+[Game type:]
+	{
+	piglatin=ame type:Gay;
+	German = Spieltyp:;
+	French = Type de jeu:;
+	}
+[Mission/Map:]
+	{
+	piglatin=ission/Map:May;
+	German = Einsatz/Karte;
+	French = Mission/carte;
+	}
+[Time elapsed:]
+	{
+	piglatin=ime elapsed:Tay;
+	German = Zeit bisher:;
+	French = Temps écoulé:;
+	}
+[Side:]
+	{
+	piglatin=ide:Say;
+	German = Seite:;
+	French = Camp:;
+	}
+[Campaign:]
+	{
+	piglatin=ampaign:Cay;
+	German = Feldzug:;
+	French = Campagne:;
+	}
+[There are no saved games to choose from]
+	{
+	German = Es sind keine gespeicherten Spiele vorhanden.;
+	French = Il n'y a pas de sauvegardes à charger;
+	}
+
+[Mission:]
+	{
+	piglatin=ission:May;
+	German = Mission:;
+	French = Mission:;
+	}
+[Time saved:]
+	{
+	piglatin=ime saved:Tay;
+	German = Zeit gespart:;
+	French = Heure de sauvegarde:;
+	}
+
+// Multiplayer connection messages
+
+[You do not have a compatible version for this game.]
+	{
+	German = Sie haben für dieses Spiel keine kompatible Version.;
+	French = Vous n'avez pas de version compatible pour ce jeu.;
+	}
+[is not responding]
+	{
+	German = antwortet nicht.;
+	French = ne répond pas;
+	}
+[Timed out while connecting to DirectPlay lobby!]
+	{
+	German = Zeitüberlauf beim Versuch, mit der DirectPlay-Lobby zu verbinden.;
+	French = Délai d'attente trop long pour la connexion à DirectPlay.;
+	}
+[Please insert the Installation CD (Disc 1) and select%s"%s" again.]
+	{
+	German = Bittle legen Sie die Installations-CD (Disc 1) ein und wählen Sie erneut %s"%s".;
+	French = Insérez le CD d'installation (Disc 1) et sélectionnez de nouveau %"%s".;
+	}
+
+[Please insert the Campaign CD (Disc 2) and try again]
+	{
+	German = Bitte legen Sie die Feldzug-CD (Disc 2) ein und versuchen Sie es erneut.;
+	French = Insérez le CD du campagne de Total Annihilation (Disc 2) et recommencez;
+	}
+
+[Please insert the Multiplayer CD (Disc 1) and try again]
+	{
+	German = Bitte legen Sie die Multispieler-CD (Disc 1) ein und versuchen Sie es erneut.;
+	French = Insérez le CD du jeu de Total Annihilation (Disc 1) et recommencez;
+	}
+
+[Fault while trying to excecute button action.]
+	{
+	German = Fehler beim ausführen der Button-Funktion.;
+	French = Erreur d'exécution lors d'une action.;
+	}
+[The "%s" service failed or took %stoo long. Please see the readmee%sfile for more information.]
+	{
+	German = Der "%s"-Dienst ist ausgefallen oder rauchte%szu lange. Nähere Information finden Sie in der Readme-Datei%.;
+	French = Le service "%s" a échoué ou bien le délai d'attente a été dépassé. Consultez les fichier readme%s pour plus d'informations.;
+	}
+[Unable to connect to DirectPlay lobby.]
+	{
+	German = Kann nicht mit der DirectPlay-Lobby verbinden.;
+	French = Connexion impossible en mode DirectPlay.;
+	}
+[Unable to browse to URL: %s]
+	{
+	German = Kann nicht durch URL blättern: %s;
+	French = Impossible d'explorer URL :%s;
+	}
+[Unable to invoke DLL: %s]
+	{
+	German = Kann DLL nicht aufrufen: %s;
+	French = Utilisation DLL: %s impossible;
+	}
+[Unable to execute command: %s]
+	{
+	German = Kann Befehl nicht ausführen: %s;
+	French = Impossible d'exécuter la commande: %s ;
+	}
+[Play on Mplayer]
+	{
+	German = Auf MPlayer spielen;
+	French = Jouer en MPlayer;
+	}
+[Play on TEN]
+	{
+	German = auf TEN spielen;
+	French = Accès Mplayer;
+	}
+[Get TEN]
+	{
+	German = Mit TEN verbinden;
+	French = Accès TEN;
+	}
+[Play on Kali]
+	{
+	German = Auf Kali spielen;
+	French = Jouer en mode Kali;
+	}
+[Get Kali]
+	{
+	German = Mit Kali verbinden;
+	French = Accès Kali;
+	}
+[Play on HEAT]
+	{
+	German = Auf HEAT spielen;
+	French = Jouer en mode HEAT;
+	}
+[Get HEAT]
+	{
+	German = Mit HEAT verbinden;
+	French = Accès HEAT;
+	}
+[Play on Wireplay]
+	{
+	German = Auf Wireplay spielen;
+	French = Jouer en mode Wireplay;
+	}
+[Get Wireplay (UK)]
+	{
+	German = Mit Wireplay verbinden (UK);
+	French = Accès Wireplay (UK);
+	}
+[Play on DWANGO]
+	{
+	German = Auf DWANGO spielen;
+	French = Jouer en mode DWANGO;
+	}
+[Get DWANGO]
+	{
+	German = Mit DWANGO verbinden;
+	French = Accès DWANGO;
+	}
+[Could not match weapon type "%s" for synchronization!]
+	{
+	German = Konnte Waffentyp "%s" nicht anpassen!;
+	French = Type d'arme "%s" non conforme pour synchronisation.;
+	}
+	
+
+[Updating...]
+	{
+	German = Aktualisiere...;
+	French = Mise à Jour...;
+	}
+
+[You must enter a game name]
+	{
+	piglatin=ou must enter a game nameYay;
+	German = Sie müssen einen Spielnamen eingeben;
+	French = Vous devez entrer un nom de partie;
+	}
+[You must enter your name]
+	{
+	piglatin=ou must enter your nameYay;
+	German = Sie müssen Ihren Namen eingeben;
+	French = Vous devez entrer votre nom;
+	}
+[You were rejected from the game]
+	{
+	piglatin=ou were rejected from the gameYay;
+	German = Sie wurden bei diesem Spiel abgelehnt;
+	French = Vous avez été rejeté de la partie;
+	}
+[The %s service failed or took%stoo long. Please see the readme%sfile for more information.]
+	{
+	piglatin=he %s function failed or took%stoo long. Please see the readme.txt file for more information.Tay;
+	German = Die Funktion %s ist fehlgeschlagen oder dauerte%szu lange. Bitte schauen Sie wegen weiterer Informationen%sin der Datei ReadMe nach.;
+	French = La fonction %s a échoué ou %sa pris trop de temps. Voir le fichier Lisezmoi.txt%spour plus d'informations.;
+	}
+[Direct Connections]
+	{
+	piglatin=irect ConnectionsDay;
+	German = Directverbindungen;
+	French = Connexions directes;
+	}
+[Internet Access]
+	{
+	piglatin=nternet AccessIay;
+	German = Internet-Zugang;
+	French = Accés Internet;
+	}
+[There are no multiplayer games to choose from]
+	{
+	piglatin=here are no multiplayer games to choose fromTay;
+	German = Es stehen keine Mehrspielerrunden zur Auswahl;
+	French = Pas de parties multijoueurs à choisir;
+	}
+[There are no multiplayer games to choose from]
+	{
+	piglatin=here are no multiplayer games to choose fromTay;
+	German = Es stehen keine Mehrspielerrunden zur Auswahl;
+	French = Pas de parties multijoueurs à choisir;
+	}
+
+[Player has left the game]
+	{
+	piglatin=layer has left the gamePay;
+	German = Spieler hat das Spiel velassen;
+	French = Le joueur a quitté le jeu;
+	}
+[Player is joining the game]
+	{
+	piglatin=layer is joining the gamePay;
+	German = Spieler tritt der Runde bei;
+	French = Le joueur a rejoint la partie;
+	}
+[Player has disconnected]
+	{
+	piglatin=layer has disconnectedPay;
+	German = Spieler %s hat die Verbindung gelöst;
+	French = Le joueur %s s'est déconnecté;
+	}
+
+[Player %s has disconnected]
+	{
+	piglatin=layer has disconnectedPay;
+	German = Spieler hat die Verbindung gelöst;
+	French = Le joueur s'est déconnecté;
+	}
+
+[You did not have the correct password]
+	{
+	German = Sie haben das falsche Passwort eingegeben.;
+	French = Vous n'aviez pas le bon mot de passe;
+	}
+
+[Waiting for other players]
+	{
+	German = Warte auf andere Spieler;
+	French = En attente des autres joueurs;
+	}
+[10 seconds]
+	{
+	piglatin=0 seconds1ay;
+	German = 10 Sekunden;
+	French = 10 secondes;
+	}
+[Please Select Provider]
+	{
+	piglatin=lease Select ProviderPay;
+	German = Bitte Provider aussuchen;
+	French = Veuillez indiquer votre fournisseur;
+	}
+[Select Provider]
+	{
+	piglatin=elect ProviderSay;
+	German = Provider aussuchen;
+	French = Choix du fournisseur;
+	}
+
+// Multiplayer interface
+
+[Allied Victory]
+	{
+	German = Gemeinsamer Sieg;
+	French = Victoire Alliée;
+	}
+
+[Chosen Units]
+	{
+	piglatin=elected UnitsSay;
+	German = Einheiten;
+	French = Unités;
+	}
+
+[More Info]
+	{
+	German = Mehr Informationen;
+	French = Plus d'infos;
+	}
+
+[Enter Game Name]
+	{
+	piglatin=nter Game NameEay;
+	German = Bitte Spielnamen eingeben;
+	French = Entrez le nom de la partie;
+	}
+[Enter Your Name]
+	{
+	piglatin=nter Your NameEay;
+	German = Bitte geben Sie Ihren Namen ein;
+	French = Entrez votre nom;
+	}
+[Create New Game]
+	{
+	piglatin=reate New GameCay;
+	German = Neues Spiel erstellen;
+	French = Création nouvelle partie;
+	}
+[Password To Join]
+	{
+	piglatin=assword To JoinPay;
+	German = Passwort zum Mitspielen;
+	French = Mot de passe;
+	}
+[Closed]
+	{
+	piglatin=losedCay;
+	German = Geschlossen;
+	French = Fremée;
+	}
+[The game is closed]
+	{
+	German = Das Spiel ist geschlossen.;
+	French = La partie est fermée;
+	}
+[The game is full]
+	{
+	German = Das Spiel ist voll.;
+	French = La partie est pliene;
+	}
+
+[In Game]
+	{
+	piglatin=n GameIay;
+	German = Spielt;
+	French = En jeu;
+	}
+[Lounge]
+	{
+	piglatin=oungeLay;
+	German = Treffpunkt;
+	French = Salon;
+	}
+[Playing]
+	{
+	piglatin=layingPay;
+	German = Spielt;
+	French = Jeu;
+	}
+[Full]
+	{
+	piglatin=ullFay;
+	German = Voll;
+	French = Pleine;
+	}
+[Reject Player:]
+	{
+	piglatin=eject Player?Ray;
+	German = Spieler ablehnen:;
+	French = Rejecter joueur:;
+	}
+
+
+[Reject Player]
+	{
+	piglatin=eject Player?Ray;
+	German = Ablehnen;
+	French = Rejecter;
+	}
+
+[Reject Player?]
+	{
+	piglatin=eject Player?Ray;
+	German = Spieler ablehnen?;
+	French = Rejecter joueur?;
+	}
+[Reject %s?]
+	{
+	piglatin=eject Player?Ray;
+	German = %s ablehnen?;
+	French = Rejecter %s?;
+	}
+[Reject]
+	{
+	piglatin=eject Player?Ray;
+	German = ablehnen;
+	French = Rejecter;
+	}
+
+
+[Map]
+	{
+	piglatin=apMay;
+	German = Karte;
+	French = Carte;
+	}
+[Not Selected]
+	{
+	piglatin=ot SelectedNay;
+	German = Nicht ausgewählt;
+	French = Non sélectionné;
+	}
+[NOT SELECTED]
+	{
+	piglatin=ot SelectedNay;
+	German = NICHT AUSGEWÄHLT;
+	French = Non sélectionné;
+	}
+
+[Join]
+	{
+	piglatin=oinJay;
+	German = Beitreten;
+	French = Joindre;
+	}
+[New]
+	{
+	piglatin=ewNay;
+	German = Neu;
+	French = Nouvelle;
+	}
+[Name of Game]
+	{
+	piglatin=ame of GameNay;
+	German = Spielname;
+	French = Nom de la partie;
+	}
+[Plyrs]
+	{
+	piglatin=lyrsPay;
+	German = Spieler;
+	French = Joueurs;
+	}
+[Status]
+	{
+	piglatin=tatusSay;
+	German = Status;
+	French = Statut;
+	}
+[Watch]
+	{
+	piglatin=atchWay;
+	German = Beobachten;
+	French = Observer;
+	}
+[Update]
+	{
+	piglatin=pdateUay;
+	German = Update;
+	French = Mise à jour;
+	}
+[LOS]
+	{
+	piglatin=OSLay;
+	German = Sichtlinie;
+	French = CDV;
+	}
+[Cmdr]
+	{
+	piglatin=mdrCay;
+	German = Cmdr;
+	French = Cmdt;
+	}
+[Ping]
+	{
+	piglatin=ingPay;
+	German = Ping;
+	French = Ping;
+	}
+[Name]
+	{
+	German = Name;
+	French = Nom;
+	}
+
+[Your Name]
+	{
+	piglatin=our NameYay;
+	German = Ihr Name;
+	French = Votre nom;
+	}
+[Game Password]
+	{
+	piglatin=ame PasswordGay;
+	German = Spiel-Passwort;
+	French = Mot de passe;
+	}
+
+// Lounge options
+
+[Messages]
+	{
+	piglatin=essagesMay;
+	German = Nachrichten;
+	French = Messages;
+	}
+[Mem.]
+	{
+	piglatin=em.May;
+	German = Speicher;
+	French = Mem.;
+	}
+[Ready?]
+	{
+	piglatin=eady?Ray;
+	German = Bereit?;
+	French = Prêt?;
+	}
+[Start Game]
+	{
+	piglatin=tart GameSay;
+	German = Start;
+	French = Démarrer;	
+	}
+[Select Map]
+	{
+	piglatin=elect MapSay;
+	German = Karte wählen;
+	French = Carte;
+	}
+[Resolution]
+	{
+	piglatin=esolutionRay;
+	German = Auflösung;
+	French = Résolution;
+	}
+[Cmndr Ends Game]
+	{
+	piglatin=mndr Ends GameCay;
+	German = Commander beendet das Spiel;
+	French = Cmdt termine le jeu;
+	}
+[LOS Mode]
+	{
+	piglatin=OS ModeLay;
+	German = Sichtlinienmodus;
+	French = Mode CDV;
+	}
+[Cheat Codes]
+	{
+	piglatin=heat CodesCay;
+	German = Cheat Codes;
+	French = Codes;
+	}
+[Disallowed]
+	{
+	German = Nicht Erlaubt;
+	French = Non;
+	}
+[Allowed]
+	{
+	German = Erlaubt;
+	French = Oui;
+	}
+[Watching]
+	{
+	German = Zusehen;
+	French = Observation;
+	}
+
+[Watching OK]
+	{
+	German = Zusehen;
+	French = Observation;
+	}
+[No Watching]
+	{
+	German = Zusehen;
+	French = Observation;
+	}
+[Game Open]
+	{
+	German = Spiel offen;
+	French = Ouverte;
+	}
+
+[Game Closed]
+	{
+	German = Geschlossen;
+	French = Partie Fermée;
+	}
+
+
+[Game Status]
+	{
+	German = Spielstatus;
+	French = Statuts;
+	}
+
+[Watching Allowed]
+	{
+	piglatin=atching AllowedWay;
+	German = Zusehen erlaubt;
+	French = Observation autorisée;
+	}
+[Map Name]
+	{
+	piglatin=ap NameMay;
+	German = Kartenname;
+	French = Nom de la carte;
+	}
+[Max Units]
+	{
+	piglatin=ax UnitsMay;
+	German = Max. Einheiten;
+	French = Unités maxi;
+	}
+[Game Is Open]
+	{
+	piglatin=ame Is OpenGay;
+	German = Spiel ist offen;
+	French = La partie est ouverte;
+	}
+[Build Restrictions]
+	{
+	piglatin=uild RestrictionsBay;
+	German = Baubeschränkungen;
+	French = Restrictions;
+	}
+
+// Skirmish menu
+
+[Start Skirmish]
+	{
+	piglatin=tart SkirmishSay;
+	German = Gefecht starten;
+	French = Lancer la bataille;
+	}
+[Location]
+	{
+	piglatin=ocationLay;
+	German = Ort;
+	French = Position;
+	}
+[Dead Commander]
+	{
+	German = Toter Commander;
+	French = Mort Commandeur;
+	}
+
+[Commander]
+	{
+	piglatin=ommanderCay;
+	German = Commander;
+	French = Commandant;
+	}
+[Map:]
+	{
+	piglatin=ap:May;
+	German = Karte:;
+	French = Carte;
+	}
+
+// Restrictions menu
+
+[Max Per Player]
+	{
+	piglatin=ax Per PlayerMay;
+	German = Max. pro Spieler;
+	French = Maxi par joueur;
+	}
+[Unit Build Restrictions]
+	{
+	piglatin=nit Build RestrictionsUay;
+	German = Einheiten-Baubeschränkungen;
+	French = Restrictions de constructions d'unités;
+	}
+
+[list1]
+	{
+	German = Liste1;
+	French = Liste1;
+	}
+[Load List]
+	{
+	piglatin=oad ListLay;
+	German = Liste laden;
+	French = Charger liste;
+	}
+[Save List]
+	{
+	piglatin=ave ListSay;
+	German = Liste speichern;
+	French = Sauver liste;
+	}
+
+[Name of list to save]
+	{
+	German = Zu speichernder Listenname;
+	French = Nom de liste pour sauvegarde;
+	}
+
+[Show Picture]
+	{
+	piglatin=how PictureSay;
+	German = Bild zeigen;
+	French = Voir image;
+	}
+
+// Gameplay options
+
+[Fixed]
+	{
+	German = Festgelegt;
+	French = Défini;
+	}
+
+[Random]
+	{
+	German = Zufällig;
+	French = Aléatoire;
+	}
+
+
+[Specific]
+	{
+	German = Spezifisch;
+	French = Spécifique;
+	}
+
+
+[Fixed Locations]
+	{
+	piglatin=ixed LocationsFay;
+	German = Festgelekte Startpunkte;
+	French = Positions définies;
+	}
+[Random Locations]
+	{
+	piglatin=andom LocationsRay;
+	German = Zufällige Startpunkte;
+	French = Positions aléatoires;
+	}
+[Game ends]
+	{
+	piglatin=ames EndsGay;
+	German = Beendet Spiel;
+	French = Fin de partie;
+	}
+[Deathmatch]
+	{
+	German = Todesspiel;
+	French = Deathmatch;
+	}
+[Continues]
+	{
+	piglatin=ame ContinuesGay;
+	German = Kein Ende;
+	French = Continuer;
+	}
+[Mapping Mode]
+	{
+	German = Sichtbare Karte;
+	French = Visibilitié;
+	}
+
+[Blank Map]
+	{
+	piglatin=lank MapBay;
+	German = Leere Karte;
+	French = Carte vide;
+	}
+[Full Map]
+	{
+	piglatin=ull MapFay;
+	German = Volle Karte;
+	French = Carte complète;
+	}
+[LOS Off]
+	{
+	piglatin=OS OffLay;
+	German = Inaktiv;
+	French = Pas de CDV;
+	}
+[Permanent]
+	{
+	German = Inaktiv;
+	French = Pas de CDV;
+	}
+[True LOS]
+	{
+	piglatin=rue LOSTay;
+	German = Echt;
+	French = Vrai CDV;
+	}
+[Circular]
+	{
+	piglatin=ircularCay;
+	German = Rund;
+	French = Circulaire;
+	}
+
+
+[Start Location]
+	{
+	piglatin=tart LocationSay;
+	German = Startpunkt;
+	French = Position de départ;
+	}
+[Commander Death]
+	{
+	piglatin=ommander DeathCay;
+	German = Tod des Commanders;
+	French = Mort du commandant;
+	}
+[Mapping]
+	{
+	piglatin=appingMay;
+	German = Sichtbare Karte;
+	French = Carte;
+	}
+[Line of Sight]
+	{
+	piglatin=ine of SightLay;
+	German = Sichtlinie;
+	French = Champ de vision;
+	}
+[Computer Opponent]
+	{
+	piglatin=omputer OpponentCay;
+	German = Computergegner;
+	French = Ordinateur;
+	}
+
+[Computer]
+	{
+	piglatin=omputer OpponentCay;
+	German = Computer;
+	French = Ordinateur;
+	}
+
+[AI Opponent]
+	{
+	piglatin=I OpponentAay;
+	German = KI-Gegner;
+	French = Adversaire IA;
+	}
+[Opponent]
+	{
+	piglatin=pponentOay;
+	German = Gegner;
+	French = Adversaire;
+	}
+[Exit the Battle]
+	{
+	piglatin=xit the BattleEay;
+	German = Schlacht verlassen;
+	French = Quitter la bataille;
+	}
+
+[Page 1]
+	{
+	German = Seite 1;
+	French = Page 1;
+	}
+[Page 2]
+	{
+	German = Seite 2;
+	French = Page 2;
+	}
+[Page 3]
+	{
+	German = Seite 3;
+	French = Page 3;
+	}
+
+// Briefing messages
+
+[BACK TO START]
+	{
+	piglatin=ACK TO STARTBay;
+	German = ZURÜCK ZUM START;
+	French = RETOUR AU DEBUT;
+	}
+[MORE...]
+	{
+	piglatin=ORE...May;
+	German = MEHR...;
+	French = SUITE...;
+	}
+
+// Game over screen
+
+[Victory or Failure]
+	{
+	piglatin=ictory or FailureVay;
+	German = Sieg oder Niederlage;
+	French = Victoire ou échec;
+	}
+[Main Menu]
+	{
+	piglatin=ain MenuMay;
+	German = Hauptmenü;
+	French = Menu principal;
+	}
+[Game Statistics]
+	{
+	piglatin=ame StatisticsGay;
+	German = Spielstatistik;
+	French = Statistiques;
+	}
+
+[Statistics]
+	{
+	German = Statistik;
+	French = Statistiques;
+	}
+
+[Next Mission]
+	{
+	piglatin=ext MissionNay;
+	German = Nächste Mission;
+	French = Mission suivante;
+	}
+[Adjust Difficulty]
+	{
+	piglatin=djust DifficultyAay;
+	German = Schwierigkeit;
+	French = Ajuster difficulté;
+	}
+[Adjust skirmish difficulty.]
+	{
+	German = Schwierigkeitsgrad einstellen;
+	French = Ajuster difficulté;
+	}
+
+[You]
+	{
+	piglatin=ouYay;
+	German = Sie;
+	French = Vous;
+	}
+[AI Player]
+	{
+	piglatin=I PlayerAay;
+	German = KI-Spieler;
+	French = Joueur IA;
+	}
+[Units]
+	{
+	piglatin=nitsUay;
+	German = Einheiten;
+	French = Unités;
+	}
+[Score]
+	{
+	piglatin=coreSay;
+	German = Punkte;
+	French = Score;
+	}
+[Victory]
+	{
+	piglatin=ictoryVay;
+	German = Sieg;
+	French = Victoire;
+	}
+[Failure]
+	{
+	piglatin=ailureFay;
+	German = Niederlage;
+	French = Echec;
+	}
+
+// Game commands
+
+[Total Units]
+	{
+	German = Einheiten;
+	French = Unités;
+	}
+[Stop Building]
+	{
+	piglatin=top BuildingSay;
+	German = Bau stoppen;
+	French = Arrêt de la construction;
+	}
+[Options]
+	{
+	piglatin=ptionsOay;
+	German = Optionen;
+	French = Options;
+	}
+[Share]
+	{
+	piglatin=hareSay;
+	German = Teilen;
+	French = Partage;
+	}
+
+// Share options
+
+[TRANSFER RESOURCES]
+	{
+	piglatin=RANSFER RESOURCESTay;
+	German = RESSOURCEN ÜBERTRAGEN;
+	French = TRANSFERT DE RESSOURCES;
+	}
+[Selected Units]
+	{
+	piglatin=elected UnitsSay;
+	German = Ausgewählte Einheiten;
+	French = Unités sélectionnées;
+	}
+[Select Player:]
+	{
+	piglatin=elect Player:Say;
+	German = Spieler aussuchen:;
+	French = Choix du joueur:;
+	}
+[Map Info]
+	{
+	piglatin=ap InfoMay;
+	German = Karteninfo;
+	French = Info carte;
+	}
+
+// Unit status messages
+
+[five]
+	{
+	piglatin=ivefay;
+	German = fünf;
+	French = cinq;
+	}
+[four]
+	{
+	piglatin=ourfay;
+	German = vier;
+	French = quatre;
+	}
+[three]
+	{
+	piglatin=hreetay;
+	German = drei;
+	French = trois;
+	}
+[two]
+	{
+	piglatin=wotay;
+	German = zwei;
+	French = deux;
+	}
+[one]
+	{
+	piglatin=neoay;
+	German = eins;
+	French = une;
+	}
+[zero]
+	{
+	piglatin=erozay;
+	German = null;
+	French = zéro;
+	}
+
+[Activate]
+	{
+	German = Aktiviert;
+	French = Aktiver;
+	}
+[Deactiviate]
+	{
+	German = Deaktiviert;
+	French = Désactiver;
+	}
+
+[Building complete]
+	{
+	piglatin=uilding completeBay;
+	German = Bau abgeschlossen;
+	French = Construction terminée;
+	}
+[Capture failed]
+	{
+	piglatin=apture failedCay;
+	German = Eroberung fehlgeschlagen;
+	French = Capture échouée;
+	}
+[Capturing]
+	{
+	piglatin=apturingCay;
+	German = wird erobert;
+	French = Capture;
+	}
+[Construction failed: target area was blocked]
+	{
+	piglatin=onstruction failed: target area was blockedCay;
+	German = Bau fehlgeschlagen: Zielgebiet war besetzt;
+	French = Construction échouée: zone bloquée;
+	}
+
+[Construction stopped]
+	{
+	German = Bau beendet;
+	French = Construction interrompue;
+	}
+
+[Construction terminated]
+	{
+	German = Bau beendet;
+	French = Construction interrompue;
+	}
+
+[Target area was blocked]
+	{
+	German = Zielgebiet war besetzt;
+	French = Zone bloquée;
+	}
+ 
+[Construction terminated by hostile action]
+	{
+	piglatin=onstruction terminated by hostile actionCay;
+	German = Bau durch Feindeinwirkung beendet;
+	French = Construction interrompue par une action hostile;
+	}
+[How can I fix units when they keep blowing up?]
+	{
+	piglatin=ow can I fix units when they keep blowing up?Hay;
+	German = Wie soll ich Einheiten reparieren, wenn sie dauernd in die Luft gehen?;
+	French = Comment réparer le unités si elles continuent à exploser?;
+	}
+[I can't get there]
+	{
+	piglatin=can't get thereIay;
+	German = Da komme ich nicht hin;
+	French = Je ne peux pas atteindre ce point;
+	}
+[I can't reach the construction site]
+	{
+	piglatin=can't reach the construction siteIay;
+	German = Ich komme nicht zur Baustelle;
+	French = Je ne peux pas atteindre le site de construction;
+	}
+
+[Landing]
+	{
+	German = Landen;
+	French = Atterrissage;
+	}
+[Landing aborted]
+	{
+	piglatin=anding abortedLay;
+	German = Landung abgebrochen;
+	French = Atterrisage annulé;
+	}
+[Landing aborted: all pads are occupied]
+	{
+	piglatin=anding aborted: all pads are occupiedLay;
+	German = Landung abgebrochen: alle Landfeleder besetzt;
+	French = Atterrisage annulé: plates-formes occupées;
+	}
+[Landing aborted: no pads available]
+	{
+	piglatin=anding aborted: no pads availableLay;
+	German = Landung abgebrochen: keine Landfelder;
+	French = Atterrisage annulé: pas de plate-forme disponible;
+	}
+[Landing failed]
+	{
+	piglatin=anding failedLay;
+	German = Landung fehlgeschlagen;
+	French = Atterrissage échoué;
+	}
+[Loading unit]
+	{
+	piglatin=oading unitLay;
+	German = Einheit wird verladen;
+	French = Chargement unité;
+	}
+[Preparing for transport]
+	{
+	piglatin=reparing for transportPay;
+	German = Bereite Transport vor;
+	French = Préparation pour transport;
+	}
+[Reclamate failed]
+	{
+	piglatin=eclamate failedRay;
+	German = Zurückforderung fehlgeschlagen;
+	French = Récupération échouée;
+	}
+[Reclamating]
+	{
+	piglatin=eclamatingRay;
+	German = Wird zurückgefordert;
+	French = Récupération;
+	}
+[Reclamation failed]
+	{
+	piglatin=eclamation failedRay;
+	German = Zurückforderung fehlgeschlagen;
+	French = Récupération échouée;
+	}
+[Repair aborted]
+	{
+	German = Reparatur abgebrochen;
+	French = Réparation abandonnée;
+	}
+
+[Repair mission failed]
+	{
+	German = Reparaturauftrag gescheitert;
+	French = Mission de réparation échouée;
+	}
+[Repairs unsuccessful]
+	{
+	German = Reparaturen ohne Erfolg;
+	French = Réparations échouées;
+	}
+
+[Self destruct terminated]
+	{
+	piglatin=elf destruct terminatedSay;
+	German = Selbstzerstörung abgebrochen;
+	French = Autodestruction terminée;
+	}
+[Starting construction]
+	{
+	piglatin=tarting constructionSay;
+	German = Beginne Herstellung;
+	French = Début de construction;
+	}
+[That unit cannot be captured]
+	{
+	piglatin=hat unit cannot be capturedTay;
+	German = Diese Einheit kann nicht erobert werden;
+	French = Cette unité ne peut pas être capturée;
+	}
+[That unit cannot be reclamated]
+	{
+	piglatin=hat unit cannot be reclamatedTay;
+	German = Diese Einheit kann nicht zurückgefordert werden;
+	French = Cette unité ne peut pas être récupérée;
+	}
+[That unit cannot be reclaimed]
+	{
+	piglatin=hat unit cannot be reclamatedTay;
+	German = Diese Einheit kann nicht zurückgefordert werden;
+	French = Cette unité ne peut pas être récupérée;
+	}
+
+[That unit is a cloud of vapor and cannot be captured]
+	{
+	piglatin=hat unit is a cloud of vapor and cannot be capturedTay;
+	German = Diese Einheit ist nur noch eine Dunstwolke und kann nicht erobert werden;
+	French = Cette unité est vaporisée et ne peut être capturée;
+	}
+[That unit is a cloud of vapor and cannot be reclamated]
+	{
+	piglatin=hat unit is a cloud of vapor and cannot be reclamatedTay;
+	German = Diese Einheit ist nur noch eine Dunstwolke und kann nicht zurückgefordert werden;
+	French = Cette unité est vaporisée et ne peut être récupérée;
+	}
+[Transport mission failed]
+	{
+	piglatin=ransport mission failedTay;
+	German = Transporteinsatz fehlgeschlagen;
+	French = Echec de la mission de transport;
+	}
+
+[End Transport]
+	{
+	German = Transportende;
+	French = Fin de transport ;
+	}
+
+[Unable to create any more units]
+	{
+	piglatin=nable to create any more unitsUay;
+	German = Kann keine weiteren Einheiten herstellen;
+	French = Création autres unités impossible;
+	}
+[Unable to unload unit]
+	{
+	piglatin=nable to unload unitUay;
+	German = Kann Einheit nicht entladen;
+	French = Déchargement unité impossible;
+	}
+[Unit is too heavy to transport]
+	{
+	piglatin=nit is too heavy to transportUay;
+	German = Einheit ist zu schwer für Transport;
+	French = Unité trop lourde pour transport;
+	}
+[Unit is too large to transport]
+	{
+	piglatin=nit is too large to transportUay;
+	German = Einheit ist zu groß für den Transport;
+	French = Unité trop grosse pour transport;
+	}
+[Unit repaired]
+	{
+	piglatin=nit repairedUay;
+	German = Einheit repariert;
+	French = Unité réparée;
+	}
+[Unloading]
+	{
+	piglatin=nloadingUay;
+	German = Entlade;
+	French = Déchargement;
+	}
+[Unloading process is proceeding non-optimally]
+	{
+	piglatin=nloading process is proceeding non-optimallyUay;
+	German = Entladevorgang läuft nicht optimal;
+	French = Déchargement non optimal;
+	}
+[Waiting for construction area to clear]
+	{
+	piglatin=aiting for construction area to clearWay;
+	German = Warte darauf, daß Baubereich frei wird;
+	French = Attente libération zone de construction;
+	}
+
+[Waiting for target area to clear]
+	{
+	German = Warte auf Zielbereich;
+	French = Enattente: la zone ciblée est occupée;
+	}
+
+[Waiting for construction pad to clear]
+	{
+	piglatin=aiting for construction pad to clearWay;
+	German = Warte darauf, daß Konstruktionsplattform frei wird;
+	French = Attente libération plate-forme de construction;
+	}
+	
+
+// Miscellaneous
+
+[Warning! The currently installed version of Microsoft%sDirectX may not function properly with Total Annihilation.%sPlease install the version of DirectX included on the%sTotal Annihilation setup CD.]
+	{
+	German =Warnung! Die z.Z. installierte Version von Microsoft %sDirectX unterstützt Total Annihilation u.U. nicht.%Bitte installieren Sie die Direct X-Version,%s die sich auf der Total Annihilation-Installations-CD befindet.;
+	French = Attention ! La version de Microsoft%sDirectX installée actuellement peut ne pas fonctionner correctement avec Total Annihilation.%s Veuillez installer la version de DirectX inclut dans le CD de %sTotal Annihilation.;
+	}
+
+[Warning!\n\nUnable to register %1 for DirectPlay.]
+	{
+	German = Warnung!\n\Kann %1 für Direct Play nicht registrieren.;
+	French = Attention!\n\n ne peut pas enregistrer %1 pour DirectPlay.;
+	}
+
+[Unidentified object]
+	{
+	German = nicht identifiziertes Objekt;
+	French = Objet non identifié;
+	}
+
+[Game Time]
+	{
+	German = Spielzeit;
+	French = Temps de jeu;
+	}
+
+[Human]
+	{
+	German = Mensch;
+	French = Joueur ;
+	}
+[Human Player]
+	{
+	German = Mensch;
+	French = Joueur ;
+	}
+
+[Open]
+	{
+	German = Offen;
+	French = Ouverte;
+	}
+
+[Error]
+	{
+	German = Fehler;
+	French = Erreur;
+	}
+
+[There are too many players enabled for this map]
+	{
+	German = Zu viele Spieler für diese Karte;
+	French = Nombre de joueurs trop élevé pour cette carte;
+	}
+
+[There must be at least one human player and one AI opponent]
+	{
+	German = Es müssen mindestens ein Spieler und KI-Gegner vorhanded sein;
+	French = Il doit y avoir au moins un joueur et un adversaire géré par l'ordinateur;
+	}
+
+[There must be at least one player and one computer opponent]
+	{
+	German = Es müssen mindestens ein Spieler und KI-Gegner vorhanded sein;
+	French = Il doit y avoir au moins un joueur et un adversaire géré par l'ordinateur;
+	}
+
+[You have lost connection with the game]
+	{
+	German = Die Verbindung zum Spiel ist verlorengegangen.;
+	French = Vous êtes déconnecté de la partie;
+	}
+[Lost connection with game]
+	{
+	German = Die Verbindung zum Spiel ist verlorengegangen.;
+	French = Vous êtes déconnecté de la partie;
+	}
+
+
+[You need a unit you don't have for this game]
+	{
+	German = Sie benötigen für dieses Spiel eine Einheit, die Sie nicht haben;
+	French = Il vous faut une unité que vous n’avez pas pour ce jeu;
+	}
+[You need a newer version of the game to enter]
+	{
+	German = Um beizutreten, benötigen Sie eine neuere Spielversion.;
+	French = Il vous faut une version plus récente du jeu pour entrer;
+	}
+[No watching is allowed for this game]
+	{
+	German = Bei diesem Spiel sind keine Zuschauer erlaubt.;
+	French = Il n'est pas autorisé de regarder cette partie;
+	}
+
+[Out of memory! Your hard disk may be full.]
+	{
+	German = Kein Speicher mehr! Festplatte ist u.U. voll.;
+	French = Pas assez de mémoire! Votre disque dur est peut-être plien.;
+	}
+
+// Unit speech
+
+[Under Attack]
+	{
+	German = Unter Beschuß;
+	French = Attaque ennemie;
+	}
+
+[Arrived]
+	{
+	German = Eingetroffen;
+	French = à destination;
+	}
+
+[Cannot Comply]
+	{
+	German = kann nicht zustimmen;
+	French = Impossible d'exécuter cet ordre;
+	}
+
+[Nanolathe Complete]
+	{
+	German = Nanostrahlung komplett;
+	French = NanoConstr. terminée;
+	}
+
+[Cloaked]
+	{
+	German = Getarnt;
+	French = Camoufle;
+	}
+
+[Visible]
+	{
+	German = Sichtbar;
+	French = Visible;
+	}
+
+
+// Mission states
+
+[Acknowledged]
+	{
+	German = Bestätigt;
+	French = Bien reçu;
+	}
+
+[Airstrike]
+	{
+	German = Luftangriff;
+	French = Attaque aérienne;
+	}
+
+[Annihilating]
+	{
+	German = Vernichtet;
+	French = en pleine destruction;
+	}
+
+[Attacking]
+	{
+	German = Attakiert;
+	French = A l'attaque;
+	}
+
+[Being transported]
+	{
+	German = Wird transportiert;
+	French = En cours de transport;
+	}
+
+[Cloaking]
+	{
+	German = Tarnt;
+	French = en cours de camouflage;
+	}
+
+[Decloaking]
+	{
+	German = Enttarnt;
+	French = abandonne le camouflage;
+	}
+
+[Defending]
+	{
+	German = Verteidigt;
+	French = En défense;
+	}
+
+[Diving]
+	{
+	German = Taucht ab;
+	French = En plongée;
+	}
+
+[Engaging target]
+	{
+	German = Erfasst Ziel;
+	French = Attaque la cible;
+	}
+
+[Evading]
+	{
+	German = Weicht aus;
+	French = en manoeuvres d'évasion;
+	}
+
+[Following]
+	{
+	German = Folgt;
+	French = en train de suivre;
+	}
+[Guarding]
+	{
+	German = Bewache;
+	French = De Garde;
+	}
+
+[Loading]
+	{
+	German = Lädt;
+	French = en cours de chargement;
+	}
+
+[Moving]
+	{
+	German = Bewegt;
+	French = En mouvement;
+	}
+
+[Nanolathing]
+	{
+	German = Nanostrahlt;
+	French = NanoConstr. en cours;
+	}
+
+[Paralyzed]
+	{
+	German = Paralysiert;
+	French = immobilisée;
+	}
+
+[Parking]
+	{
+	German = Parkt;
+	French = en stationnement;
+	}
+
+[Patrolling]
+	{
+	German = Patrouilliert;
+	French = en patrouille;
+	}
+
+[Patrolling for damaged units]
+	{
+	German = Sucht nach beschäigten Einheiten;
+	French = à la recherche d'unités endommagées;
+	}
+
+[Ready]
+	{
+	German = Fertig;
+	French = prêt;
+	}
+[Ready with orders]
+	{
+	German = Befehle ausgeführt;
+	French = Prêt pour les ordres;
+	}
+
+[Reclaiming]
+	{
+	German = Reklamiert;
+	French = unité prête au combat;
+	}
+
+[Repairing]
+	{
+	German = Repariert;
+	French = En train de réparer;
+	}
+[Repair patrol]
+	{
+	German = Patrouille reparieren;
+	French = Ptrouille de réparation;
+	}
+[Seeking to attack]
+	{
+	German = Versucht anzugreifen;
+	French = Cherche à lancer une attaque;
+	}
+
+[Seeking to defend]
+	{
+	German = Versucht zu verteidigen;
+	French = essaye d'assurer la défense ;
+	}
+
+[Seeking to land]
+	{
+	German = Versuche zu landen;
+	French = Cherche un lieu d'atterrissage;
+	}
+
+[SELF DESTRUCT ENGAGED]
+	{
+	German = SELBSTZERSTÖRUNG AKTIVIERT;
+	French = AUTODESTRUCTION ENCLENCHEE;
+	}
+
+[Standby]
+	{
+	German = Wartet;
+	French = En Attente;
+	}
+
+[Stopping]
+	{
+	German = Stoppt;
+	French = à l'arrêt;
+	}
+
+[Suppressing fire]
+	{
+	German = Stellt Feuer ein;
+	French = cesse le feu;
+	}
+
+[Surfacing]
+	{
+	German = Taucht auf;
+	French = Fait surface;
+	}
+
+[Teleporting]
+	{
+	German = Teleportiert;
+	French = en téléportation;
+	}
+
+[Under construction]
+	{
+	German = Im Bau;
+	French = En construction;
+	}
+
+[Under repair]
+	{
+	German = Wird repariert;
+	French = En réparations;
+	}
+
+[Unit is available]
+	{
+	German = Einheit ist verfügbar;
+	French = Unité disponible;
+	}
+
+[Waiting]
+	{
+	German = Wartet;
+	French = En attente;
+	}
+
+[Waiting for attack]
+	{
+	German = Wartet auf Angriff;
+	French = En attente pour l'attaque;
+	}
+
+// Feature descriptions
+
+[Description]
+	{
+	German = Beschreibung;
+	French = Description;
+	}
+
+[Plant]
+	{
+	German = Pflanze;
+	French = Brûlée;
+	}
+
+
+[Burnt Plant]
+	{
+	German = Verbrannte Pflanze;
+	French = Végétation Brûlée;
+	}
+[Hole]
+	{
+	German = Loch;
+	French = Trou;
+	}
+[Crater]
+	{
+	German = Krater;
+	French = Cràtre;
+	}
+
+[Foliage]
+	{
+	German = Gebüsch;
+	French = Végétation;
+	}
+
+[Rock]
+	{
+	German = Felsen;
+	French = Roche;
+	}
+
+[Metal]
+	{
+	German = Metall;
+	French = Métal;
+	}
+
+[Thermal Vent]
+	{
+	German = Thermalwind;
+	French = Aération thermique;
+	}
+
+[Wreckage]
+	{
+	German = Trümmer;
+	French = Epave;
+	}
+
+[Metal]
+	{
+	German = Metall;
+	French = Métal;
+	}
+
+[Burnt Foliage]
+	{
+	German = Verbranntes Waldgebiet;
+	French = Végétation Brûlée;
+	}
+[Burnt Tree]
+	{
+	German = Verbrannter Baum;
+	French = Arbre Brûlée;
+	}
+
+[Tree]
+	{
+	German = Baum;
+	French = Brûlée;
+	}
+
+	
+[Ice Chunks]
+	{
+	German = Eisklumpen;
+	French = Blocs de Glace;
+	}
+
+[Damaged Terrain]
+	{
+	German = Beschädigtes Gelände;
+	French = Terrain endommagé;
+	}
+[Damaged Surface]
+	{
+	German = Beschädigtes Gelände;
+	French = Terrain endommagé;
+	}
+
+[DragonsTeeth]
+	{
+	German = Panzersperre;
+	French = Dent du dragon;
+	}
+
+[Metal Deposit]
+	{
+	German = Metallvorkommen;
+	French = Gisement de métal;
+	}
+
+[Node]
+	{
+	German = Rohstoff;
+	French = Nodule;
+	}
+
+[Spire]
+	{
+	German = Felsspitze;
+	French = Aiguille;
+	}
+
+[Glyph]
+	{
+	German = Symbol;
+	French = Glyphe;
+	}
+
+[Ruin]
+	{
+	German = Ruine;
+	French = Ruine;
+	}
+
+[Seismic Monitor]
+	{
+	German = Erdbebenüberwachung;
+	French = Moniteur Sismique;
+	}
+
+[Pipe]
+	{
+	German = Rohr;
+	French = Tuyau;
+	}
+[Communications Uplink]
+	{
+	German = Kommunikationsverbindung;
+	French = Moyen de Communications;
+	}
+
+[Communication Tower]
+	{
+	German = Kommunikationsturm;
+	French = Tour de communications;
+	}
+[Regulator Complex]
+	{
+	German = Regulatorkomplex;
+	French = Complexe Régulateur;
+	}
+
+[Thermal Regulator]
+	{
+	German = Thermostat;
+	French = Régulateur thermique;
+	}
+
+[Transmitter]
+	{
+	German = Sender;
+	French = Transmetteur;
+	}
+
+[Pressure Release Valvue]
+	{
+	German = Druckentlastungsventil;
+	French = Valve de Relâchement de Pression;
+	}
+
+
+// Multiplayer online interface messages
+
+[Invalid TCP/IP Address]
+	{
+	German = TCP/IP funktioniert je nach Verwendung nicht richtig.;
+	French = Risques de problèmes selon l'utilisation de TCP/IP.;
+	}
+
+
+
+[Enter TCP address (leave blank to search)]
+	{
+	German = TCP-Adresse eingeben;
+	French = Entrer l'adresse TCP;
+	}
+[Phone Numbers]
+	{
+	German = Telefonnummern;
+	French = Numéros;
+	}
+[Number]
+	{
+	German = Nummer;
+	French = Numéro;
+	}
+[Test String]
+	{
+	German = Testzeile;
+	French = Test Ligne;
+	}
+
+[Modem]
+	{
+	German = Modem;
+	French = Modem;
+	}
+
+[Port]
+	{
+	German = Port;
+	French = Port;
+	}
+
+	
+[Answer]
+	{
+	German = Antworten;
+	French = Répondre;
+	}
+[Dial]
+	{
+	German = Wählen;
+	French = Appeler;
+	}
+[Host]
+	{
+	German = Host;
+	French = Hôte;
+	}
+
+	
+[Play Free on TEN]
+	{
+	German = Spielen Sie gratis auf TEN;
+	French = Jeu libre sur TEN;
+	}
+[Play]
+	{
+	German = Spielen;
+	French = Jeu;
+	}
+	
+[Unit Download]
+        {
+        German = Einheiten herunterladen;
+        French = Télécharger Unité;
+        }
+
+[Get Mplayer]
+        {
+        German = Mit MPlayer verbinden;
+        French = Entendre Mplayer;
+        }
+
+
+// In game pop-up messages
+
+[Game Name]
+	{
+	German = Spielnamen;
+	French = Nom de la partie;
+	}
+[Map game will play on]
+	{
+	German = Gewählte Spiel-Karte;
+	French = Carte choisie;
+	}
+[Does dead commander end game?]
+	{
+	German = Beendet toter Commander das Spiel?;
+	French = La partie se termine-t-elle avec la destruction du Commandeur?;
+	}
+[Average latency (big is bad)]
+	{
+	German = Durchschnittliche Zeitverzögerung;
+	French = Moyenne de Transmission;
+	}
+[Type of Line of Sight]
+	{
+	German = Sichtlinientyp;
+	French = Type de Champ de Vision;
+	}
+[Tells if you start with map]
+	{
+	German = Sichtbare Karte;
+	French = Visibilitié;
+	}
+	
+[Starting metal amount]
+	{
+	German = Metallmenge starten;
+	French = Editer Métal;
+	}
+[Starting energy amount]
+	{
+	German = Energiemenge starten;
+	French = Editer Energie;
+	}
+
+[Click to edit energy value.]
+	{
+	German = Klicken Sie, um Energiewert zu verwändern.;
+	French = Cliquez pour éditer la quantité d'énergie.;
+	}
+
+[Click to set energy value.]
+	{
+	German = Klicken Sie, um Energiewert einzugeben.;
+	French = Cliquez pour définir la quantité d'énergie.;
+	}
+
+[Click to edit metal value.]
+	{
+	German = Klicken Sie, um Metallwert zu verwändern.;
+	French = Cliquez pour éditer la quantité de métal.;
+	}
+
+[Click to set metal value.]
+	{
+	German = Klicken Sie, um Metallwert einzustellen.;
+	French = Cliquez pour définir la quantité de métal.;
+	}
+[Left click to increase metal. Right click to decrease metal.]
+	{
+	German = Linksklick erhöht Metall, Rechtsklick verringert es.;
+	French = Clic Gauche pour augmenter le métal. Clic Droit pour réduire le métal.;
+	}
+[Left click to increase energy. Right click to decrease energy.]
+	{
+	German = Linksklick erhöht Energie, Rechtsklick verringert sie.;
+	French = Clic Gauche pour augmenter l'énergie. Clic Droit pour réduire l'énergie.;
+	}
+
+[Click to select an allegiance symbol.]
+	{
+	German = Klicken Sie, um ein Treuesymbol auszuwählen.;
+	French = Cliquez pour sélectionner un symbole d'allégeance.;
+	}
+
+[Players in game / Max players]
+	{
+	German = Angemeldete Spieler/ Max. Spielerzahl;
+	French = Joueur Présent/Max. de Joueurs;
+	}
+
+[Tells if game is in play]
+	{
+	German = Spiel Status;
+	French = Statut de jeu;
+	}
+[Game ends when commander is destroyed.]
+	{
+	German = Spiel endet, wenn Commander zerstört ist;
+	French = Le jeu se termine quand le commandeur est détruit;
+	}
+
+[Game continues after Commander is destroyed.]
+	{
+	German = Spiel geht weiter, nachdem Commander zerstört ist.;
+	French = Le jeu continue quand le commandeur est détruit.;
+	}
+
+[Commanders are placed at pre-determined locations.]
+	{
+	German = Commander werden an vorbestimmten Positionen plaziert.;
+	French = Les commandeurs sont placés à des endroits définis.;
+	}
+[Commanders are randomly placed on the battle field.]
+	{
+	German = Commander werden an zufällige Positionen plaziert.;
+	French = Les commandeurs sont placés aléatoirement sur le champ de bataille.;
+	}
+
+[Terrain is blacked out until explored.]
+	{
+	German = Gelände erscheint schwarz, bis es erforscht wurde.;
+	French = Le terrain reste noir tant qu'il n'a pas été exploré.;
+	}
+
+[Terrain is visible.]
+	{
+	German = Gelände ist sichtbar.;
+	French = Le terrain est visible.;
+	}
+
+[Terrain elevations affect a unit's view.]
+	{
+	German = Geländeerhabungen beinflussen die Sicht der Einheiten.;
+	French = Le dénivelé du terrain affecte le champ de vision des unités.;
+	}
+
+[Terrain elevations do not affect a unit's view.]
+	{
+	German = Geländeerhabungen beinflussen nicht die Sicht der Einheiten.;
+	French = Le dénivelé du terrain n'affecte pas le champ de vision d'une unité.;
+	}
+
+[All mapped terrain is visible.]
+	{
+	German = Alles Gelände der karte ist sichtbar.;
+	French = Tout le terrain est visible.;
+	}
+
+[Exit Mission]
+	{
+	German = Mission beenden;
+	French = Quitter la Mission;
+	}
+
+[Exit Skirmish]
+	{
+	German = Gefecht beenden;
+	French = Quitter la Bataille;
+	}
+
+[Exit Battle]
+	{
+	German = Gefecht beenden;
+	French = Quitter le Combat;
+	}
+
+[Restart Mission]
+	{
+	German = Mission neu starten;
+	French = Recommencer la Mission;
+	}
+
+[Restart Skirmish]
+	{
+	German = Gefecht neu starten;
+	French = Recommencer la Bataille;
+	}
+
+[Restart]
+	{
+	German = Neustart;
+	French = Redémarrer;
+	}	
+
+[Close Windows CD Player?]
+	{
+	German = Den unter Windows angemeldeten CD-Spieler schließen?;
+	French = Ferme le lecteur CD de Windows?;
+	}
+
+[CD Music]
+	{
+	German = CD Musik;
+	French = Musique CD;
+	}
+
+
+[Surrender this battle and return to main menu?]
+	{
+	German = Wollen Sie kapitulieren und ins Hauptmenü zurückkehren?;
+	French = Abandonner cette bataille et retourner au menu principal?;
+	}
+
+[Surrender this battle and exit to Windows?]
+	{
+	German = Wollen Sie kapitulieren und zu Windows zurückkehren?;
+	French = Abandonner cette bataille et retourner sous Windows?;
+	}
+
+
+
+// Title Screen
+
+[SINGLE]
+	{
+	German = EINZEL;
+	French = SIMPLE;
+	}
+[Single]
+	{
+	German = Einzel;
+	French = Simple;
+	}
+
+[MULTI]
+	{
+	German = MEHRSPIELER;
+	French = MULTI;
+	}
+
+[INTRO]
+	{
+	German = INTRO;
+	French = INTRO;
+	}
+
+[EXIT]
+	{
+	German = ENDE;
+	French = QUITTER;
+	}
+[Exit]
+	{
+	German = Ende;
+	French = Quitter;
+	}
+
+// In-Game Help Screen
+
+[Keyboard Commands]
+	{
+	German = Tastaturbefehle;
+	French = Commandes au clavier;
+	}
+
+[Title]
+	{
+	German = Titel;
+	French = Titre;
+	}
+
+[ESC]
+	{
+	German = ESC;
+	French = ECHAP;
+	}
+[Cancels the current command]
+	{
+	German = Bricht den aktivierten Befehl ab;
+	French = Annule l'ordre donné avant qu'il ne soit effectué;
+	}
+
+[CTRL1 - CTRL9]
+	{
+	German = STRG1 - STRG9;
+	French = CTRL1 - CTRL9;
+	}
+
+[Assign the currently selected units to a squad]
+	{
+	German = Weist einer Einsatzgruppe zu;
+	French = Ordonne rejoindre un escadron;
+	}
+
+[ ALT1 - ALT9]
+	{
+	German = ALT1 - ALT9;
+	French = ALT1 - ALT9;
+	}
+[Select squad]
+	{
+	German = Aktiviert die gerade festgelegte Einsatzgruppe;
+	French = Active l'escadron précédemment;
+	}
+
+
+[B]
+	{
+	German = B;
+	French = B;
+	}
+[Select the Build menu for the current unit]
+	{
+	German = Wählt das Bau Menü für diese Einheit;
+	French = Affiche le menu Construction de l'unité sélectionée;
+	}
+
+[O]
+	{
+	German = O;
+	French = O;
+	}
+[Select the Orders menu for the current unit]
+	{
+	German = Wählt das Befehl Menü für diese Einheit;
+	French = Affiche le menu Ordres de l'unité sélectionnée;
+	}
+
+[1 - 9]
+	{
+	German = 1 - 9;
+	French = 1 - 9;
+	}
+[Select the menu for the current unit]
+	{
+	German = Wählt das Menü für die aktivierte Einheit;
+	French = Sélectionne un menu pour l'unité choisie;
+	}
+
+
+[, (comma)]
+	{
+	German = , (Komma);
+	French = , (virgule);
+	}
+[Select the previous menu for that unit]
+	{
+	German = Wählt das vorige Menü für die aktivierte Einheit;
+	French = Sélectionne le menu précédent de l'unité;
+	}
+
+[. (period)]
+	{
+	German = . (Punkt);
+	French = . (point);
+	}
+[Select the next menu for that unit]
+	{
+	German = Wählt das nächste Menü für diese Einheit;
+	French = Sélectionne le menu suivant de l'unité;
+	}
+
+
+[~ (tilde)]
+	{
+	German = ~ (Tilde);
+	French = ~ (touche};
+	}
+[Toggle damage bars on the units]
+	{
+	German = Schaltet zwischen der Schadensleisten der Einheiten;
+	French = Faite apparaître la barre de dégâts des unités;
+	}
+
+
+[PAUSE]
+	{
+	German = PAUSE;
+	French = PAUSE;
+	}
+[Pause the game]
+	{
+	German = Unterbricht das Spiel;
+	French = Place le jeu position Pause;
+	}
+
+[F1]
+	{
+	German = F1;
+	French = F1;
+	}
+[Display information on selected unit]
+	{
+	German = Zeigt Information über die gewählte Einheit an;
+	French = Affiche des informations sur l'unité sélectionnée;
+	}
+
+[F2]
+	{
+	German = F2;
+	French = F2;
+	}
+[Display the Options menu]
+	{
+	German = Öffnet das Optionenmenü;
+	French = Faite apparaître le menu Options;
+	}
+
+[F3]
+	{
+	German = F3;
+	French = F3;
+	}
+[Selects the unit that last reported/chatted information]
+	{
+	German = Geht zu der Einheit, die zuletzt berichtet hat;
+	French = Accède à l'unité qui vient de communiquer avec vous;
+	}
+
+[CTRL+F9]
+	{
+	German = STRGF9;
+	French = CTRL+F9;
+	}
+[Screen capture]
+	{
+	German = Screen Capture, legt das Bild in die Datei SHOT ####.pxc ab.;
+	French = Capture d'écran.;
+	}
+
+[F12]
+	{
+	German = F12;
+	French = F12;
+	}
+[Clear all chat messages]
+	{
+	German = Löscht alle Nachrichten;
+	French = Efface tous les messages à l'écran;
+	}
+
+[CTRL+A]
+	{
+	German = CTRL+A;
+	French = CTRL+A;
+	}
+[Select all units]
+	{
+	German = Alle Einheiten auswählen;
+	French = Sélectionne toutes vos unités;
+	}
+
+[CTRL+C]
+	{
+	German = CTRL+C;
+	French = CTRL+C;
+	}
+[Select the Commander]
+	{
+	German = Zentriert den Bildschirm und wählt den Commander;
+	French = Recentre l'écran et sélectionner votre Commandeur;
+	}
+
+[CTRL+D]
+	{
+	German = CTRL+D;
+	French = CTRL+D;
+	}
+[Destruct selected unit(s)]
+	{
+	German = Aktiviert Selbstzerstörung der gewählten Einheiten;
+	French = Active l'autodestruction des unités sélectionnées;
+	}
+
+[CTRL+S]
+	{
+	German = CTRL+S;
+	French = CTRL+S;
+	}
+[Select all units currently on the screen]
+	{
+	German = Wählt alle Einheiten auf dem Bildschirm;
+	French = Sélectionne toutes les unités à l'écran;
+	}
+
+[CTRL+Z]
+	{
+	German = CTRL+Z;
+	French = CTRL+Z;
+	}
+[Select all units of same type]
+	{
+	German = Wählt alle Einheiten des selben Typs;
+	French = Sélectionne toutes les unités de même nature;
+	}
+
+[A]
+	{
+	German = A;
+	French = A;
+	}
+[Give an attack order]
+	{
+	German = Erteilt einen Angriffsbefehl;
+	French = Donne l'ordre d'attaquer;
+	}
+
+[G]
+	{
+	German = G;
+	French = G;
+	}
+[Give a guard order]
+	{
+	German = Erteilt einen Bewachen-Befehl;
+	French = Donne l'ordre de protéger;
+	}
+
+[M]
+	{
+	German = M;
+	French = M;
+	}
+[Give a move order]
+	{
+	German = Erteilt einen Bewegen-Befehl;
+	French = Donne l'ordre de se déplacer;
+	}
+
+[P]
+	{
+	German = P;
+	French = P;
+	}
+[Give a patrol order]
+	{
+	German = Gibt einen Patrouille-Befehl;
+	French = Donne l'ordre de patrouiller;
+	}
+
+[S]
+	{
+	German = S;
+	French = S;
+	}
+[Give a stop order (cancel previous orders)]
+	{
+	German = Gibt einen Haltbefehl;
+	French = Annule tous le ordres précédents;
+	}
+
+[D]
+	{
+	German = D;
+	French = D;
+	}
+[Use the Disintegrator Gun]
+	{
+	German = Den Disintegrator verwenden;
+	French = Utiliser le canon Désintégrateur;
+	}
+
+[C]
+	{
+	German = C;
+	French = C;
+	}
+[Give a capture order]
+	{
+	German = Gibt einen Erobern-Befehl;
+	French = Donne l'ordre de capturer;
+	}
+
+[R]
+	{
+	German = R;
+	French = R;
+	}
+[Give a repair order]
+	{
+	German = Gibt einen Reparaturbefehl;
+	French = Donne l'ordre de réparer;
+	}
+
+[E]
+	{
+	German = E;
+	French = E;
+	}
+[Give a reclaim order]
+	{
+	German = Gibt einen Einfordern-Befehl;
+	French = Donne l'ordre de reprendre;
+	}
+
+[H]
+	{
+	German = H;
+	French = H;
+	}
+[Share resources with another player]
+	{
+	German = Teilt die Ressourcen mit einem anderen Spieler;
+	French = Partager les resources avec un autre joueur;
+	}
+
+[N]
+	{
+	German = N;
+	French = N;
+	}
+[Scroll to the next unit off screen]
+	{
+	German = Scroll zur nächsten Einheit;
+	French = Fait défiler l'écran vers l'unité hors champ;
+	}
+
+[T]
+	{
+	German = T;
+	French = T;
+	}
+[Track the selected unit]
+	{
+	German = Die gewählte Einheit vervolgen;
+	French = Recherche l'unité sélectionné;
+	}
+
+[-]
+	{
+	German = -;
+	French = -;
+	}
+[Reduce the game speed]
+	{
+	German = Verringert die Spielgeschwindigkeit;
+	French = Ralentir le jeu;
+	}
+
+[+]
+	{
+	German = +;
+	French = +;
+	}
+[Increase the game speed]
+	{
+	German = Erhöht die Spielgeschwindigkeit;
+	French = Accélérer le jeu;
+	}
+
+[SHIFT]
+	{
+	German = SHIFT;
+	French = Majuscule;
+	}
+[Hold down to queue up multiple commands]
+	{
+	German = Halten Sie diese Taste gedrückt, um mehrere Befehle einzugeben;
+	French = A maintenir enforcée pour cumuler les ordres;
+	}
+
+[ENTER]
+	{
+	German = ENTER;
+	French = Entrée;
+	}
+[Activate the message bar]
+	{
+	German = Aktiviert die Nachrichtenzeile;
+	French = Active la barre de messages;
+	}
+[Turn Rate]
+	{
+	German = Umdrehungsrate;
+	French = Vitesse des tours;
+	}
+
+
+
+// Multiplayer map names and descriptions
+
+[painted desert]
+	{
+	German = Die gemalte Wüste;
+	French = Désert de pastels;
+	}
+[18 x 18  battle in the many mesas area.]
+	{
+	German = 18 x 18 Die Schlacht in der Wüste von Many Mesas.;
+	French = 18 x 18 Nombreux plateaux.;
+	}
+
+[caldera's rim]
+	{
+	German = Calderas Rand;
+	French = Bord de Caldéra;
+	}
+[29 x 29  sunken volcanic crater in center of map]
+	{
+	German = 29 x 29 Versunkener Vulkankrater in der Kartenmitte;
+	French = 29 x 29 Un ancien volcan occupe le centre de cette zone.;
+	}
+
+[coast to coast]
+	{
+	German = Von Küste zu Küste;
+	French = D'un rivage à l'autre;
+	}
+[7 x 4  water between two coasts. weak tides.]
+	{
+	German = 7 x 4 Wasser zwischen den beiden Küsten. Schwache Gezeiten;
+	French = 7 x 4 Zone aqueuse séparée par 2 rivages. Faible marée.;
+	}
+
+[dark side]
+	{
+	German = Die dunkle Seite;
+	French = Ténébrae;
+	}
+[6 x 5  lunar map with plenty of metal]
+	{
+	German = 6 x 5 Mondkarte mit großen Metallvorkommen;
+	French = 6 x 5 Paysage lunaire principalement composé de métal;
+	}
+
+[etorrep glacier]
+	{
+	German = Der Etorret-Gletscher;
+	French = Glacier d'Etorret;
+	}
+[5 x 8  strong winds coming from ocean.]
+	{
+	German = 5 x 8 Starke Winde von der Seeseite.;
+	French = 5 x 8 Zone désertique battue par des vents marins.;
+	}
+
+[fox holes]
+	{
+	German = Fuchsbau;
+	French = L'antre du renard;
+	}
+[7 x 7  strong winds. more metal on high ground.]
+	{
+	German = 7 x 7 Starke Winde. Mehr Metalle auf der Hochebene.;
+	French = 7 x 7 Secteur venteux et riche en métal.;
+	}
+[full moon]
+	{
+	German = Vollmond;
+	French = Pleine lune;
+	}
+[8 x 8  fighting on the naryb highlands. no wind.]
+	{
+	German = 8 x 8 Kämpfe in den Maryb Highlands. Kein Wind.;
+	French = 8 x 8 Région montagneuse de Maryb. Vent inexistant.;
+	}
+
+
+[gods of war]
+	{
+	German = Die Kriegsgötter;
+	French = Les Dieux vengeurs;
+	}
+[9 x 8  asymmetric water map.]
+	{
+	German = 9 x 8 Asymmetrische Seekarte;
+	French = 9 x 8 Zone aqueuse asymétrique.;
+	}
+
+
+
+[great divide]
+	{
+	German = Die Große Teilung;
+	French = La grand crevasse;
+	}
+[5 x 8  fight through a mountain pass.]
+	{
+	German = 5 x 8 Kämpfen Sie sich über einen Gebirgspaß.;
+	French = 5 x 8 Col escarpé d'une vaste montagne.;
+	}
+
+
+[hundred isles]
+	{
+	German = Hundert Inseln;
+	French = Les cent îsles;
+	}
+[12 x 12  fighting on over a hundred small islands]
+	{
+	German = 12 x 12 Kämpfen Sie sich durch einige hundert Inseln.;
+	French = 12 x 12 Zone composée d'une centaine de petites îles.;
+	}
+
+
+
+[kill the middle]
+	{
+	German = Die Mitte ausschalten;
+	French = La plaine du massacre;
+	}
+[13 x 13  powerful player in middle of map on island.]
+	{
+	German = 13 x 13 Ein mächtiger Spieler in der Mitte auf einer Insel;
+	French = 13 x 13 Centre d'une île.;
+	}
+
+
+[king of the hill]
+	{
+	German = Der Hügelkönig;
+	French = Célébrite méritée;
+	}
+[16 x 16  fight for a metal rich mountain. strong wind.]
+	{
+	German = 16 x 16 Kampf um einen Berg voller Metall. Starker Wind.;
+	French = 16 x 16 Montagne riche en métal. Vents violents.;
+	}
+
+
+[lava & two hills]
+	{
+	German = Lava mit zwei Bergen;
+	French = Les deux collines de lave;
+	}
+[9 x 8  two giant hills & a river of lava between them]
+	{
+	German = 9 x 8 Zwei riesige Berge und ein Lavastrom dazwischen.;
+	French = 9 x 8 Deux imposantes collines séparent une rivière de lave.;
+	}
+
+
+
+[lava highground]
+	{
+	German = Die Lavahochebene;
+	French = Les hautes spères de lave;
+	}
+[8 x 8  fight over narrow ramps.]
+	{
+	German = 8 x 8 Kämpfen Sie sich durch enge Karten.;
+	French = 8 x 8 Secteurs particulièrement étroits.;
+	}
+
+
+[lava mania]
+	{
+	German = Lava-Manie;
+	French = Sol de feu;
+	}
+[8 x 8  strong winds.]
+	{
+	German = 8 x 8 Starke Winde.;
+	French = 8 x 8 Vents violents.;
+	}
+
+
+[lava run]
+	{
+	German = Lavastorm;
+	French = La coulée de lave;
+	}
+[13 x 4  lava strip down center. high winds.]
+	{
+	German = 13 x 4 Ein Lavastreifen in der Mitte. Windig.;
+	French = 13 x 4 Terrain volcanique. Beaucoup de vent.;
+	}
+
+
+
+[greenhaven]
+	{
+	German = Greenhaven;
+	French = Vert-refuge;
+	}
+[16 x 16  large map with many hills to hide behind.]
+	{
+	German = 16 x 16 Große Karte mit vielen Hügeln und Verstecken.;
+	French = 16 x 16 Secteur avec diverses collines pour se dissimuler;
+	}
+
+
+[metal heck]
+	{
+	German = Die Metallhölle;
+	French = Marais métallique;
+	}
+[8 x 8  fight in the metal cross region.]
+	{
+	German = 8 x 8 Kämpfen Sie in einer launischen Metallwelt.;
+	French = 8 x 8 Région métallique.;
+	}
+
+
+
+[red hot lava]
+	{
+	German = Rote heiße Lava;
+	French = Monde en fusion;
+	}
+[11 x 9  many hills and lava pools. plenty of metal]
+	{
+	German = 11 x 9 Viele Hügel und Lavaseen. Viel Metall.;
+	French = 11 x 9 Zone métallique et volcanique. Nombreuses collines.;
+	}
+
+
+
+[red planet]
+	{
+	German = Der rote Planet;
+	French = Planète rouge;
+	}
+[9 x 9   many small hills and pools]
+	{
+	German = 9 x 9 Viele kleine Hügel und Seen.;
+	French = 9 x 9 Multiples collines et bassins de petites tailles.;
+	}
+
+
+[red triangle]
+	{
+	German = Das rote Dreieck;
+	French = Triangle rouge;
+	}
+[16 x 16  powerful tides and strong winds.]
+	{
+	German = 16 x 16 Mächtige Gezeiten und starke Winde.;
+	French = 16 x 16 Forte marée et vent violent.;
+	}
+
+
+[ring atoll]
+	{
+	German = Das kreisrunde Atoll;
+	French = L'atoll encerclé;
+	}
+[21 x 21  powerful tides. ground units can use shallow water.]
+	{
+	German = 21 x 21 Bodeneinheiten können sich in seichtem Wasser bewegen.;
+	French = 21 x 21 Grandes marées. Déplacements terrestres à marée basse.;
+	}
+
+
+
+
+[rock alley]
+	{
+	German = Die Felsenallee;
+	French = Passage de granite;
+	}
+[9 x 21  fight in mountian valley.]
+	{
+	German = 9 x 21 Kämpfe im Bergtal.;
+	French = 9 x 21 Vallée au centre d'un secteur montagneux.;
+	}
+
+
+[sherwood]
+	{
+	German = Sherwood;
+	French = Sherwood;
+	}
+[6 x 6  fighting around 3 large hills]
+	{
+	German = 6 x 6 Der Kampf rund um drei große Hügel.;
+	French = 6 x 6 Zone composée de 3 vastes collines.;
+	}
+
+[shore to shore]
+	{
+	German = Von Strand zur Strand;
+	French = D'un littoral à l'autre;
+	}
+[29 x 4  two coasts with large ocean between them.]
+	{
+	German = 29 x 4 Zwei Küstenstreifen mit großem Ozean dazwischen.;
+	French = 29 x 4 Deux rivages séparés par un gigantesque océan.;
+	}
+
+
+[the desert triad]
+	{
+	German = Die Wüstentriade;
+	French = La triade du désert;
+	}
+[6 x 6  fighting on 3 mesas.]
+	{
+	German = 6 x 6 Kämpfen Sie auf drei flachen Ebenen.;
+	French = 6 x 6 Trois grands plateaux écrasés par le soleil.;
+	}
+
+
+
+[two continents]
+	{
+	German = Zwei Kontinente;
+	French = Les deux continents;
+	}
+[22 x 25  metal in the middle of the map.]
+	{
+	German = 22 x 25 Metallvorkommen in der Kartenmitte.;
+	French = 22 x 25 Zone métallique au centre de cette région.;
+	}
+
+
+
+[yerrot mountains]
+	{
+	German = Die Yerrot-Berge;
+	French = Le mont Yerrot;
+	}
+[27 x 23  mountain range with lots of metal.]
+	{
+	German = 27 x 23 Berglandschaft mit reichem Metallvorkommen.;
+	French = 27 x 23 Région montagneuse, riche en métal.;
+	}
+
+
+[pincushion]
+	{
+	German = Das Nadelkissen;
+	French = La fourmilière;
+	}
+[13 x 13  a fight amongst lava spires]
+	{
+	German = 13 x 13 Der Kampf zwischen den Lavaspitzen.;
+	French = 13 x 13 Terrain escarpé, composé de pics de lave.;
+	}
+
+
+
+[over crude water]
+	{
+	German = Über rauhe See;
+	French = En eaux troubles;
+	}
+[25 x 25  a maze of metal bridges.]
+	{
+	German = 25 x 25 Im Labyrinth der Metallbrücken.;
+	French = 25 x 25 Un labyrinthe de ponts en acier.;
+	}
+
+
+
+[seven islands]
+	{
+	German = Sieben Inseln;
+	French = Les sept îles;
+	}
+[40 x 40  huge sea battle on core prime]
+	{
+	German = 40 x 40 Große Seeschlacht auf CORE PRIME.;
+	French = 40 x 40 Vaste océan sur Core Prime.;
+	}
+
+
+[ashap plateau]
+	{
+	German = Das Ashap-Plateau;
+	French = Plateau d'Ashap;
+	}
+[9 x 9  metal on rough lower level]
+	{
+	German = 9 x 9 Metall auf rauher unterer Ebene.;
+	French = 9 x 9 Terrain accidenté et riche en métal.;
+	}
+
+[the cold place]
+	{
+	German = Der kalte Palast;
+	French = Le glacis;
+	}
+[15 x 11  fighting on a flat tundra with very strong winds.]
+	{
+	German = 15 x 11 Kämpfe in flacher Tundra bei starken Winden.;
+	French = 15 x 11 Terrain plat et battu par les vents.;
+	}
+
+[evad river confluence]
+	{
+	German = Zusammenstoß am Evad River ;
+	French = L'affluent de la rivière Evad;
+	}
+[11 x 10 map.  intermittent winds]
+	{
+	German = 11 x 10 Periodisch auftretende Winde.;
+	French = 11 x 10 Vents irréguliers.;
+	}
+
+[lava alley]
+	{
+	German = Lava-Allee;
+	French = Passage de lave;
+	}
+[18 x 18  fighting in narrow valleys.]
+	{
+	German = 18 x 18 Kampf in engen Tälern.;
+	French = 18 x 18 Zone composée d'étroites vallées.;
+	}
+
+[the pass]
+	{
+	German = Der Paß;
+	French = Le Col;
+	}
+[7 x 4  fight to control a winding mountian pass.]
+	{
+	German = 7 x 4 Die Kontrolle über einen gewundenen Gebirgspaß.;
+	French = 7 x 4 Passage montagneux. Vent violent;
+	}
+
+[anteer strait]
+	{
+	German = Straße von Anteer;
+	French = Anteer Straight;
+	}
+
+[18 x 18  fight in an iceburg filled ocean. strong tides.]
+	{
+	German = 18 x 18 Kampf im Eismeer. Starke Gezeiten.;
+	French = 18 x 18 Océan glacé. Nombreux icebergs et vent violent.;
+	}
+
+
+
+
+// Possible Error Messages
+
+[The requested campaign file, %s, does not exist.]
+	{
+	German = Die gewünschte Kampagnen-Datei, %s, existiert nicht.;
+	French = Le fichier %s correspondant à la campagne demandée n'existe pas.;
+	}
+[Error -- Unnamed Mission]
+	{
+	German = Fehler - Unbenannte Mission;
+	French = Error -- Erreur - Pas de nom de mission;
+	}
+[The requested mission file, %s, does not exist.]
+	{
+	German = Die gewünschte Missionsdatei, %s, existiert nicht.;
+	French = Le fichier %s correspondant à la mission demandée n'existe pas.;
+	}
+[No GlobalHeader block in mission file!]
+	{
+	German = Kein GlobalHeader-Block in Missionsdatei!;
+	French = Le fichier de la mission n'a pas de bloc GlobalHeader;
+	}
+[No description available]
+	{
+	German = Keine Beschreibung verfügbar;
+	French = Pas de description disponible;
+	}
+[No suitable schema type in mission file!]
+	{
+	German = Keine passendes Schema in Missionsdatei!;
+	French = Pas de schéma adéquat dans fichier de mission;
+	}
+[Very bad news!  No MSG!]
+	{
+	German = Kein MSG;
+	French = Pas de MSG;
+	}
+[Hey, hoser!  The default meteor shower data was bogus!]
+	{
+	German = Der Standarddaten für Meteoritenschauer waren nicht korrekt.;
+	French = Les données pour les pluies de météores par défaut sont incorrectes;
+	}
+[Could not open movie file, please check filename in INI.]
+	{
+	German = Konnte die Movie-Datei nicht finden, bitte Dateinamen in der INI prüfen.;
+	French = Impossible d'ouvrir le fichier. Vérifiez son nom dans INI;
+	}
+[Could not setup Direct Draw to play movie.]
+	{
+	German = Setup von DirectDraw zum Abspielen des Films war nicht möglich.;
+	French = Paramétrage de DirectDraw impossible;
+	}
+[Unsupported pixel format.]
+	{
+	German = Nicht unterstütztes Pixel-Format.;
+	French = Format de pixel non reconnu;
+	}
+[Smacker Error]
+	{
+	German = Smacker-Fehler;
+	French = Erreur de smacker;
+	}
+[Summary]
+	{
+	German = Zusammenfassung;
+	French = Résumé;
+	}
+[getbuilt]
+	{
+	German = wirdgebaut;
+	French = getbuilt;
+	}
+[TransportDrop]
+	{
+	German = Transportaufgabe;
+	French = Largage transport;
+	}
+[Suppressing fire]
+	{
+	German = Feuer auf Befehl;
+	French = Cessez le feu;
+	}
+[QueryTransport]
+	{
+	German = Anfrage Transport;
+	French = Question transport;
+	}
+[EndTransport]
+	{
+	German = Transportende;
+	French = Fin de transport;
+	}
+[QueryLandingPad]
+	{
+	German = Anfrage Landungsrampe;
+	French = Question atterrissage;
+	}
+[Landing aborted]
+	{
+	German = Landung abgebrochen;
+	French = Atterrissage annulé;
+	}
+[Invalid logo setting]
+	{
+	German = Ungültige Logo-Einstellung;
+	French = Paramètres de logo invalides;
+	}
+[Unable to start the thread!]
+	{
+	German = Kann die Seuqenz nicht starten.;
+	French = Erreur de chemin!;
+	}
+
+[Please insert the Total Annihilation CD and try again]
+	{
+	German = Bitte legen Sie die Total Annihilation CD ein und versuchen Sie es erneut.;
+	French = Insérez le CD de Total Annihilation et recommencez;
+	}
+
+[Please insert the Play CD and try again]
+	{
+	German = Bitte legen Sie die Spiel-CD ein und versuchen Sie es erneut.;
+	French = Insérez le CD du jeu de Total Annihilation et recommencez;
+	}
+[The Play CD was not found]
+	{
+	German = Bitte legen Sie die Spiel-CD;
+	French = Insérez le CD du jeu;
+	}
+[Please insert the Play CD]
+	{
+	German = Bitte legen Sie die Spiel-CD;
+	French = Insérez le CD du jeu;
+	}
+
+[Click to continue.]
+	{
+	German = Klicken Sie, um fortzufahren.;
+	French = Cliquez pour continuer;
+	}
+
+[Done]
+	{
+	German = Fertig;
+	French = Terminé;
+	}
+
+[Record "%s" missing from feature files]
+	{
+	German = Die Aufzeichnung '%s' aus den Feature-Dateien fehlt;
+	French = Enregistrement "%s" manquant dans fichier features.;
+	}
+[An error occurred trying to use this service]
+	{
+	German = Beim Versuch, diesen Service zu benutzen, ist ein Fehler aufgetreten";
+	French = Une erreur est apparue pendant l'utilisation du service";
+	}
+[expecting int]
+	{
+	German = erwarte Initi.;
+	French = Attente;
+	}
+[parse error reading AI profile %s\n%s\nlast string =]
+	{
+	German = Fehler beim Lesen der KI-Profile %s\n%s\nlast string =,;
+	French = Erreur de lecture profil IA %s\n%s\nlast string =,;
+	}
+[None]
+	{
+	German = Keine;
+	French = Aucun;
+	}
+[Incompatible units found.  They will be ignored.  Please download the latest version of the game.]
+	{
+	German = Inkompatible Einheiten gefunden. Diese werden ignoriert. Bitte laden Sie die neueste Version des Spiels herunter.;
+	French = Unités incompatibles décelées. Elles seront ignorées. Veuillez télécharger la dernière version du jeu.;
+	}
+[Can't load MOVEINFO.TDF]
+	{
+	German = Kann MOVEINFO.TDF nicht laden.;
+	French = Chargement impossible MOVEINFO.TDF;
+	}
+
+[Can't load GAMEDATA.TDF]
+	{
+	German = Kann GAMEDATA.TDF nicht laden.;
+	French = Chargement impossible GAMEDATA.TDF;
+	}
+[Connecting  (ESC to abort)]
+	{
+	German = Verbinde (ESC, um abzubrechen);
+	French = Connexion en cours (Echap pour annuler);
+	}
+[Lock]
+	{
+	German = Abschließen;
+	French = Verrouillé;
+	}
+[Blk]
+	{
+	German = schwz.;
+	French = Noir;
+	}
+[Gray]
+	{
+	German = Grau;
+	French = Gris;
+	}
+[Connecting... press ESC to abort]
+	{
+	German = Verbinde (ESC, um abzubrechen);
+	French = Connexion en cours (Echap pour annuler);
+	}
+[Unable to find any modems]
+	{
+	German = Keine Modems feststellbar.;
+	French = Modem introuvable;
+	}
+[allied with]
+	{
+	German = Verbündet mit;
+	French = est votre allié;
+	}
+[broke alliance with]
+	{
+	German = kündigt Allianz mit;
+	French = Alliance rompue avec;
+	}
+[There are not enough game CDs present to play]
+	{
+	German = Für das Spiel sind nicht genügend Spiel-CDs vorhanden.;
+	French = Pas assez de CD du jeu présents pour pouvoir jouer.;
+	}
+[You must select a map before starting]
+	{
+	German = Sie müssen vor dem Start eine Karte auswählen.;
+	French = Choisissez une carte pour commencer;
+	}
+[n/a]
+	{
+	German = n/v;
+	French = n/d;
+	}
+[View Map]
+	{
+	German = Karte ansehen;
+	French = Voir la carte;
+	}
+
+[Could not find the multiplayer map!!]
+	{
+	German = Kann die Multiplayer-Karte nicht finden!!;
+	French = Carte multijoueurs introuvable;
+	}
+[does not have this map]
+	{
+	German = verfügt nicht über diese Karte.;
+	French = n'a pas cette carte;
+	}
+[There are no saved lists to choose from]
+	{
+	German = Es sind keine gespeicherten Listen vorhanden.;
+	French = Liste de sauvegarde introuvable.;
+	}
+[has left the scene]
+	{
+	German = hat die Bühne verlassen.;
+	French = nous a quitté;
+	}
+[has been shown the door]
+	{
+	German = wurde die Tür gewiesen.;
+	French = a été mis à la porte;
+	}
+[has gone to a better place]
+	{
+	German = hat das Zeitliche gesegnet;
+	French = est parti visiter un autre site;
+	}
+[has bowed out]
+	{
+	German = wurde hinauskomplimentiert.;
+	French = a tiré sa révérence;
+	}
+[has terminated]
+	{
+	German = ist von uns gegangen.;
+	French = a mis fin à ses activités;
+	}
+[has been eradicated]
+	{
+	German = wurde ausgelöscht.;
+	French = a été éliminé;
+	}
+[has been liquidated]
+	{
+	German = wurde entfernt.;
+	French = a été liquidé;
+	}
+[has been obliterated]
+	{
+	German = wurde vernichtet.;
+	French = a été exterminé;
+	}
+
+[forces have been obliterated]
+	{
+	German = Streitkräfte wurden zerstört;
+	French = les forces ont été annihilées;
+	}
+[vermin have been exterminated]
+	{
+	German = Geziefer wurde vernichtet;
+	French = la vermine a été exterminée;
+	}
+[forces have gone to a better place]
+	{
+	German = Streitkräfte haben das Zeitliche gesegnet;
+	French = les forces sont parties vers un monde meilleur;
+	}
+
+
+[dropping a player due to TIMEOUT_SECS]
+	{
+	German = schließe einen Spieler wegen Zeitüberlaufs aus.;
+	French = Annulation d'un joueur pour cause de TIMEOUT_SECS;
+	}
+[%s is joining the game...]
+	{
+	German = %s tritt dem Spiel bei.
+	French = %s a rejoint la partie;
+	}
+[player dropped by DPSYS_]
+	{
+	German = Spieler von DPSYS ausgeschlossen;
+	French = Annulation joueur par DPSYS_;
+	}
+[player '%s' set to startpos %d\n]
+	{
+	German = Fehler beim Lesen der KI-Profile %s\n%s\nlast string =,;
+	French = Joueur '%s' en position de départ %d\n;
+	}
+[You're out!  Continue Watching?]
+	{
+	German = Sie sind draußen! Wollen Sie weiter zusehen?;
+	French = C'est fini pour vous. Vous restez en spectateur?;
+	}
+[Weapon]
+	{
+	German = Waffe;
+	French = Arme;
+	}
+
+[Please insert a Total Annihilation CD and try again]
+	{
+	German = Bitte legen Sie die Total Annihilation-CD ein und versuchen Sie es erneut.;
+	French = Insérez un des CD du jeu et recommencez;
+	}
+
+[Wind Speed]
+	{
+	German = Wind;
+	French = Vitesse du vent;
+	}
+[Gravity]
+	{
+	German = Schwerkraft;
+	French = Pesanteur;
+	}
+[Tidal Strength]
+	{
+	German = Gezeitenstärke;
+	French = Force des marées;
+	}
+[There are no skirmish maps to choose from]
+	{
+	German = Keine Gefechtskarten zur Auswahl;
+	French = Choisissez une carte pour commencer;
+	}
+[There are no multiplayer maps to choose from]
+	{
+	German = Keine Multispielerkarten zur Auswahl;
+	French = Choisissez une carte pour commencer;
+	}
+
+
+
+[No description available]
+	{
+	German = Keine Beschreibung verfügbar;
+	French = Pas de description disponible;
+	}
+
+[The terrain for the selected map does not exist.]
+	{
+	German = Das Gelände der ausgewählten Karte existiert nicht.;
+	French = Le terrain pour la carte sélectionnée n'existe pas.;
+	}
+[All players may not be in the same allied group.]
+	{
+	German = Alle Spieler können nicht in derselben Allierten-Gruppe sein;
+	French = Tous les joueurs ne doivent pas être dans le même groupe.;
+	}
+[Error:  Sound system initialization failed.]
+	{
+	German = Fehler - Initialisierung des Soundsystems fehlgeschlagen.;
+	French = Error:  Erreur - Echec de l'initialisation sonore;
+	}
+[%s has taken the lead with %d kills]
+	{
+	German = %s hat mit %d Tötungen die Führung übernommen.;
+	French = %s mène la partie avec %d tués;
+	}
+
+[has taken the lead with %d kills]
+	{
+	German = hat mit %d Tötungen die Führung übernommen.;
+	French = mène la partie avec %d tués;
+	}
+
+[has taken the lead with]
+	{
+	German = hat die Führung übernommen mit;
+	French = mène la partie avec;
+	}
+[kills]
+	{
+	German = Abschüsse;
+	French = Victimes;
+	}
+
+
+
+[Player number %d invalid for unit %s]
+	{
+	German = Spielernummer %d für Einheit %s ungültig.;
+	French = Joueur numéro %d invalide pour unité %s;
+	}
+
+[m/s]
+	{
+	German =  m/s;
+	French =  m/s;
+	}
+
+[m/s/s]
+	{
+	German = m/s/s;
+	French = m/s/s;
+	}
+
+[deg/s]
+	{
+	German =  deg/s;
+	French =  deg/s;
+	}
+
+[Cost]
+	{
+	German = Kosten;
+	French = Coût;
+	}
+[Build Time]
+	{
+	German = Bauzeit;
+	French = Construction;
+	}
+[Max Velocity]
+	{
+	German = Geschwindigkeit;
+	French = Vitesse;
+	}
+[Acceleration]
+	{
+	German = Beschleunigung;
+	French = Accélération;
+	}
+[Weapons]
+	{
+	German = Waffe;
+	French = Arme;
+	}
+
+[Speed]
+	{
+	German = Tempo;
+	French = Vitesse;
+	}
+
+[Normal]
+	{
+	German = Normal;
+	French = Normale;
+	}
+
+
+[Game Speed Normal]
+	{
+	German = Tempo Normal;
+	French = Vitesse Normale;
+	}
+[Invalid savegame file]
+	{
+	German = Ungültige gespeicherte Spieldatei;
+	French = Fichier de sauvegarde non valable;
+	}
+[Unable to start the loading thread!]
+	{
+	German = Kann die Ladesequenz nicht starten.;
+	French = Erreur de chemin de chargement!;
+	}
+[3D Data]
+	{
+	German = 3D-Daten;
+	French = Données 3D;
+	}
+[Animation]
+	{
+	German = Animation;
+	French = Animation;
+	}
+[Animations]
+	{
+	German = Animationen;
+	French = Animations;
+	}
+
+[DirectPlay registration failed.]
+	{
+	German = Registrierung von DirectPlay fehlgeschlagen.;
+	French = Echec de l'enregistrement DirectPlay;
+	}
+
+
+
+	
+
+
+	
+	

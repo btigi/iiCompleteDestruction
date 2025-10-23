@@ -1,0 +1,396 @@
+[ARMACK]
+	{
+	}
+[ARMACV]
+	{
+	}
+[ARMALAB]
+	{
+	}
+[ARMAMD]
+	{
+	}
+[ARMANNI]
+	{
+	}
+[ARMARAD]
+	{
+	}
+[ARMASER]
+	{
+	}
+[ARMAVP]
+	{
+	}
+[ARMBRTHA]
+	{
+	}
+[ARMBULL]
+	{
+	}
+[ARMCK]
+	{
+	}
+[ARMCOM]
+	{
+	}
+[ARMCROC]
+	{
+	}
+[ARMCS]
+	{
+	}
+[ARMCV]
+	{
+	}
+[ARMDRAG]
+	{
+	}
+[ARMESTOR]
+	{
+	}
+[ARMFAST]
+	{
+	}
+[ARMFAV]
+	{
+	}
+[ARMFIDO]
+	{
+	}
+[ARMFLASH]
+	{
+	}
+[ARMFUS]
+	{
+	}
+[ARMGATE]
+	{
+	}
+[ARMGEO]
+	{
+	}
+[ARMGUARD]
+	{
+	}
+[ARMHAM]
+	{
+	}
+[ARMHLT]
+	{
+	}
+[ARMJAM]
+	{
+	}
+[ARMJETH]
+	{
+	}
+[ARMLAB]
+	{
+	}
+[ARMLLT]
+	{
+	}
+[ARMMAKR]
+	{
+	}
+[ARMMART]
+	{
+	}
+[ARMMERL]
+	{
+	}
+[ARMMEX]
+	{
+	}
+[ARMMOHO]
+	{
+	}
+[ARMMSTOR]
+	{
+	}
+[ARMPW]
+	{
+	}
+[ARMRAD]
+	{
+	}
+[ARMRL]
+	{
+	}
+[ARMROCK]
+	{
+	}
+[ARMSAM]
+	{
+	}
+[ARMSEER]
+	{
+	}
+[ARMSOLAR]
+	{
+	}
+[ARMSONAR]
+	{
+	}
+[ARMSPID]
+	{
+	}
+[ARMSTUMP]
+	{
+	}
+[ARMTIDE]
+	{
+	}
+[ARMTL]
+	{
+	}
+[ARMVADER]
+	{
+	}
+[ARMVP]
+	{
+	}
+[ARMWIN]
+	{
+	}
+[ARMZEUS]
+	{
+	}
+[CORAAP]
+	{
+	}
+[CORACA]
+	{
+	}
+[CORACK]
+	{
+	}
+[CORACV]
+	{
+	}
+[CORAK]
+	{
+	}
+[CORALAB]
+	{
+	}
+[CORAP]
+	{
+	}
+[CORAPE]
+	{
+	}
+[CORARAD]
+	{
+	}
+[CORASP]
+	{
+	}
+[CORASY]
+	{
+	}
+[CORAVP]
+	{
+	}
+[CORBATS]
+	{
+	}
+[CORBUILD]
+	{
+	}
+[CORCA]
+	{
+	}
+[CORCAN]
+	{
+	}
+[CORCARRY]
+	{
+	}
+[CORCK]
+	{
+	}
+[CORCOM]
+	{
+	}
+[CORCRASH]
+	{
+	}
+[CORCRUS]
+	{
+	}
+[CORCS]
+	{
+	}
+[CORCV]
+	{
+	}
+[CORDOOM]
+	{
+	}
+[CORDRAG]
+	{
+	}
+[CORESTOR]
+	{
+	}
+[CORETER]
+	{
+	}
+[CORFAV]
+	{
+	}
+[CORFINK]
+	{
+	}
+[CORFMD]
+	{
+	}
+[CORFUS]
+	{
+	}
+[CORGATE]
+	{
+	}
+[CORGATOR]
+	{
+	}
+[CORGEO]
+	{
+	}
+[CORGOL]
+	{
+	}
+[CORHLT]
+	{
+	}
+[CORHURC]
+	{
+	}
+[CORINT]
+	{
+	}
+[CORLAB]
+	{
+	}
+[CORLLT]
+	{
+	}
+[CORMAKR]
+	{
+	}
+[CORMART]
+	{
+	}
+[CORMEX]
+	{
+	}
+[CORMIST]
+	{
+	}
+[CORMOHO]
+	{
+	}
+[CORMSHIP]
+	{
+	}
+[CORMSTOR]
+	{
+	}
+[CORPT]
+	{
+	}
+[CORPUN]
+	{
+	}
+[CORPYRO]
+	{
+	}
+[CORRAD]
+	{
+	}
+[CORRAID]
+	{
+	}
+[CORREAP]
+	{
+	}
+[CORRL]
+	{
+	}
+[CORROACH]
+	{
+	}
+[CORROY]
+	{
+	}
+[CORSEAL]
+	{
+	}
+[CORSHAD]
+	{
+	}
+[CORSHARK]
+	{
+	}
+[CORSILO]
+	{
+	}
+[CORSOLAR]
+	{
+	}
+[CORSONAR]
+	{
+	}
+[CORSPEC]
+	{
+	}
+[CORSTORM]
+	{
+	}
+[CORSUB]
+	{
+	}
+[CORSY]
+	{
+	}
+[CORTHUD]
+	{
+	}
+[CORTIDE]
+	{
+	}
+[CORTITAN]
+	{
+	}
+[CORTL]
+	{
+	}
+[CORTRUCK]
+	{
+	}
+[CORTSHIP]
+	{
+	}
+[CORVALK]
+	{
+	}
+[CORVAMP]
+	{
+	}
+[CORVENG]
+	{
+	}
+[CORVP]
+	{
+	}
+[CORVRAD]
+	{
+	}
+[CORVROC]
+	{
+	}
+[CORWIN]
+	{
+	}

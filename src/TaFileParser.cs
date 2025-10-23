@@ -5,7 +5,6 @@ namespace ii.CompleteDestruction;
 
 public partial class TaFileParser
 {
-
     public TaFile Read(string filePath)
     {
         var fileContent = File.ReadAllText(filePath, Encoding.Latin1);
@@ -342,5 +341,75 @@ public partial class TaFileParser
         }
 
         return block;
+    }
+
+    public void Write(TaFile taFile, string filePath)
+    {
+        var content = new StringBuilder();
+
+        if (!string.IsNullOrEmpty(taFile.HeaderComments))
+        {
+            var lines = taFile.HeaderComments.Split(Environment.NewLine);
+            foreach (var line in lines)
+            {
+                content.AppendLine($"/* {line} */");
+            }
+            content.AppendLine();
+        }
+
+        foreach (var block in taFile.Blocks)
+        {
+            WriteBlock(content, block, 0);
+        }
+
+        File.WriteAllText(filePath, content.ToString(), Encoding.Latin1);
+    }
+
+    private void WriteBlock(StringBuilder sb, Block block, int indentLevel)
+    {
+        var indent = new string('\t', indentLevel);
+
+        // Section header
+        sb.AppendLine($"{indent}[{block.SectionName}]");
+        
+        // Opening brace
+        sb.AppendLine($"{indent}\t{{");
+
+        // Standalone comments
+        if (!string.IsNullOrEmpty(block.Comments))
+        {
+            foreach (var line in block.Comments.Split(Environment.NewLine))
+            {
+                sb.AppendLine($"{indent}\t\t/* {line} */");
+            }
+        }
+
+        // Properties
+        foreach (var prop in block.Properties)
+        {
+            if (!string.IsNullOrEmpty(prop.Comment))
+            {
+                sb.AppendLine($"{indent}\t\t{prop.Key}={prop.Value};\t\t/* {prop.Comment} */");
+            }
+            else
+            {
+                sb.AppendLine($"{indent}\t\t{prop.Key}={prop.Value};");
+            }
+        }
+
+        // Blank line before nested blocks
+        if (block.Blocks.Count > 0)
+        {
+            sb.AppendLine();
+        }
+
+        // Nested blocks
+        foreach (var nestedBlock in block.Blocks)
+        {
+            WriteBlock(sb, nestedBlock, indentLevel + 1);
+        }
+
+        // Closing brace
+        sb.AppendLine($"{indent}\t}}");
     }
 }

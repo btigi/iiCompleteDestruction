@@ -1,10 +1,7 @@
 ﻿namespace ii.CompleteDestruction;
 
-public partial class TaFileParser
+internal  class ParsedLine
 {
-    private class ParsedLine
-    {
-        public string Content { get; set; } = string.Empty;
-        public string Comment { get; set; } = string.Empty;
-    }
+    public string Content { get; set; } = string.Empty;
+    public string Comment { get; set; } = string.Empty;
 }

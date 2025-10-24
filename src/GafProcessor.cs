@@ -4,7 +4,7 @@ using ii.CompleteDestruction.Model.Gaf;
 
 namespace ii.CompleteDestruction;
 
-public partial class GafProcessor
+public class GafProcessor
 {
     private const byte Transparency = 0;
 

@@ -2,13 +2,10 @@
 
 namespace ii.CompleteDestruction;
 
-public partial class GafProcessor
+public class GafFrame
 {
-    public class GafFrame
-    {
-        public Image Image { get; set; } = null!;
-        public short XOffset { get; set; } = 0;
-        public short YOffset { get; set; } = 0;
-        public bool UseCompression { get; set; } = false;
-    }
+    public Image Image { get; set; } = null!;
+    public short XOffset { get; set; } = 0;
+    public short YOffset { get; set; } = 0;
+    public bool UseCompression { get; set; } = false;
 }

@@ -24,7 +24,12 @@ public class TntProcessor
 
         var mapAttributes = new List<MapAttribute>();
         br.BaseStream.Seek(header.MapAttributeOffset, SeekOrigin.Begin);
-        for (var i = 0; i < header.TileCount; i++)
+        
+        var mapWidthInTiles = (int)(header.Width / 2);  // Width is in half-tiles
+        var mapHeightInTiles = (int)(header.Height / 2); // Height is in half-tiles
+        var totalMapTiles = mapWidthInTiles * mapHeightInTiles;
+        
+        for (var i = 0; i < totalMapTiles; i++)
         {
             var mapAttribute = new MapAttribute()
             {
@@ -40,10 +45,13 @@ public class TntProcessor
         _ = br.ReadInt32(); // unknown
         for (var i = 0; i < header.TileAnimationCount; i++)
         {
+            var name = System.Text.Encoding.ASCII.GetString(br.ReadBytes(128)).Split('\0')[0];
+            var index = br.ReadInt32();
+            
             var tileAnimation = new TileAnimation()
             {
-                Index = br.ReadInt32(),
-                Name = System.Text.Encoding.ASCII.GetString(br.ReadBytes(128)).TrimEnd('\0'),
+                Index = index,
+                Name = name
             };
             tileAnimations.Add(tileAnimation);
         }

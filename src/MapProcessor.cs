@@ -24,12 +24,6 @@ public class MapProcessor
             return resultMap;
         }
 
-        Console.WriteLine($"=== Map Animation Processing ===");
-        Console.WriteLine($"Map size: {tntFile.Map.Width}x{tntFile.Map.Height}");
-        Console.WriteLine($"Tile animations defined in TNT: {tntFile.TileAnimations.Count}");
-        Console.WriteLine($"Map attributes (tiles): {tntFile.MapAttributes.Count}");
-        Console.WriteLine($"GAF entries available: {gafEntries.Count}");
-
         // Animation name to GAF entry lookup
         var animationLookup = BuildAnimationLookup(tntFile.TileAnimations, featureTdfs, gafEntries);
 
@@ -71,7 +65,7 @@ public class MapProcessor
 
                 var mapAttr = tntFile.MapAttributes[attrIndex];
 
-                // Check if this tile has an animation (0xFFFF = no animation)
+                // Check if this tile has an animation (0xFF = no animation for byte-sized index)
                 if (mapAttr.TileAnimationIndex != 0xFFFF && mapAttr.TileAnimationIndex < tntFile.TileAnimations.Count)
                 {
                     tilesWithAnimationIndex++;
@@ -217,13 +211,11 @@ public class MapProcessor
 
     private void OverlayFrame(Image targetMap, GafFrame frame, int x, int y)
     {
-        // Apply offsets from the GAF frame - maybe we don't need to do this?
-        var targetX = x + frame.XOffset;
-        var targetY = y + frame.YOffset;
-
+        // Place animation directly at tile position without applying frame offsets
         targetMap.Mutate(ctx =>
         {
-            ctx.DrawImage(frame.Image, new Point(targetX, targetY), 1f);
+            // Use proper alpha blending - GAF frames have transparency set in alpha channel
+            ctx.DrawImage(frame.Image, new Point(x, y), 1f);
         });
     }
 }

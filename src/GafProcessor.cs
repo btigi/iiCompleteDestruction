@@ -154,7 +154,7 @@ public class GafProcessor
                             rgbaData[i * 4] = color.Red;
                             rgbaData[i * 4 + 1] = color.Green;
                             rgbaData[i * 4 + 2] = color.Blue;
-                            rgbaData[i * 4 + 3] = 255;
+                            rgbaData[i * 4 + 3] = (paletteIndex == Transparency) ? (byte)0 : (byte)255;
                         }
 
                         var image = Image.LoadPixelData<Rgba32>(rgbaData, frameData.Width, frameData.Height);
@@ -181,7 +181,7 @@ public class GafProcessor
                             rgbaData[i * 4] = color.Red;
                             rgbaData[i * 4 + 1] = color.Green;
                             rgbaData[i * 4 + 2] = color.Blue;
-                            rgbaData[i * 4 + 3] = 255;
+                            rgbaData[i * 4 + 3] = (paletteIndex == Transparency) ? (byte)0 : (byte)255;
                         }
 
                         var image = Image.LoadPixelData<Rgba32>(rgbaData, frameData.Width, frameData.Height);

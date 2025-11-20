@@ -33,9 +33,9 @@ public class TntProcessor
         {
             var mapAttribute = new MapAttribute()
             {
-                Elevation = br.ReadInt16(),
+                Elevation = br.ReadByte(),
                 TileAnimationIndex = br.ReadUInt16(),
-                Unknown = br.ReadInt16()
+                Unknown = br.ReadByte()
             };
             mapAttributes.Add(mapAttribute);
         }

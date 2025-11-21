@@ -3,13 +3,23 @@
   <PropertyGroup>
     <TargetFramework>net8.0</TargetFramework>
     <RootNamespace>ii.CompleteDestruction</RootNamespace>
+    <AssemblyName>ii.CompleteDestruction</AssemblyName>
+    <LangVersion>latest</LangVersion>
+    <Copyright>Copyright ©  2025</Copyright>
+    <Title>ii.CompleteDestruction</Title>
+    <Version>0.8</Version>
+    <Authors>iggti</Authors>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <RepositoryUrl>https://github.com/btigi/iiCompleteDestruction</RepositoryUrl>
+    <Description>A C# library targetting to facilitate editing of the 1997 Cavedog Entertainment RTS Total Annihilation.</Description>
+    <PackageTags>total annihilation;cavedog</PackageTags>
+    <PackageReadmeFile>readme.md</PackageReadmeFile>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
   <ItemGroup>
     <PackageReference Include="SixLabors.ImageSharp" Version="3.1.7" />
-    <PackageReference Include="System.Resources.Extensions" Version="8.0.0" />
   </ItemGroup>
 
   <ItemGroup>

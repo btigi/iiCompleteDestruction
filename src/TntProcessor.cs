@@ -25,11 +25,11 @@ public class TntProcessor
         var mapAttributes = new List<MapAttribute>();
         br.BaseStream.Seek(header.MapAttributeOffset, SeekOrigin.Begin);
         
-        var mapWidthInTiles = (int)(header.Width / 2);  // Width is in half-tiles
-        var mapHeightInTiles = (int)(header.Height / 2); // Height is in half-tiles
-        var totalMapTiles = mapWidthInTiles * mapHeightInTiles;
+        var attributeWidth = (int)header.Width;
+        var attributeHeight = (int)header.Height;
+        var totalAttributes = attributeWidth * attributeHeight;
         
-        for (var i = 0; i < totalMapTiles; i++)
+        for (var i = 0; i < totalAttributes; i++)
         {
             var mapAttribute = new MapAttribute()
             {
@@ -59,6 +59,8 @@ public class TntProcessor
         result.Map = mainMapImage;
         result.Minimap = minimapImage;
         result.SeaLevel = header.SeaLevel;
+        result.AttributeWidth = attributeWidth;
+        result.AttributeHeight = attributeHeight;
         result.MapAttributes = mapAttributes;
         result.TileAnimations = tileAnimations;
 
@@ -75,13 +77,19 @@ public class TntProcessor
 
         var mapWidthInTiles = tntFile.Map.Width / TileWidth;
         var mapHeightInTiles = tntFile.Map.Height / TileHeight;
+        var attributeWidth = tntFile.AttributeWidth > 0 ? tntFile.AttributeWidth : mapWidthInTiles * 2;
+        var attributeHeight = tntFile.AttributeHeight > 0 ? tntFile.AttributeHeight : mapHeightInTiles * 2;
+        var expectedAttributeCount = Math.Max(1, attributeWidth * attributeHeight);
+        tntFile.AttributeWidth = attributeWidth;
+        tntFile.AttributeHeight = attributeHeight;
+        var normalizedAttributes = NormalizeAttributes(tntFile.MapAttributes, expectedAttributeCount);
         var (tiles, tileIndices) = ExtractTiles(mapBytes, tntFile.Map.Width, tntFile.Map.Height);
 
         const uint headerSize = 60;
         var mapDataOffset = headerSize;
         var mapDataSize = (uint)(tileIndices.Length * 2);
         var mapAttributeOffset = mapDataOffset + mapDataSize;
-        var mapAttributeSize = (uint)(tntFile.MapAttributes.Count * 6);
+        var mapAttributeSize = (uint)(expectedAttributeCount * 4);
         var mapTileOffset = mapAttributeOffset + mapAttributeSize;
         var mapTileSize = (uint)(tiles.Count * TileWidth * TileHeight);
         var tileAnimationOffset = mapTileOffset + mapTileSize;
@@ -92,8 +100,8 @@ public class TntProcessor
         WriteHeader(bw, new TntHeader
         {
             Version = 0x2000,
-            Width = (uint)(mapWidthInTiles * 2), // Convert 32-pixel tiles to 16-pixel units
-            Height = (uint)(mapHeightInTiles * 2),
+            Width = (uint)attributeWidth,
+            Height = (uint)attributeHeight,
             MapDataOffset = mapDataOffset,
             MapAttributeOffset = mapAttributeOffset,
             MapTileOffset = mapTileOffset,
@@ -116,7 +124,7 @@ public class TntProcessor
         }
 
         // Write map attributes
-        foreach (var mapAttribute in tntFile.MapAttributes)
+        foreach (var mapAttribute in normalizedAttributes)
         {
             bw.Write(mapAttribute.Elevation);
             bw.Write(mapAttribute.TileAnimationIndex);
@@ -220,6 +228,24 @@ public class TntProcessor
         }
 
         return paletteIndices;
+    }
+
+    private static List<MapAttribute> NormalizeAttributes(List<MapAttribute> source, int expectedCount)
+    {
+        var result = new List<MapAttribute>(expectedCount);
+        for (var i = 0; i < expectedCount; i++)
+        {
+            if (i < source.Count)
+            {
+                result.Add(source[i]);
+            }
+            else
+            {
+                result.Add(new MapAttribute());
+            }
+        }
+
+        return result;
     }
 
     private byte FindClosestPaletteIndex(byte r, byte g, byte b, TaPalette palette)

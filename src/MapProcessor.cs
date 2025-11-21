@@ -1,6 +1,9 @@
-﻿using ii.CompleteDestruction.Model.Tdf;
+﻿using System.Globalization;
+using ii.CompleteDestruction.Model.Tdf;
+using ii.CompleteDestruction.Model.Tnt;
 using SixLabors.ImageSharp;
 using SixLabors.ImageSharp.Processing;
+using static ii.CompleteDestruction.GafProcessor;
 
 namespace ii.CompleteDestruction;
 
@@ -8,6 +11,9 @@ public class MapProcessor
 {
     private const int TileWidth = 32;
     private const int TileHeight = 32;
+    private const int FeatureGridScale = 16;
+
+    private static readonly StringComparer NameComparer = StringComparer.OrdinalIgnoreCase;
 
     public Image RenderMapWithAnimations(
         TntFile tntFile,
@@ -18,204 +24,494 @@ public class MapProcessor
     {
         var resultMap = tntFile.Map.Clone(ctx => { });
 
-        if (tntFile.TileAnimations.Count == 0 || gafEntries.Count == 0)
+        if (gafEntries.Count == 0)
         {
-            Console.WriteLine("No animations to apply (either no tile animations or no GAF entries)");
+            Console.WriteLine("No GAF entries supplied, returning base map.");
             return resultMap;
         }
 
-        // Animation name to GAF entry lookup
-        var animationLookup = BuildAnimationLookup(tntFile.TileAnimations, featureTdfs, gafEntries);
+        var gafLookup = BuildGafLookup(gafEntries);
+        var featureDefinitions = BuildFeatureDefinitions(featureTdfs);
+        var renderLookup = BuildFeatureRenderLookup(tntFile.TileAnimations, featureDefinitions, gafLookup);
 
-        if (animationLookup.Count == 0)
+        var (attrWidth, attrHeight) = GetAttributeGridSize(tntFile);
+
+        var placements = new List<FeaturePlacement>();
+        placements.AddRange(ExtractPlacementsFromAttributes(tntFile, attrWidth, attrHeight));
+        placements.AddRange(ExtractPlacementsFromOta(mapTdf));
+
+        if (placements.Count == 0)
         {
-            Console.WriteLine("No animations matched :(");
+            Console.WriteLine("No feature placements found.");
             return resultMap;
         }
 
-        Console.WriteLine($"Matched {animationLookup.Count} animations");
+        var drawCommands = BuildDrawCommands(
+            placements,
+            renderLookup,
+            featureDefinitions,
+            gafLookup,
+            tntFile.MapAttributes,
+            attrWidth,
+            attrHeight,
+            frameIndex);
 
-        // Apply animations to the map
-        var mapWidthInTiles = tntFile.Map.Width / TileWidth;
-        var mapHeightInTiles = tntFile.Map.Height / TileHeight;
+        Console.WriteLine($"Applying {drawCommands.Count} feature overlays.");
 
-        Console.WriteLine($"Map dimensions: {mapWidthInTiles}x{mapHeightInTiles} tiles");
-        Console.WriteLine($"Total map attributes: {tntFile.MapAttributes.Count}");
-        Console.WriteLine($"Total tile animations: {tntFile.TileAnimations.Count}");
-               
-        var indexCounts = new Dictionary<ushort, int>();
-        foreach (var attr in tntFile.MapAttributes)
+        foreach (var command in drawCommands)
         {
-            if (!indexCounts.ContainsKey(attr.TileAnimationIndex))
-                indexCounts[attr.TileAnimationIndex] = 0;
-            indexCounts[attr.TileAnimationIndex]++;
-        }
-        
-        var animatedTileCount = 0;
-        var tilesWithAnimationIndex = 0;
-        var animationsNotFound = 0;
-        
-        for (var tileY = 0; tileY < mapHeightInTiles; tileY++)
-        {
-            for (var tileX = 0; tileX < mapWidthInTiles; tileX++)
-            {
-                var attrIndex = tileY * mapWidthInTiles + tileX;
-                if (attrIndex >= tntFile.MapAttributes.Count)
-                    continue;
-
-                var mapAttr = tntFile.MapAttributes[attrIndex];
-
-                // Check if this tile has an animation (0xFF = no animation for byte-sized index)
-                if (mapAttr.TileAnimationIndex != 0xFFFF && mapAttr.TileAnimationIndex < tntFile.TileAnimations.Count)
-                {
-                    tilesWithAnimationIndex++;
-                                       
-                    // TileAnimationIndex is an array index into TileAnimations (not the animation's Index field)?
-                    var animation = tntFile.TileAnimations[mapAttr.TileAnimationIndex];
-                    
-                    if (animationLookup.TryGetValue(animation.Index, out var gafEntry))
-                    {
-                        // Get the appropriate frame (cycle if frameIndex exceeds frame count)
-                        var frame = gafEntry.Frames[frameIndex % gafEntry.Frames.Count];
-                        // Overlay the animation frame onto the map at the tile position
-                        OverlayFrame(resultMap, frame, tileX * TileWidth, tileY * TileHeight);
-                        animatedTileCount++;
-                    }
-                    else
-                    {
-                        animationsNotFound++;
-                    }
-                }
-            }
+            OverlayFrame(resultMap, command.Frame, command.Position);
         }
 
-        Console.WriteLine($"Animation Application Summary:");
-        Console.WriteLine($"  Tiles with animation index: {tilesWithAnimationIndex}");
-        Console.WriteLine($"  Successfully applied: {animatedTileCount}");
-        Console.WriteLine($"  Animations not found: {animationsNotFound}");
         return resultMap;
     }
 
-    private Dictionary<int, GafImageEntry> BuildAnimationLookup(
-        List<TileAnimation> tileAnimations,
-        List<TaFile> featureTdfs,
-        List<GafImageEntry> gafEntries)
+    private static Dictionary<string, GafImageEntry> BuildGafLookup(IEnumerable<GafImageEntry> gafEntries)
     {
-        var lookup = new Dictionary<int, GafImageEntry>();
-
-        Console.WriteLine("--- Building Animation Lookup ---");
-        Console.WriteLine("TNT Tile Animations:");
-        foreach (var anim in tileAnimations)
+        var lookup = new Dictionary<string, GafImageEntry>(NameComparer);
+        foreach (var entry in gafEntries)
         {
-            Console.WriteLine($"  Index {anim.Index}: Name='{anim.Name}'");
-        }
-
-        Console.WriteLine("Available GAF Entries:");
-        foreach (var gaf in gafEntries)
-        {
-            Console.WriteLine($"  '{gaf.Name}' ({gaf.Frames.Count} frames)");
-        }
-
-        Console.WriteLine("--- Matching Process ---");
-
-        // For each tile animation, try to find the corresponding GAF entry
-        foreach (var animation in tileAnimations)
-        {
-            // The animation.Name might directly correspond to a GAF entry name or it might need to be looked up in the feature TDFs
-            
-            var animName = animation.Name.Trim().ToLowerInvariant();
-            
-            // Direct match (animation name == GAF entry name)
-            var gafEntry = gafEntries.FirstOrDefault(g => 
-                g.Name.Trim().ToLowerInvariant() == animName);
-
-            if (gafEntry != null)
+            var normalized = NormalizeName(entry.Name);
+            if (!lookup.ContainsKey(normalized))
             {
-                lookup[animation.Index] = gafEntry;
-                Console.WriteLine($"✓ Direct match: TileAnim[{animation.Index}] '{animation.Name}' -> GAF '{gafEntry.Name}'");
-                continue;
-            }
-
-            // If no direct match, try to find it in the feature TDFs
-            var foundInTdf = TryMatchFromFeatureTdf(animation, featureTdfs, gafEntries, out gafEntry);
-            if (foundInTdf && gafEntry != null)
-            {
-                lookup[animation.Index] = gafEntry;
-                Console.WriteLine($"TDF match: TileAnim[{animation.Index}] '{animation.Name}' -> GAF '{gafEntry.Name}'");
-            }
-            else
-            {
-                Console.WriteLine($"No match found for TileAnim[{animation.Index}] '{animation.Name}'");
+                lookup.Add(normalized, entry);
             }
         }
 
         return lookup;
     }
 
-    private bool TryMatchFromFeatureTdf(
-        TileAnimation animation,
-        List<TaFile> featureTdfs,
-        List<GafImageEntry> gafEntries,
-        out GafImageEntry? matchedGaf)
+    private static Dictionary<string, FeatureDefinition> BuildFeatureDefinitions(IEnumerable<TaFile> featureTdfs)
     {
-        matchedGaf = null;
+        var definitions = new Dictionary<string, FeatureDefinition>(NameComparer);
 
-        // Look for a block in any feature TDF that matches the animation name
         foreach (var tdf in featureTdfs)
         {
-            var block = FindBlockRecursive(tdf.Blocks, animation.Name);
-            if (block != null)
+            foreach (var block in tdf.Blocks)
             {
-                // Look for the 'seqname' property which contains the GAF animation name
-                var seqNameProperty = block.Properties.FirstOrDefault(p => p.Key.Trim().Equals("seqname", StringComparison.OrdinalIgnoreCase));
+                CollectDefinitions(block, definitions);
+            }
+        }
 
-                if (seqNameProperty != null)
+        return definitions;
+    }
+
+    private static void CollectDefinitions(Block block, IDictionary<string, FeatureDefinition> target)
+    {
+        if (block.Properties.Count > 0)
+        {
+            var propertyBag = block.Properties
+                .GroupBy(p => p.Key, NameComparer)
+                .ToDictionary(g => g.Key, g => g.Last().Value, NameComparer);
+
+            var hasRenderableData =
+                propertyBag.ContainsKey("seqname") ||
+                propertyBag.ContainsKey("filename") ||
+                propertyBag.ContainsKey("object");
+
+            if (hasRenderableData)
+            {
+                var name = block.SectionName.Trim();
+                if (!string.IsNullOrEmpty(name))
                 {
-                    var gafName = seqNameProperty.Value.Trim().ToLowerInvariant();
-                    gafName = gafName.Replace(".gaf", "");
-                    matchedGaf = gafEntries.FirstOrDefault(g => g.Name.Trim().ToLowerInvariant() == gafName);
+                    var footprintX = ParseInt(propertyBag, "footprintx", 1);
+                    var footprintY = ParseInt(propertyBag, "footprintz", 1);
+                    var seqName = propertyBag.TryGetValue("seqname", out var seq) ? seq : null;
 
-                    if (matchedGaf == null)
-                    {
-                        matchedGaf = gafEntries.FirstOrDefault(g => g.Name.Trim().ToLowerInvariant().Contains(gafName) || gafName.Contains(g.Name.Trim().ToLowerInvariant()));
-                    }
-
-                    if (matchedGaf != null)
-                    {
-                        Console.WriteLine($"    TDF lookup: [{animation.Name}] seqname='{seqNameProperty.Value}' -> GAF '{matchedGaf.Name}'");
-                        return true;
-                    }
+                    target[NormalizeName(name)] = new FeatureDefinition(
+                        name,
+                        footprintX,
+                        footprintY,
+                        seqName);
                 }
             }
+        }
+
+        foreach (var child in block.Blocks)
+        {
+            CollectDefinitions(child, target);
+        }
+    }
+
+    private static Dictionary<string, FeatureRenderInfo> BuildFeatureRenderLookup(
+        IList<TileAnimation> tileAnimations,
+        Dictionary<string, FeatureDefinition> featureDefinitions,
+        Dictionary<string, GafImageEntry> gafLookup)
+    {
+        var result = new Dictionary<string, FeatureRenderInfo>(NameComparer);
+
+        foreach (var animation in tileAnimations)
+        {
+            if (string.IsNullOrWhiteSpace(animation.Name))
+            {
+                continue;
+            }
+
+            if (TryCreateRenderInfo(animation.Name, featureDefinitions, gafLookup, out var info))
+            {
+                result[NormalizeName(animation.Name)] = info;
+            }
+        }
+
+        return result;
+    }
+
+    private static bool TryCreateRenderInfo(
+        string featureName,
+        Dictionary<string, FeatureDefinition> featureDefinitions,
+        Dictionary<string, GafImageEntry> gafLookup,
+        out FeatureRenderInfo renderInfo)
+    {
+        renderInfo = null!;
+        FeatureDefinition? definition = null;
+        var normalized = NormalizeName(featureName);
+
+        if (featureDefinitions.TryGetValue(normalized, out definition))
+        {
+            if (TryResolveGafEntry(definition, gafLookup, out var entry))
+            {
+                renderInfo = new FeatureRenderInfo(
+                    definition.Name,
+                    Math.Max(1, definition.FootprintX),
+                    Math.Max(1, definition.FootprintY),
+                    entry);
+                return true;
+            }
+        }
+        else
+        {
+            definition = featureDefinitions.Values.FirstOrDefault(
+                d => !string.IsNullOrWhiteSpace(d.SequenceName) &&
+                     NormalizeName(d.SequenceName) == normalized);
+
+            if (definition != null && TryResolveGafEntry(definition, gafLookup, out var altEntry))
+            {
+                renderInfo = new FeatureRenderInfo(
+                    definition.Name,
+                    Math.Max(1, definition.FootprintX),
+                    Math.Max(1, definition.FootprintY),
+                    altEntry);
+                return true;
+            }
+        }
+
+        if (gafLookup.TryGetValue(normalized, out var fallbackEntry))
+        {
+            renderInfo = new FeatureRenderInfo(featureName, 1, 1, fallbackEntry);
+            return true;
         }
 
         return false;
     }
 
-    private Block? FindBlockRecursive(List<Block> blocks, string sectionName)
+    private static bool TryResolveGafEntry(
+        FeatureDefinition definition,
+        Dictionary<string, GafImageEntry> gafLookup,
+        out GafImageEntry entry)
     {
-        var normalizedName = sectionName.Trim().ToLowerInvariant();
-        
-        foreach (var block in blocks)
-        {
-            if (block.SectionName.Trim().ToLowerInvariant() == normalizedName)
-                return block;
+        entry = null!;
 
-            var found = FindBlockRecursive(block.Blocks, sectionName);
-            if (found != null)
-                return found;
+        if (!string.IsNullOrWhiteSpace(definition.SequenceName))
+        {
+            var normalizedSeq = NormalizeName(definition.SequenceName);
+            if (gafLookup.TryGetValue(normalizedSeq, out entry))
+            {
+                return true;
+            }
         }
 
-        return null;
+        return gafLookup.TryGetValue(NormalizeName(definition.Name), out entry);
     }
 
-    private void OverlayFrame(Image targetMap, GafFrame frame, int x, int y)
+    private static (int width, int height) GetAttributeGridSize(TntFile tntFile)
     {
-        // Place animation directly at tile position without applying frame offsets
+        if (tntFile.AttributeWidth > 0 && tntFile.AttributeHeight > 0)
+        {
+            return (tntFile.AttributeWidth, tntFile.AttributeHeight);
+        }
+
+        var defaultWidth = (tntFile.Map.Width / TileWidth) * 2;
+        var defaultHeight = (tntFile.Map.Height / TileHeight) * 2;
+        var expectedCount = defaultWidth * defaultHeight;
+
+        if (tntFile.MapAttributes.Count == expectedCount)
+        {
+            return (defaultWidth, defaultHeight);
+        }
+
+        var fallbackWidth = Math.Max(1, defaultWidth / 2);
+        var fallbackHeight = Math.Max(1, defaultHeight / 2);
+        if (fallbackWidth * fallbackHeight == tntFile.MapAttributes.Count)
+        {
+            return (fallbackWidth, fallbackHeight);
+        }
+
+        var inferredWidth = tntFile.MapAttributes.Count > 0 ? tntFile.MapAttributes.Count : 1;
+        var inferredHeight = Math.Max(1, tntFile.MapAttributes.Count / Math.Max(1, inferredWidth));
+        return (inferredWidth, inferredHeight);
+    }
+
+    private static IEnumerable<FeaturePlacement> ExtractPlacementsFromAttributes(
+        TntFile tntFile,
+        int attrWidth,
+        int attrHeight)
+    {
+        if (tntFile.MapAttributes.Count == 0 || tntFile.TileAnimations.Count == 0 || attrWidth <= 0 || attrHeight <= 0)
+        {
+            yield break;
+        }
+
+        var limit = Math.Min(tntFile.MapAttributes.Count, attrWidth * attrHeight);
+        for (var index = 0; index < limit; index++)
+        {
+            var attr = tntFile.MapAttributes[index];
+
+            if (attr.TileAnimationIndex >= TntProcessor.FeatureVoid ||
+                attr.TileAnimationIndex >= tntFile.TileAnimations.Count)
+            {
+                continue;
+            }
+
+            var featureName = tntFile.TileAnimations[attr.TileAnimationIndex].Name;
+            if (string.IsNullOrWhiteSpace(featureName))
+            {
+                continue;
+            }
+
+            var x = index % attrWidth;
+            var y = index / attrWidth;
+
+            yield return new FeaturePlacement(featureName, x, y);
+        }
+    }
+
+    private static IEnumerable<FeaturePlacement> ExtractPlacementsFromOta(TaFile? mapTdf)
+    {
+        if (mapTdf == null)
+        {
+            yield break;
+        }
+
+        var global = mapTdf.Blocks.FirstOrDefault(b => b.SectionName.Equals("GlobalHeader", StringComparison.OrdinalIgnoreCase));
+        if (global == null)
+        {
+            yield break;
+        }
+
+        var schema = global.Blocks.FirstOrDefault(b => b.SectionName.Equals("Schema 0", StringComparison.OrdinalIgnoreCase));
+        if (schema == null)
+        {
+            yield break;
+        }
+
+        var featuresRoot = schema.Blocks.FirstOrDefault(b => b.SectionName.Equals("features", StringComparison.OrdinalIgnoreCase));
+        if (featuresRoot == null)
+        {
+            yield break;
+        }
+
+        foreach (var featureBlock in featuresRoot.Blocks)
+        {
+            var featureName = GetPropertyValue(featureBlock, "Featurename");
+            if (string.IsNullOrWhiteSpace(featureName))
+            {
+                continue;
+            }
+
+            if (!TryParseInt(GetPropertyValue(featureBlock, "XPos"), out var x) ||
+                !TryParseInt(GetPropertyValue(featureBlock, "ZPos"), out var y))
+            {
+                continue;
+            }
+
+            yield return new FeaturePlacement(featureName, x, y);
+        }
+    }
+
+    private static List<DrawCommand> BuildDrawCommands(
+        IEnumerable<FeaturePlacement> placements,
+        Dictionary<string, FeatureRenderInfo> renderLookup,
+        Dictionary<string, FeatureDefinition> featureDefinitions,
+        Dictionary<string, GafImageEntry> gafLookup,
+        List<MapAttribute> attributes,
+        int attrWidth,
+        int attrHeight,
+        int frameIndex)
+    {
+        var commands = new List<DrawCommand>();
+
+        foreach (var placement in placements)
+        {
+            if (!TryGetRenderInfo(
+                    placement.FeatureName,
+                    renderLookup,
+                    featureDefinitions,
+                    gafLookup,
+                    out var renderInfo))
+            {
+                continue;
+            }
+
+            if (renderInfo.Entry.Frames.Count == 0)
+            {
+                continue;
+            }
+
+            var frame = renderInfo.Entry.Frames[frameIndex % renderInfo.Entry.Frames.Count];
+            var position = CalculatePosition(placement, renderInfo, frame, attributes, attrWidth, attrHeight);
+
+            commands.Add(new DrawCommand(frame, position));
+        }
+
+        commands.Sort((a, b) =>
+        {
+            if (a.Position.Y != b.Position.Y)
+            {
+                return a.Position.Y.CompareTo(b.Position.Y);
+            }
+
+            return a.Position.X.CompareTo(b.Position.X);
+        });
+
+        return commands;
+    }
+
+    private static bool TryGetRenderInfo(
+        string featureName,
+        Dictionary<string, FeatureRenderInfo> renderLookup,
+        Dictionary<string, FeatureDefinition> featureDefinitions,
+        Dictionary<string, GafImageEntry> gafLookup,
+        out FeatureRenderInfo renderInfo)
+    {
+        var normalized = NormalizeName(featureName);
+        if (renderLookup.TryGetValue(normalized, out renderInfo!))
+        {
+            return true;
+        }
+
+        if (TryCreateRenderInfo(featureName, featureDefinitions, gafLookup, out renderInfo!))
+        {
+            renderLookup[normalized] = renderInfo;
+            return true;
+        }
+
+        return false;
+    }
+
+    private static Point CalculatePosition(
+        FeaturePlacement placement,
+        FeatureRenderInfo renderInfo,
+        GafFrame frame,
+        List<MapAttribute> attributes,
+        int attrWidth,
+        int attrHeight)
+    {
+        var clampedX = Math.Clamp(placement.GridX, 0, Math.Max(0, attrWidth - 1));
+        var clampedY = Math.Clamp(placement.GridY, 0, Math.Max(0, attrHeight - 1));
+
+        var footprintX = Math.Max(1, renderInfo.FootprintX);
+        var footprintY = Math.Max(1, renderInfo.FootprintY);
+
+        var baseX = (clampedX * FeatureGridScale) + (footprintX * FeatureGridScale / 2);
+        var baseY = (clampedY * FeatureGridScale) + (footprintY * FeatureGridScale / 2);
+
+        var heightOffset = attributes.Count == attrWidth * attrHeight
+            ? ComputeAverageHeight(attributes, attrWidth, attrHeight, clampedX, clampedY) / 2
+            : 0;
+
+        baseY -= heightOffset;
+
+        var drawX = baseX - frame.XOffset;
+        var drawY = baseY - frame.YOffset;
+
+        return new Point(drawX, drawY);
+    }
+
+    private static int ComputeAverageHeight(List<MapAttribute> attributes, int width, int height, int x, int y)
+    {
+        if (attributes.Count == 0 || width <= 0 || height <= 0)
+        {
+            return 0;
+        }
+
+        int Sample(int sx, int sy)
+        {
+            var clampedX = Math.Clamp(sx, 0, Math.Max(0, width - 1));
+            var clampedY = Math.Clamp(sy, 0, Math.Max(0, height - 1));
+            var index = clampedY * width + clampedX;
+            if (index < 0 || index >= attributes.Count)
+            {
+                return 0;
+            }
+
+            return attributes[index].Elevation;
+        }
+
+        var topLeft = Sample(x, y);
+        var topRight = Sample(x + 1, y);
+        var bottomLeft = Sample(x, y + 1);
+        var bottomRight = Sample(x + 1, y + 1);
+
+        return (topLeft + topRight + bottomLeft + bottomRight) / 4;
+    }
+
+    private static void OverlayFrame(Image targetMap, GafFrame frame, Point location)
+    {
         targetMap.Mutate(ctx =>
         {
-            // Use proper alpha blending - GAF frames have transparency set in alpha channel
-            ctx.DrawImage(frame.Image, new Point(x, y), 1f);
+            ctx.DrawImage(frame.Image, location, 1f);
         });
     }
+
+    private static int ParseInt(IDictionary<string, string> bag, string key, int fallback)
+    {
+        if (bag.TryGetValue(key, out var value) &&
+            int.TryParse(value, NumberStyles.Integer, CultureInfo.InvariantCulture, out var parsed))
+        {
+            return parsed;
+        }
+
+        return fallback;
+    }
+
+    private static string? GetPropertyValue(Block block, string key) =>
+        block.Properties.FirstOrDefault(p => p.Key.Equals(key, StringComparison.OrdinalIgnoreCase))?.Value;
+
+    private static bool TryParseInt(string? value, out int result) =>
+        int.TryParse(value, NumberStyles.Integer, CultureInfo.InvariantCulture, out result);
+
+    private static string NormalizeName(string? value)
+    {
+        if (string.IsNullOrWhiteSpace(value))
+        {
+            return string.Empty;
+        }
+
+        var trimmed = value.Trim();
+        if (trimmed.EndsWith(".gaf", StringComparison.OrdinalIgnoreCase))
+        {
+            trimmed = trimmed[..^4];
+        }
+
+        return trimmed.ToLowerInvariant();
+    }
+
+    private sealed record FeatureDefinition(
+        string Name,
+        int FootprintX,
+        int FootprintY,
+        string? SequenceName);
+
+    private sealed record FeatureRenderInfo(
+        string FeatureName,
+        int FootprintX,
+        int FootprintY,
+        GafImageEntry Entry);
+
+    private readonly record struct FeaturePlacement(
+        string FeatureName,
+        int GridX,
+        int GridY);
+
+    private sealed record DrawCommand(GafFrame Frame, Point Position);
 }

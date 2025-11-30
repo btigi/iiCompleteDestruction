@@ -10,10 +10,22 @@ public class GafProcessor
 
     public List<GafImageEntry> Read(string filePath, bool processUnsupportedVersions = false)
     {
+        using var br = new BinaryReader(File.Open(filePath, FileMode.Open));
+        return Read(br, processUnsupportedVersions);
+    }
+
+    public List<GafImageEntry> Read(byte[] data, bool processUnsupportedVersions = false)
+    {
+        using var ms = new MemoryStream(data);
+        using var br = new BinaryReader(ms);
+        return Read(br, processUnsupportedVersions);
+    }
+
+    private List<GafImageEntry> Read(BinaryReader br, bool processUnsupportedVersions)
+    {
         var palette = ReadPalette(@"PALETTE.PAL");
 
         var result = new List<GafImageEntry>();
-        using var br = new BinaryReader(File.Open(filePath, FileMode.Open));
 
         var header = new GafHeader
         {

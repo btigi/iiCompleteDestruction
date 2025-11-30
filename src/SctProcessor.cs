@@ -14,7 +14,18 @@ public class SctProcessor
     public SctFile Read(string filePath, TaPalette palette)
     {
         using var br = new BinaryReader(File.Open(filePath, FileMode.Open));
+        return Read(br, palette);
+    }
 
+    public SctFile Read(byte[] data, TaPalette palette)
+    {
+        using var ms = new MemoryStream(data);
+        using var br = new BinaryReader(ms);
+        return Read(br, palette);
+    }
+
+    private SctFile Read(BinaryReader br, TaPalette palette)
+    {
         var result = new SctFile();
         var header = ReadHeader(br);
         

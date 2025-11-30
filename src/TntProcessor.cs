@@ -16,7 +16,18 @@ public class TntProcessor
     public TntFile Read(string filePath, TaPalette palette)
     {
         using var br = new BinaryReader(File.Open(filePath, FileMode.Open));
+        return Read(br, palette);
+    }
 
+    public TntFile Read(byte[] data, TaPalette palette)
+    {
+        using var ms = new MemoryStream(data);
+        using var br = new BinaryReader(ms);
+        return Read(br, palette);
+    }
+
+    private TntFile Read(BinaryReader br, TaPalette palette)
+    {
         var result = new TntFile();
         var header = ReadHeader(br);
         var minimapImage = ProcessMinimap(br, header, palette);

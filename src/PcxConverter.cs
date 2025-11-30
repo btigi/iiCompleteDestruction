@@ -8,6 +8,18 @@ public class PcxConverter
     public Image Parse(string filePath)
     {
         using var br = new BinaryReader(File.Open(filePath, FileMode.Open));
+        return Parse(br);
+    }
+
+    public Image Parse(byte[] data)
+    {
+        using var ms = new MemoryStream(data);
+        using var br = new BinaryReader(ms);
+        return Parse(br);
+    }
+
+    private Image Parse(BinaryReader br)
+    {
         var signature = br.ReadByte(); // 0x0A or invalid
         var version = br.ReadByte();
         var encoding = br.ReadByte(); // 1 = RLE

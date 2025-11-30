@@ -8,6 +8,17 @@ public partial class TaFileParser
     public TaFile Read(string filePath)
     {
         var fileContent = File.ReadAllText(filePath, Encoding.Latin1);
+        return ReadFromContent(fileContent);
+    }
+
+    public TaFile Read(byte[] fileData)
+    {
+        var fileContent = Encoding.Latin1.GetString(fileData);
+        return ReadFromContent(fileContent);
+    }
+
+    private TaFile ReadFromContent(string fileContent)
+    {
         var parsedLines = SplitIntoLines(fileContent);
 
         var index = 0;

@@ -14,10 +14,14 @@ public class HpiProcessor
     private byte[] _directory = null!;
     private FileStream _hpiFile = null!;
     private readonly List<HpiFileEntry> _extractedFiles = [];
+    private readonly Dictionary<string, (int Offset, int Length)> _fileLocations = new(StringComparer.OrdinalIgnoreCase);
+    private string? _currentArchivePath;
 
-    public HpiArchive Read(string hpiPath)
+    public HpiArchive Read(string hpiPath, bool quickRead = true)
     {
         _extractedFiles.Clear();
+        _fileLocations.Clear();
+        _currentArchivePath = hpiPath;
         
         using (_hpiFile = File.Open(hpiPath, FileMode.Open, FileAccess.Read))
         {
@@ -25,7 +29,7 @@ public class HpiProcessor
             
             if (_hpiVersion.HPIMarker == Signature)
             {
-                ExtractV1();
+                ExtractV1(quickRead);
             }
             else
             {
@@ -37,6 +41,29 @@ public class HpiProcessor
         {
             Files = new List<HpiFileEntry>(_extractedFiles)
         };
+    }
+
+    public byte[] Extract(string relativePath)
+    {
+        if (string.IsNullOrWhiteSpace(relativePath))
+        {
+            throw new ArgumentException("Relative path must be provided.", nameof(relativePath));
+        }
+
+        if (_currentArchivePath is null)
+        {
+            throw new InvalidOperationException("No archive has been read yet.");
+        }
+
+        if (!_fileLocations.TryGetValue(relativePath, out var location))
+        {
+            throw new FileNotFoundException($"File '{relativePath}' was not found in the archive.", relativePath);
+        }
+
+        using (_hpiFile = File.Open(_currentArchivePath, FileMode.Open, FileAccess.Read))
+        {
+            return ExtractFile(location.Offset, location.Length);
+        }
     }
 
     public void Write(string outputPath, IEnumerable<HpiFileEntry> files)
@@ -232,7 +259,7 @@ public class HpiProcessor
         return outputStream.ToArray();
     }
 
-    private void ProcessDirectory(string startPath, int offset)
+    private void ProcessDirectory(string startPath, int offset, bool quickRead)
     {
         var entryCount = BitConverter.ToInt32(_directory, offset);
         var entryListOffset = BitConverter.ToInt32(_directory, offset + 4) - 20;
@@ -250,14 +277,16 @@ public class HpiProcessor
             if (entry.Flag == 1)
             {
                 // This is a directory - recurse into it
-                ProcessDirectory(relativePath, entry.CountOffset - 20);
+                ProcessDirectory(relativePath, entry.CountOffset - 20, quickRead);
             }
             else
             {
                 // This is a file - extract it
                 var fileLength = BitConverter.ToInt32(_directory, entry.CountOffset - 20 + 4);
-                var fileData = ExtractFile(dataOffset, fileLength);
-                
+                _fileLocations[relativePath] = (dataOffset, fileLength);
+
+                var fileData = quickRead ? Array.Empty<byte>() : ExtractFile(dataOffset, fileLength);
+
                 _extractedFiles.Add(new HpiFileEntry
                 {
                     RelativePath = relativePath,
@@ -301,7 +330,7 @@ public class HpiProcessor
         }
     }
 
-    private void ExtractV1()
+    private void ExtractV1(bool quickRead)
     {
         _hpiFile.Seek(8, SeekOrigin.Begin);
 
@@ -317,7 +346,7 @@ public class HpiProcessor
 
             _directory = new byte[header.DirectorySize];
             ReadAndDecrypt(header.Start, _directory, header.DirectorySize - header.Start);
-            ProcessDirectory("", 0);
+            ProcessDirectory("", 0, quickRead);
         }
         finally
         {

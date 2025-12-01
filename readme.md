@@ -1,7 +1,7 @@
 iiCompleteDestruction
 =========
 
-iiCompleteDestruction is a C# library targetting .NET8 providing basic functions to support modifications to Total Annihilation, the 1997 RTS by Cavedog Entertainment.
+iiCompleteDestruction is a C# library targetting .NET10 providing basic functions to support modifications to Total Annihilation, the 1997 RTS by Cavedog Entertainment.
 
 | Name   | Read | Write | Comment
 |--------|:----:|-------|--------
@@ -21,6 +21,9 @@ iiCompleteDestruction is a C# library targetting .NET8 providing basic functions
 | UFO    | ✔   |   ✔   | HPI
 
 ## Usage
+
+Install via nuget:
+https://www.nuget.org/packages/ii.CompleteDestruction
 
 Sample code to use the library is provided below.
 

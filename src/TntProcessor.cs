@@ -377,36 +377,30 @@ public class TntProcessor
         var mapHeight = mapHeightInTiles * TileHeight;
         var mapBytes = new byte[mapWidth * mapHeight];
 
-        for (int tileY = 0; tileY < mapHeightInTiles; tileY++)
+        Parallel.For(0, mapHeightInTiles, tileY =>
         {
+            var tileRowOffset = tileY * mapWidthInTiles;
+            var destBaseY = tileY * TileHeight;
+
             for (int tileX = 0; tileX < mapWidthInTiles; tileX++)
             {
-                var tileIndex = tileIndices[tileY * mapWidthInTiles + tileX];
-
-                // Ensure tile index is valid
-                if (tileIndex < tiles.Length)
+                var tileIndex = tileIndices[tileRowOffset + tileX];
+                if (tileIndex >= tiles.Length)
                 {
-                    var tileData = tiles[tileIndex];
+                    continue;
+                }
 
-                    // Copy tile data to the appropriate position in the map
-                    for (int y = 0; y < TileHeight; y++)
-                    {
-                        for (int x = 0; x < TileWidth; x++)
-                        {
-                            var srcIndex = y * TileWidth + x;
-                            var destX = tileX * TileWidth + x;
-                            var destY = tileY * TileHeight + y;
-                            var destIndex = destY * mapWidth + destX;
+                var tileData = tiles[tileIndex];
+                var destBaseX = tileX * TileWidth;
 
-                            if (destIndex < mapBytes.Length)
-                            {
-                                mapBytes[destIndex] = tileData[srcIndex];
-                            }
-                        }
-                    }
+                for (int y = 0; y < TileHeight; y++)
+                {
+                    var srcOffset = y * TileWidth;
+                    var destRowStart = ((destBaseY + y) * mapWidth) + destBaseX;
+                    Buffer.BlockCopy(tileData, srcOffset, mapBytes, destRowStart, TileWidth);
                 }
             }
-        }
+        });
 
         var mainMapRgba = palette.ToRgbaBytes(mapBytes);
         return Image.LoadPixelData<Rgba32>(mainMapRgba, mapWidth, mapHeight);

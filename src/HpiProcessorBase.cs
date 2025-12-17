@@ -5,7 +5,7 @@ using System.Text;
 
 namespace ii.CompleteDestruction;
 
-public abstract class HpiReaderBase : IHpiReader
+public abstract class HpiProcessorBase : IHpiProcessor
 {
     protected const string Signature = "HAPI";
     protected const uint SqshMarker = 0x48535153; // 'SQSH'
@@ -16,6 +16,7 @@ public abstract class HpiReaderBase : IHpiReader
 
     public abstract HpiArchive Read(string hpiPath, bool quickRead = true);
     public abstract byte[] Extract(string relativePath);
+    public abstract void Write(string outputPath, IEnumerable<HpiFileEntry> files);
 
     protected static int LZ77Decompress(byte[] output, byte[] input, HpiChunk chunk)
     {
@@ -139,5 +140,86 @@ public abstract class HpiReaderBase : IHpiReader
         
         return Encoding.ASCII.GetString(bytes.ToArray());
     }
-}
 
+    protected static byte[] ZLibCompress(byte[] data)
+    {
+        using var outputStream = new MemoryStream();
+        
+        outputStream.WriteByte(0x78);
+        outputStream.WriteByte(0x9C);
+        
+        using (var deflateStream = new DeflateStream(outputStream, CompressionLevel.Optimal, leaveOpen: true))
+        {
+            deflateStream.Write(data, 0, data.Length);
+        }
+        
+        var adler = CalculateAdler32(data);
+        outputStream.WriteByte((byte)(adler >> 24));
+        outputStream.WriteByte((byte)(adler >> 16));
+        outputStream.WriteByte((byte)(adler >> 8));
+        outputStream.WriteByte((byte)adler);
+        
+        return outputStream.ToArray();
+    }
+
+    protected static uint CalculateAdler32(byte[] data)
+    {
+        const uint mod = 65521;
+        uint a = 1, b = 0;
+        
+        foreach (var value in data)
+        {
+            a = (a + value) % mod;
+            b = (b + a) % mod;
+        }
+        
+        return (b << 16) | a;
+    }
+
+    protected static byte[] StructureToByteArray<T>(T structure) where T : struct
+    {
+        var size = Marshal.SizeOf<T>();
+        var array = new byte[size];
+        var ptr = Marshal.AllocHGlobal(size);
+        try
+        {
+            Marshal.StructureToPtr(structure, ptr, false);
+            Marshal.Copy(ptr, array, 0, size);
+        }
+        finally
+        {
+            Marshal.FreeHGlobal(ptr);
+        }
+        return array;
+    }
+
+    protected class DirectoryNode
+    {
+        public Dictionary<string, DirectoryNode> Subdirectories { get; } = new();
+        public List<(string name, string fullPath)> Files { get; } = new();
+    }
+
+    protected static DirectoryNode BuildDirectoryTree(List<HpiFileEntry> files)
+    {
+        var root = new DirectoryNode();
+        
+        foreach (var file in files)
+        {
+            var parts = file.RelativePath.Split(Path.DirectorySeparatorChar, Path.AltDirectorySeparatorChar);
+            var currentNode = root;
+            
+            for (var i = 0; i < parts.Length - 1; i++)
+            {
+                if (!currentNode.Subdirectories.ContainsKey(parts[i]))
+                {
+                    currentNode.Subdirectories[parts[i]] = new DirectoryNode();
+                }
+                currentNode = currentNode.Subdirectories[parts[i]];
+            }
+            
+            currentNode.Files.Add((parts[^1], file.RelativePath));
+        }
+        
+        return root;
+    }
+}

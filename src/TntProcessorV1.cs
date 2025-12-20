@@ -8,30 +8,30 @@ public class TntProcessorV1 : TntProcessorBase
 {
     public const uint Version = 0x2000;
 
-    public override TntFile Read(string filePath, TaPalette palette)
+    public override TntFile Read(string filePath, PalProcessor palette)
     {
         using var br = new BinaryReader(File.Open(filePath, FileMode.Open));
         return Read(br, palette);
     }
 
-    public override TntFile Read(byte[] data, TaPalette palette)
+    public override TntFile Read(byte[] data, PalProcessor palette)
     {
         using var ms = new MemoryStream(data);
         using var br = new BinaryReader(ms);
         return Read(br, palette);
     }
 
-    public override TntFile Read(string filePath, TaPalette palette, Dictionary<string, byte[]> textures)
+    public override TntFile Read(string filePath, PalProcessor palette, Dictionary<string, byte[]> textures)
     {
         return Read(filePath, palette);
     }
 
-    public override TntFile Read(byte[] data, TaPalette palette, Dictionary<string, byte[]> textures)
+    public override TntFile Read(byte[] data, PalProcessor palette, Dictionary<string, byte[]> textures)
     {
         return Read(data, palette);
     }
 
-    private TntFile Read(BinaryReader br, TaPalette palette)
+    private TntFile Read(BinaryReader br, PalProcessor palette)
     {
         var result = new TntFile();
         var header = ReadHeader(br);
@@ -83,7 +83,7 @@ public class TntProcessorV1 : TntProcessorBase
         return result;
     }
 
-    public override void Write(string filePath, TntFile tntFile, TaPalette palette)
+    public override void Write(string filePath, TntFile tntFile, PalProcessor palette)
     {
         using var bw = new BinaryWriter(File.Open(filePath, FileMode.Create));
 
@@ -226,7 +226,7 @@ public class TntProcessorV1 : TntProcessorBase
         };
     }
 
-    private static Image ProcessMinimap(BinaryReader br, TntHeader header, TaPalette palette)
+    private static Image ProcessMinimap(BinaryReader br, TntHeader header, PalProcessor palette)
     {
         br.BaseStream.Seek(header.MinimapOffset, SeekOrigin.Begin);
 
@@ -237,7 +237,7 @@ public class TntProcessorV1 : TntProcessorBase
         return ProcessMinimapFromRawData(rawData, width, height, palette);
     }
 
-    private static Image ProcessMainMap(BinaryReader br, TntHeader header, TaPalette palette)
+    private static Image ProcessMainMap(BinaryReader br, TntHeader header, PalProcessor palette)
     {
         var mapWidthInTiles = (int)(header.Width / 2);
         var mapHeightInTiles = (int)(header.Height / 2);

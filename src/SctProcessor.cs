@@ -1,5 +1,4 @@
 ﻿using ii.CompleteDestruction.Model.Sct;
-using ii.CompleteDestruction.Model.Tnt;
 using SixLabors.ImageSharp;
 using SixLabors.ImageSharp.PixelFormats;
 
@@ -11,20 +10,20 @@ public class SctProcessor
     private const int TileHeight = 32;
     private const int MinimapSize = 128;
 
-    public SctFile Read(string filePath, TaPalette palette)
+    public SctFile Read(string filePath, PalProcessor palette)
     {
         using var br = new BinaryReader(File.Open(filePath, FileMode.Open));
         return Read(br, palette);
     }
 
-    public SctFile Read(byte[] data, TaPalette palette)
+    public SctFile Read(byte[] data, PalProcessor palette)
     {
         using var ms = new MemoryStream(data);
         using var br = new BinaryReader(ms);
         return Read(br, palette);
     }
 
-    private SctFile Read(BinaryReader br, TaPalette palette)
+    private SctFile Read(BinaryReader br, PalProcessor palette)
     {
         var result = new SctFile();
         var header = ReadHeader(br);
@@ -107,7 +106,7 @@ public class SctProcessor
         return result;
     }
 
-    public void Write(string filePath, SctFile sctFile, TaPalette palette)
+    public void Write(string filePath, SctFile sctFile, PalProcessor palette)
     {
         using var bw = new BinaryWriter(File.Open(filePath, FileMode.Create));
 
@@ -182,7 +181,7 @@ public class SctProcessor
         writer.Write(header.PtrData);
     }
 
-    private byte[] ImageToPaletteIndices(Image image, TaPalette palette)
+    private byte[] ImageToPaletteIndices(Image image, PalProcessor palette)
     {
         var paletteIndices = new byte[image.Width * image.Height];
         var index = 0;
@@ -222,7 +221,7 @@ public class SctProcessor
         return paletteIndices;
     }
 
-    private byte FindClosestPaletteIndex(byte r, byte g, byte b, TaPalette palette)
+    private byte FindClosestPaletteIndex(byte r, byte g, byte b, PalProcessor palette)
     {
         return palette.FindClosestColorIndex(r, g, b);
     }

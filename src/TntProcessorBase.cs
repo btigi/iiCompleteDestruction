@@ -1,4 +1,3 @@
-using ii.CompleteDestruction.Model.Tnt;
 using SixLabors.ImageSharp;
 using SixLabors.ImageSharp.PixelFormats;
 
@@ -17,13 +16,13 @@ public abstract class TntProcessorBase : ITntProcessor
     public const ushort TakRoad = 0xFFFB;
     public const ushort TakVoid = 0xFFFF;
 
-    public abstract TntFile Read(string filePath, TaPalette palette);
-    public abstract TntFile Read(byte[] data, TaPalette palette);
-    public abstract TntFile Read(string filePath, TaPalette palette, Dictionary<string, byte[]> textures);
-    public abstract TntFile Read(byte[] data, TaPalette palette, Dictionary<string, byte[]> textures);
-    public abstract void Write(string filePath, TntFile tntFile, TaPalette palette);
+    public abstract TntFile Read(string filePath, PalProcessor palette);
+    public abstract TntFile Read(byte[] data, PalProcessor palette);
+    public abstract TntFile Read(string filePath, PalProcessor palette, Dictionary<string, byte[]> textures);
+    public abstract TntFile Read(byte[] data, PalProcessor palette, Dictionary<string, byte[]> textures);
+    public abstract void Write(string filePath, TntFile tntFile, PalProcessor palette);
 
-    protected static Image ProcessMinimapFromRawData(byte[] rawData, int width, int height, TaPalette palette)
+    protected static Image ProcessMinimapFromRawData(byte[] rawData, int width, int height, PalProcessor palette)
     {
         var actualDimensions = GetMinimapActualSize(rawData, width, height);
         var actualData = CropMinimap(rawData, width, height, actualDimensions.width, actualDimensions.height);
@@ -73,7 +72,7 @@ public abstract class TntProcessorBase : ITntProcessor
         return result;
     }
 
-    protected static byte[] ImageToPaletteIndices(Image image, TaPalette palette)
+    protected static byte[] ImageToPaletteIndices(Image image, PalProcessor palette)
     {
         var paletteIndices = new byte[image.Width * image.Height];
         int index = 0;

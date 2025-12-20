@@ -5,19 +5,30 @@ iiCompleteDestruction is a C# library targetting .NET10 providing basic function
 
 | Name   | Read | Write | Comment
 |--------|:----:|-------|--------
+| 3DO    | ✗   |   ✗   | 
+| ALP    | ✗   |   ✔   | 
+| BLU    | ✗   |   ✗   | 
 | BOS    | ✗   |   ✗   | 
 | CCX    | ✔   |   ✔   | HPI
 | COB    | ✗   |   ✗   | 
 | CRT    | ✗   |   ✗   | TA: Kingdoms
 | FBI    | ✔   |   ✔   | TDF
+| FNT    | ✗   |   ✗   | 
 | GAF    | ✔   |   ✔   | 
+| GAO    | ✗   |   ✗   | TA: Kingdoms
+| GAO2   | ✗   |   ✗   | TA: Kingdoms
 | GP3    | ✔   |   ✔   | HPI
+| GRY    | ✗   |   ✗   | 
 | GUI    | ✔   |   ✔   | TDF
 | HPI    | ✔   |   ✔   | 
 | KMP    | ✔   |   ✔   | HPI, TA: Kingdoms
+| LHT    | ✗   |   ✔   | 
 | OTA    | ✔   |   ✔   | TDF
+| PCO    | ✗   |   ✗   | TA: Kingdoms
 | PCX    | ✔   |   ✗   | 
+| SCC    | ✗   |   ✗   | 
 | SCT    | ✔   |   ✔   | 
+| SHD    | ✗   |   ✔   | 
 | TAF    | ✔   |   ✔   | TA: Kingdoms
 | TDF    | ✔   |   ✔   | TDF
 | TNT    | ✔   |   ✔   |
@@ -98,6 +109,8 @@ $ dotnet build
 iiCompleteDestruction is licensed under the MIT license. Full licence details are available in license.md
 
 The HPI related code is largely based on original work by [JoeD](https://github.com/joe-d-cws/hpidump)
+
+The ALP, LHT and SHD related code is based on original work by [Rahsennor](https://www.tauniverse.com/forum/member.php?u=20958)
 
 ## References
 https://units.tauniverse.com/tutorials/tadesign/tadesign/ta-files.htm

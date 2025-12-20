@@ -1,6 +1,4 @@
-﻿using ii.CompleteDestruction.Model.Tnt;
-
-namespace ii.CompleteDestruction;
+﻿namespace ii.CompleteDestruction;
 
 public class TntProcessor : ITntProcessor
 {
@@ -13,36 +11,36 @@ public class TntProcessor : ITntProcessor
 
     private ITntProcessor? _processor;
 
-    public TntFile Read(string filePath, TaPalette palette)
+    public TntFile Read(string filePath, PalProcessor palette)
     {
         _processor = CreateProcessor(filePath);
         return _processor.Read(filePath, palette);
     }
 
-    public TntFile Read(byte[] data, TaPalette palette)
+    public TntFile Read(byte[] data, PalProcessor palette)
     {
         _processor = CreateProcessor(data);
         return _processor.Read(data, palette);
     }
 
-    public TntFile Read(string filePath, TaPalette palette, Dictionary<string, byte[]> textures)
+    public TntFile Read(string filePath, PalProcessor palette, Dictionary<string, byte[]> textures)
     {
         _processor = CreateProcessor(filePath);
         return _processor.Read(filePath, palette, textures);
     }
 
-    public TntFile Read(byte[] data, TaPalette palette, Dictionary<string, byte[]> textures)
+    public TntFile Read(byte[] data, PalProcessor palette, Dictionary<string, byte[]> textures)
     {
         _processor = CreateProcessor(data);
         return _processor.Read(data, palette, textures);
     }
 
-    public void Write(string filePath, TntFile tntFile, TaPalette palette)
+    public void Write(string filePath, TntFile tntFile, PalProcessor palette)
     {
         Write(filePath, tntFile, palette, 1);
     }
 
-    public void Write(string filePath, TntFile tntFile, TaPalette palette, int version)
+    public void Write(string filePath, TntFile tntFile, PalProcessor palette, int version)
     {
         ITntProcessor writer = version switch
         {

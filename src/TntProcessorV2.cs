@@ -11,33 +11,33 @@ public class TntProcessorV2 : TntProcessorBase
     private const int DataUnitSize = 16;
     private const int GraphicUnitSize = 32;
 
-    public override TntFile Read(string filePath, TaPalette palette)
+    public override TntFile Read(string filePath, PalProcessor palette)
     {
         using var br = new BinaryReader(File.Open(filePath, FileMode.Open));
         return Read(br, palette, null);
     }
 
-    public override TntFile Read(byte[] data, TaPalette palette)
+    public override TntFile Read(byte[] data, PalProcessor palette)
     {
         using var ms = new MemoryStream(data);
         using var br = new BinaryReader(ms);
         return Read(br, palette, null);
     }
 
-    public override TntFile Read(string filePath, TaPalette palette, Dictionary<string, byte[]> textures)
+    public override TntFile Read(string filePath, PalProcessor palette, Dictionary<string, byte[]> textures)
     {
         using var br = new BinaryReader(File.Open(filePath, FileMode.Open));
         return Read(br, palette, textures);
     }
 
-    public override TntFile Read(byte[] data, TaPalette palette, Dictionary<string, byte[]> textures)
+    public override TntFile Read(byte[] data, PalProcessor palette, Dictionary<string, byte[]> textures)
     {
         using var ms = new MemoryStream(data);
         using var br = new BinaryReader(ms);
         return Read(br, palette, textures);
     }
 
-    private TntFile Read(BinaryReader br, TaPalette palette, Dictionary<string, byte[]>? textures)
+    private TntFile Read(BinaryReader br, PalProcessor palette, Dictionary<string, byte[]>? textures)
     {
         var result = new TntFile();
         var header = ReadHeader(br);
@@ -112,7 +112,7 @@ public class TntProcessorV2 : TntProcessorBase
         return result;
     }
 
-    public override void Write(string filePath, TntFile tntFile, TaPalette palette)
+    public override void Write(string filePath, TntFile tntFile, PalProcessor palette)
     {
         using var bw = new BinaryWriter(File.Open(filePath, FileMode.Create));
 

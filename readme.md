@@ -8,16 +8,21 @@ iiCompleteDestruction is a C# library targetting .NET10 providing basic function
 | BOS    | ✗   |   ✗   | 
 | CCX    | ✔   |   ✔   | HPI
 | COB    | ✗   |   ✗   | 
+| CRT    | ✗   |   ✗   | TA: Kingdoms
 | FBI    | ✔   |   ✔   | TDF
 | GAF    | ✔   |   ✔   | 
 | GP3    | ✔   |   ✔   | HPI
 | GUI    | ✔   |   ✔   | TDF
 | HPI    | ✔   |   ✔   | 
+| KMP    | ✔   |   ✔   | HPI
 | OTA    | ✔   |   ✔   | TDF
 | PCX    | ✔   |   ✗   | 
-| SCT    | ✔   |   ✔   |
-| TNT    | ✔   |   ✔   |
+| SCT    | ✔   |   ✔   | 
+| TAF    | ✗   |   ✗   | TA: Kingdoms
 | TDF    | ✔   |   ✔   | TDF
+| TNT    | ✔   |   ✔   |
+| TNT2   | 〰️  |   〰️  | TA: Kingdoms
+| TSF    | ✗   |   ✗   | TA: Kingdoms
 | UFO    | ✔   |   ✔   | HPI
 
 ## Usage

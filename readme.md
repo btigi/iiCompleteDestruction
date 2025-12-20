@@ -18,7 +18,7 @@ iiCompleteDestruction is a C# library targetting .NET10 providing basic function
 | OTA    | ✔   |   ✔   | TDF
 | PCX    | ✔   |   ✗   | 
 | SCT    | ✔   |   ✔   | 
-| TAF    | ✗   |   ✗   | TA: Kingdoms
+| TAF    | ✔   |   ✔   | TA: Kingdoms
 | TDF    | ✔   |   ✔   | TDF
 | TNT    | ✔   |   ✔   |
 | TNT2   | 〰️  |   〰️  | TA: Kingdoms

@@ -8,22 +8,21 @@ public class GafProcessor
 {
     private const byte Transparency = 0;
 
-    public List<GafImageEntry> Read(string filePath, bool processUnsupportedVersions = false)
+    public List<GafImageEntry> Read(string filePath, PalProcessor palProcessor, bool processUnsupportedVersions = false)
     {
         using var br = new BinaryReader(File.Open(filePath, FileMode.Open));
-        return Read(br, processUnsupportedVersions);
+        return Read(br, palProcessor, processUnsupportedVersions);
     }
 
-    public List<GafImageEntry> Read(byte[] data, bool processUnsupportedVersions = false)
+    public List<GafImageEntry> Read(byte[] data, PalProcessor palProcessor, bool processUnsupportedVersions = false)
     {
         using var ms = new MemoryStream(data);
         using var br = new BinaryReader(ms);
-        return Read(br, processUnsupportedVersions);
+        return Read(br, palProcessor, processUnsupportedVersions);
     }
 
-    private List<GafImageEntry> Read(BinaryReader br, bool processUnsupportedVersions)
+    private List<GafImageEntry> Read(BinaryReader br, PalProcessor palProcessor, bool processUnsupportedVersions)
     {
-        var palette = ReadPalette(@"PALETTE.PAL");
 
         var result = new List<GafImageEntry>();
 
@@ -157,16 +156,14 @@ public class GafProcessor
                             currentRow++;
                         }
 
-                        var rgbaData = new byte[frameData.Width * frameData.Height * 4];
+                        var rgbaData = palProcessor.ToRgbaBytes(pixelData);
+                        // Set alpha channel based on transparency
                         for (var i = 0; i < pixelData.Length; i++)
                         {
-                            var paletteIndex = pixelData[i];
-                            var color = palette[paletteIndex];
-
-                            rgbaData[i * 4] = color.Red;
-                            rgbaData[i * 4 + 1] = color.Green;
-                            rgbaData[i * 4 + 2] = color.Blue;
-                            rgbaData[i * 4 + 3] = (paletteIndex == Transparency) ? (byte)0 : (byte)255;
+                            if (pixelData[i] == Transparency)
+                            {
+                                rgbaData[i * 4 + 3] = 0;
+                            }
                         }
 
                         var image = Image.LoadPixelData<Rgba32>(rgbaData, frameData.Width, frameData.Height);
@@ -184,16 +181,14 @@ public class GafProcessor
                         var pixelData = new byte[dataSize];
 
                         var bytesRead = br.Read(pixelData, 0, dataSize);
-                        var rgbaData = new byte[frameData.Width * frameData.Height * 4];
+                        var rgbaData = palProcessor.ToRgbaBytes(pixelData);
+                        // Set alpha channel based on transparency
                         for (var i = 0; i < pixelData.Length; i++)
                         {
-                            var paletteIndex = pixelData[i];
-                            var color = palette[paletteIndex];
-
-                            rgbaData[i * 4] = color.Red;
-                            rgbaData[i * 4 + 1] = color.Green;
-                            rgbaData[i * 4 + 2] = color.Blue;
-                            rgbaData[i * 4 + 3] = (paletteIndex == Transparency) ? (byte)0 : (byte)255;
+                            if (pixelData[i] == Transparency)
+                            {
+                                rgbaData[i * 4 + 3] = 0;
+                            }
                         }
 
                         var image = Image.LoadPixelData<Rgba32>(rgbaData, frameData.Width, frameData.Height);
@@ -299,17 +294,7 @@ public class GafProcessor
                                 currentRow++;
                             }
 
-                            var rgbaData = new byte[subFrameData.Width * subFrameData.Height * 4];
-                            for (var i = 0; i < pixelData.Length; i++)
-                            {
-                                var paletteIndex = pixelData[i];
-                                var color = palette[paletteIndex];
-
-                                rgbaData[i * 4] = color.Red;
-                                rgbaData[i * 4 + 1] = color.Green;
-                                rgbaData[i * 4 + 2] = color.Blue;
-                                rgbaData[i * 4 + 3] = 255;
-                            }
+                            var rgbaData = palProcessor.ToRgbaBytes(pixelData);
 
                             var image = Image.LoadPixelData<Rgba32>(rgbaData, subFrameData.Width, subFrameData.Height);
                             gafImageEntry.Frames.Add(new GafFrame
@@ -326,17 +311,7 @@ public class GafProcessor
                             var pixelData = new byte[dataSize];
 
                             var bytesRead = br.Read(pixelData, 0, dataSize);
-                            var rgbaData = new byte[subFrameData.Width * subFrameData.Height * 4];
-                            for (var i = 0; i < pixelData.Length; i++)
-                            {
-                                var paletteIndex = pixelData[i];
-                                var color = palette[paletteIndex];
-
-                                rgbaData[i * 4] = color.Red;
-                                rgbaData[i * 4 + 1] = color.Green;
-                                rgbaData[i * 4 + 2] = color.Blue;
-                                rgbaData[i * 4 + 3] = 255;
-                            }
+                            var rgbaData = palProcessor.ToRgbaBytes(pixelData);
 
                             var image = Image.LoadPixelData<Rgba32>(rgbaData, subFrameData.Width, subFrameData.Height);
                             gafImageEntry.Frames.Add(new GafFrame
@@ -357,9 +332,8 @@ public class GafProcessor
         return result;
     }
 
-    public void Write(string filePath, List<GafImageEntry> entries)
+    public void Write(string filePath, List<GafImageEntry> entries, PalProcessor palProcessor)
     {
-        var palette = ReadPalette(@"PALETTE.PAL");
 
         using var bw = new BinaryWriter(File.Create(filePath));
 
@@ -428,7 +402,7 @@ public class GafProcessor
                 var pixelDataOffset = (int)bw.BaseStream.Position;
 
                 // Convert image to palette-indexed format
-                var pixelData = ImageToPaletteIndexed(frame.Image, palette);
+                var pixelData = ImageToPaletteIndexed(frame.Image, palProcessor);
 
                 if (frame.UseCompression)
                 {
@@ -465,7 +439,7 @@ public class GafProcessor
         }
     }
 
-    private byte[] ImageToPaletteIndexed(Image image, Colour[] palette)
+    private byte[] ImageToPaletteIndexed(Image image, PalProcessor palProcessor)
     {
         var width = image.Width;
         var height = image.Height;
@@ -481,45 +455,20 @@ public class GafProcessor
                 for (var x = 0; x < accessor.Width; x++)
                 {
                     var pixel = row[x];
-                    var index = FindClosestPaletteIndex(pixel, palette);
-                    pixelData[y * width + x] = (byte)index;
+                    // If pixel is fully transparent, use transparency index
+                    if (pixel.A == 0)
+                    {
+                        pixelData[y * width + x] = Transparency;
+                    }
+                    else
+                    {
+                        pixelData[y * width + x] = palProcessor.FindClosestColorIndex(pixel.R, pixel.G, pixel.B);
+                    }
                 }
             }
         });
 
         return pixelData;
-    }
-
-    private int FindClosestPaletteIndex(Rgba32 pixel, Colour[] palette)
-    {
-        // If pixel is fully transparent, use transparency index
-        if (pixel.A == 0)
-        {
-            return Transparency;
-        }
-
-        var minDistance = int.MaxValue;
-        var closestIndex = 0;
-
-        for (var i = 0; i < palette.Length; i++)
-        {
-            var color = palette[i];
-            var dr = pixel.R - color.Red;
-            var dg = pixel.G - color.Green;
-            var db = pixel.B - color.Blue;
-            var distance = dr * dr + dg * dg + db * db;
-
-            if (distance < minDistance)
-            {
-                minDistance = distance;
-                closestIndex = i;
-
-                if (distance == 0) 
-                    break; // Perfect match
-            }
-        }
-
-        return closestIndex;
     }
 
     private void WriteCompressedPixelData(BinaryWriter bw, byte[] pixelData, short width)
@@ -605,47 +554,5 @@ public class GafProcessor
             bw.Write((ushort)rowData.Count);
             bw.Write(rowData.ToArray());
         }
-    }
-
-    private Colour[] ReadPalette(string filePath)
-    {
-        const int PaletteSize = 256;
-        const int ColorSize = 4; // RGBA
-        const int ExpectedFileSize = PaletteSize * ColorSize;
-
-        var palette = new Colour[PaletteSize];
-
-        using var br = new BinaryReader(File.Open(filePath, FileMode.Open, FileAccess.Read));
-        if (br.BaseStream.Length != ExpectedFileSize)
-        {
-            throw new InvalidDataException($"Palette file must be exactly {ExpectedFileSize} bytes.");
-        }
-
-        for (var i = 0; i < PaletteSize; i++)
-        {
-            var r = br.ReadByte();
-            var g = br.ReadByte();
-            var b = br.ReadByte();
-            var a = br.ReadByte();
-            palette[i] = new Colour(r, g, b, a);
-        }
-
-        return palette;
-    }
-
-    private class Colour
-    {
-        public Colour(byte red, byte green, byte blue, byte alpha)
-        {
-            Red = red;
-            Green = green;
-            Blue = blue;
-            Alpha = alpha;
-        }
-
-        public byte Red { get; set; }
-        public byte Green { get; set; }
-        public byte Blue { get; set; }
-        public byte Alpha { get; set; }
     }
 }

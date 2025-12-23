@@ -147,6 +147,104 @@ public class CrtProcessor
         return crtFile;
     }
 
+    public void Write(string filePath, CrtFile crtFile)
+    {
+        using var bw = new BinaryWriter(File.Open(filePath, FileMode.Create));
+        Write(bw, crtFile);
+    }
+
+    public byte[] Write(CrtFile crtFile)
+    {
+        using var ms = new MemoryStream();
+        using var bw = new BinaryWriter(ms);
+        Write(bw, crtFile);
+        return ms.ToArray();
+    }
+
+    private void Write(BinaryWriter bw, CrtFile crtFile)
+    {
+        bw.Write(crtFile.Signature);
+        bw.Write(crtFile.Unknown1);
+        bw.Write((uint)crtFile.Units.Count);
+
+        foreach (var unit in crtFile.Units)
+        {
+            WriteNullTerminatedString(bw, unit.UnitType, 256);
+            WriteNullTerminatedString(bw, unit.UniqueName, 256);
+            bw.Write(unit.X);
+            bw.Write(unit.Y);
+            bw.Write(unit.Z);
+            bw.Write(unit.PlayerId);
+            bw.Write(unit.HealthPercent);
+            bw.Write(unit.ArmorPercent);
+            bw.Write(unit.WeaponPercent);
+            bw.Write(unit.Angle);
+            bw.Write(unit.Veteran);
+            bw.Write(unit.Unknown1);
+            bw.Write(unit.Unknown2);
+            bw.Write(unit.FootprintX);
+            bw.Write(unit.FootprintY);
+            bw.Write(unit.Unknown3);
+        }
+
+        bw.Write((uint)crtFile.Players.Count);
+        foreach (var player in crtFile.Players)
+        {
+            bw.Write((uint)player.Rules.Count);
+
+            foreach (var rule in player.Rules)
+            {
+                bw.Write((uint)rule.Conditions.Count);
+
+                foreach (var condition in rule.Conditions)
+                {
+                    bw.Write(condition.ConditionNumber);
+
+                    for (int argIdx = 0; argIdx < 5; argIdx++)
+                    {
+                        if (argIdx < condition.Arguments.Count)
+                        {
+                            WriteFixedByteArray(bw, condition.Arguments[argIdx], 64);
+                        }
+                        else
+                        {
+                            bw.Write(new byte[64]);
+                        }
+                    }
+                }
+
+                bw.Write((uint)rule.Actions.Count);
+
+                foreach (var action in rule.Actions)
+                {
+                    bw.Write(action.ActionNumber);
+
+                    for (int argIdx = 0; argIdx < 5; argIdx++)
+                    {
+                        if (argIdx < action.Arguments.Count)
+                        {
+                            WriteFixedByteArray(bw, action.Arguments[argIdx], 64);
+                        }
+                        else
+                        {
+                            bw.Write(new byte[64]);
+                        }
+                    }
+                }
+            }
+        }
+
+        bw.Write((uint)crtFile.Triggers.Count);
+        foreach (var trigger in crtFile.Triggers)
+        {
+            WriteNullTerminatedString(bw, trigger.TriggerName, 256);
+            bw.Write(trigger.Left);
+            bw.Write(trigger.Top);
+            bw.Write(trigger.Right);
+            bw.Write(trigger.Bottom);
+        }
+    }
+
     public string ToJson(CrtFile crtFile)
     {
         var options = new JsonSerializerOptions
@@ -168,6 +266,32 @@ public class CrtProcessor
             return Encoding.ASCII.GetString(bytes, 0, nullIndex);
         }
         return Encoding.ASCII.GetString(bytes);
+    }
+
+    private static void WriteNullTerminatedString(BinaryWriter bw, string str, int fixedLength)
+    {
+        var bytes = new byte[fixedLength];
+        if (!string.IsNullOrEmpty(str))
+        {
+            var strBytes = Encoding.ASCII.GetBytes(str);
+            var length = Math.Min(strBytes.Length, fixedLength - 1);
+            Array.Copy(strBytes, bytes, length);
+        }
+        bw.Write(bytes);
+    }
+
+    private static void WriteFixedByteArray(BinaryWriter bw, byte[] data, int fixedLength)
+    {
+        if (data.Length == fixedLength)
+        {
+            bw.Write(data);
+        }
+        else
+        {
+            var bytes = new byte[fixedLength];
+            Array.Copy(data, bytes, Math.Min(data.Length, fixedLength));
+            bw.Write(bytes);
+        }
     }
 
     private static string ParseArgument(byte[] argument)

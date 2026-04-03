@@ -77,38 +77,64 @@ public class HpiProcessorV1 : HpiProcessorBase
         using var writer = new BinaryWriter(stream);
 
         var fileList = files.ToList();
-        
-        // Write version header
+
         writer.Write(Encoding.ASCII.GetBytes(Signature));
         writer.Write(0x00010000); // Version 1
-        
-        var headerPosition = stream.Position;
+
+        var headerMainPosition = stream.Position;
         stream.Seek(Marshal.SizeOf<HpiHeader>(), SeekOrigin.Current);
-        
-        var fileDataMap = new Dictionary<string, (int offset, int length)>();
+
+        var placeholderMap = new Dictionary<string, (int offset, int length)>(StringComparer.OrdinalIgnoreCase);
         foreach (var file in fileList)
         {
-            var offset = (int)stream.Position;
-            var length = WriteCompressedFile(writer, file.Data);
-            fileDataMap[file.RelativePath] = (offset, length);
+            placeholderMap[file.RelativePath] = (0, file.Data.Length);
         }
-        
-        var directoryStart = (int)stream.Position;
-        var directoryData = BuildDirectoryV1(fileList, fileDataMap);
+
+        var directoryData = BuildDirectoryV1(fileList, placeholderMap);
+        var dataStartOffset = HeaderOffset + directoryData.Length;
+
+        var compressedBlobs = new List<byte[]>(fileList.Count);
+        foreach (var file in fileList)
+        {
+            using var blobStream = new MemoryStream();
+            using (var blobWriter = new BinaryWriter(blobStream, Encoding.UTF8, leaveOpen: true))
+            {
+                WriteCompressedFile(blobWriter, file.Data);
+            }
+
+            compressedBlobs.Add(blobStream.ToArray());
+        }
+
+        var fileDataMap = new Dictionary<string, (int offset, int length)>(StringComparer.OrdinalIgnoreCase);
+        var cursor = dataStartOffset;
+        for (var i = 0; i < fileList.Count; i++)
+        {
+            fileDataMap[fileList[i].RelativePath] = (cursor, fileList[i].Data.Length);
+            cursor += compressedBlobs[i].Length;
+        }
+
+        directoryData = BuildDirectoryV1(fileList, fileDataMap);
+
+        writer.BaseStream.Position = HeaderOffset;
         writer.Write(directoryData);
-        var directoryEnd = (int)stream.Position;
-        
-        stream.Seek(headerPosition, SeekOrigin.Begin);
-        WriteMainHeader(writer, directoryStart, directoryEnd);
+
+        writer.BaseStream.Position = dataStartOffset;
+        foreach (var blob in compressedBlobs)
+        {
+            writer.Write(blob);
+        }
+
+        writer.BaseStream.Position = headerMainPosition;
+        WriteMainHeader(writer, dataStartOffset, HeaderOffset);
     }
 
-    private static void WriteMainHeader(BinaryWriter writer, int directoryStart, int directoryEnd)
+    private static void WriteMainHeader(BinaryWriter writer, int dataStartOffset, int directoryOffset)
     {
         var header = new HpiHeader
         {
-            DirectorySize = directoryEnd,
+            DirectorySize = dataStartOffset,
             Key = 0,
-            Start = directoryStart
+            Start = directoryOffset
         };
         writer.Write(StructureToByteArray(header));
     }

@@ -5,7 +5,7 @@ iiCompleteDestruction is a C# library targetting .NET10 providing basic function
 
 | Name   | Read | Write | Comment
 |--------|:----:|-------|--------
-| 3DO    | ✔   |   ✗   | 
+| 3DO    | ✔   |   ✔   | 
 | ALP    | ✗   |   ✔   | 
 | BLU    | ✗   |   ✗   | 
 | BOS    | ✗   |   ✗   | 
@@ -32,7 +32,7 @@ iiCompleteDestruction is a C# library targetting .NET10 providing basic function
 | TAF    | ✔   |   ✔   | TA: Kingdoms
 | TDF    | ✔   |   ✔   | TDF
 | TNT    | ✔   |   ✔   |
-| TNT2   | 〰️  |   〰️  | TA: Kingdoms
+| TNT2   | 〰   |   〰️   | TA: Kingdoms
 | TSF    | ✔   |   ✔   | TDF, TA: Kingdoms
 | UFO    | ✔   |   ✔   | HPI
 

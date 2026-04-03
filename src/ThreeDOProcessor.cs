@@ -19,6 +19,20 @@ public class ThreeDOProcessor
         return Read(br);
     }
 
+    public void Write(string filePath, ThreeDOFile file)
+    {
+        using var bw = new BinaryWriter(File.Create(filePath));
+        WriteObject(bw, file.RootObject);
+    }
+
+    public byte[] Write(ThreeDOFile file)
+    {
+        using var ms = new MemoryStream();
+        using var bw = new BinaryWriter(ms);
+        WriteObject(bw, file.RootObject);
+        return ms.ToArray();
+    }
+
     private ThreeDOFile Read(BinaryReader br)
     {
         var file = new ThreeDOFile
@@ -163,5 +177,123 @@ public class ThreeDOProcessor
         }
 
         return System.Text.Encoding.ASCII.GetString(bytes.ToArray());
+    }
+
+    private void WriteObject(BinaryWriter bw, ThreeDOObject obj)
+    {
+        var headerPosition = bw.BaseStream.Position;
+
+        bw.Write(obj.VersionSignature);
+        bw.Write(obj.Vertices.Length);
+        bw.Write(obj.Primitives.Length);
+        bw.Write(obj.SelectionPrimitive);
+        bw.Write(obj.XFromParent);
+        bw.Write(obj.YFromParent);
+        bw.Write(obj.ZFromParent);
+        bw.Write(0); // OffsetToObjectName — patched later
+        bw.Write(obj.Always_0);
+        bw.Write(0); // OffsetToVertexArray — patched later
+        bw.Write(0); // OffsetToPrimitiveArray — patched later
+        bw.Write(0); // OffsetToSiblingObject — patched later
+        bw.Write(0); // OffsetToChildObject — patched later
+
+        var offsetToObjectName = 0;
+        if (!string.IsNullOrEmpty(obj.Name))
+        {
+            offsetToObjectName = (int)bw.BaseStream.Position;
+            WriteNullTerminatedString(bw, obj.Name);
+        }
+
+        var offsetToVertexArray = 0;
+        if (obj.Vertices.Length > 0)
+        {
+            offsetToVertexArray = (int)bw.BaseStream.Position;
+            foreach (var vertex in obj.Vertices)
+            {
+                bw.Write(vertex.X);
+                bw.Write(vertex.Y);
+                bw.Write(vertex.Z);
+            }
+        }
+
+        var offsetToPrimitiveArray = 0;
+        var primitiveHeaderPositions = Array.Empty<long>();
+        if (obj.Primitives.Length > 0)
+        {
+            offsetToPrimitiveArray = (int)bw.BaseStream.Position;
+            primitiveHeaderPositions = new long[obj.Primitives.Length];
+
+            for (var i = 0; i < obj.Primitives.Length; i++)
+            {
+                primitiveHeaderPositions[i] = bw.BaseStream.Position;
+                var prim = obj.Primitives[i];
+                bw.Write(prim.ColorIndex);
+                bw.Write(prim.VertexIndices.Length);
+                bw.Write(prim.Always_0);
+                bw.Write(0); // OffsetToVertexIndexArray — patched later
+                bw.Write(0); // OffsetToTextureName — patched later
+                bw.Write(prim.Unknown_1);
+                bw.Write(prim.Unknown_2);
+                bw.Write(prim.Unknown_3);
+            }
+
+            for (var i = 0; i < obj.Primitives.Length; i++)
+            {
+                var prim = obj.Primitives[i];
+
+                var offsetToVertexIndexArray = 0;
+                if (prim.VertexIndices.Length > 0)
+                {
+                    offsetToVertexIndexArray = (int)bw.BaseStream.Position;
+                    foreach (var index in prim.VertexIndices)
+                    {
+                        bw.Write(index);
+                    }
+                }
+
+                var offsetToTextureName = 0;
+                if (!string.IsNullOrEmpty(prim.TextureName))
+                {
+                    offsetToTextureName = (int)bw.BaseStream.Position;
+                    WriteNullTerminatedString(bw, prim.TextureName);
+                }
+
+                var currentPosition = bw.BaseStream.Position;
+                bw.BaseStream.Seek(primitiveHeaderPositions[i] + 12, SeekOrigin.Begin);
+                bw.Write(offsetToVertexIndexArray);
+                bw.Write(offsetToTextureName);
+                bw.BaseStream.Position = currentPosition;
+            }
+        }
+
+        var offsetToChildObject = 0;
+        if (obj.Child != null)
+        {
+            offsetToChildObject = (int)bw.BaseStream.Position;
+            WriteObject(bw, obj.Child);
+        }
+
+        var offsetToSiblingObject = 0;
+        if (obj.Sibling != null)
+        {
+            offsetToSiblingObject = (int)bw.BaseStream.Position;
+            WriteObject(bw, obj.Sibling);
+        }
+
+        var endPosition = bw.BaseStream.Position;
+        bw.BaseStream.Seek(headerPosition + 28, SeekOrigin.Begin);
+        bw.Write(offsetToObjectName);
+        bw.BaseStream.Seek(headerPosition + 36, SeekOrigin.Begin);
+        bw.Write(offsetToVertexArray);
+        bw.Write(offsetToPrimitiveArray);
+        bw.Write(offsetToSiblingObject);
+        bw.Write(offsetToChildObject);
+        bw.BaseStream.Position = endPosition;
+    }
+
+    private void WriteNullTerminatedString(BinaryWriter bw, string value)
+    {
+        bw.Write(System.Text.Encoding.ASCII.GetBytes(value));
+        bw.Write((byte)0);
     }
 }

@@ -9,6 +9,12 @@ public class SctProcessor
     private const int TileWidth = 32;
     private const int TileHeight = 32;
     private const int MinimapSize = 128;
+    private const int HeaderSize = 28;
+    private const int HeightEntrySizeV3 = 4;
+    private const int HeightEntrySizeV2 = 8;
+    private const int SupportedVersionV2 = 2;
+    private const int SupportedVersionV3 = 3;
+    private const int DefaultWriteVersion = SupportedVersionV3;
 
     public SctFile Read(string filePath, PalProcessor palette)
     {
@@ -27,7 +33,8 @@ public class SctProcessor
     {
         var result = new SctFile();
         var header = ReadHeader(br);
-        
+        result.Version = header.Version;
+
         // Read tiles
         br.BaseStream.Seek(header.PtrTiles, SeekOrigin.Begin);
         var tiles = new byte[header.NumTiles][];
@@ -44,17 +51,9 @@ public class SctProcessor
             tileIndices[i] = br.ReadInt16();
         }
 
-        // Read height data
-        var heightData = new List<HeightData>();
-        for (var i = 0; i < header.Width * header.Height * 4; i++)
-        {
-            heightData.Add(new HeightData
-            {
-                Height = br.ReadByte(),
-                Constant1 = br.ReadInt16(),
-                Constant2 = br.ReadByte()
-            });
-        }
+        // Read height data — attribute grid is 2× tile resolution (16 px cells)
+        var heightEntryCount = header.Width * 2 * header.Height * 2;
+        var heightData = ReadHeightData(br, header.Version, heightEntryCount);
 
         // Read minimap
         br.BaseStream.Seek(header.PtrMinimap, SeekOrigin.Begin);
@@ -117,19 +116,22 @@ public class SctProcessor
         var mapWidthInTiles = sctFile.Map.Width / TileWidth;
         var mapHeightInTiles = sctFile.Map.Height / TileHeight;
         var (tiles, tileIndices) = ExtractTiles(mapBytes, sctFile.Map.Width, sctFile.Map.Height);
+        var version = sctFile.Version is SupportedVersionV2 or SupportedVersionV3
+            ? sctFile.Version
+            : DefaultWriteVersion;
+        var heightEntrySize = GetHeightEntrySize(version);
 
         // Calculate offsets
-        const int headerSize = 28; // 7 int32 values
-        var ptrTiles = headerSize;
+        var ptrTiles = HeaderSize;
         var tilesSize = tiles.Count * TileWidth * TileHeight;
         var ptrData = ptrTiles + tilesSize;
         var sectionDataSize = mapWidthInTiles * mapHeightInTiles * 2; // short values
-        var heightDataSize = mapWidthInTiles * mapHeightInTiles * 4 * 4; // 4 HeightData structs per tile, 4 bytes each
+        var heightDataSize = mapWidthInTiles * mapHeightInTiles * 4 * heightEntrySize;
         var ptrMinimap = ptrData + sectionDataSize + heightDataSize;
 
         WriteHeader(bw, new SctHeader
         {
-            Version = 2,
+            Version = version,
             PtrMinimap = ptrMinimap,
             NumTiles = tiles.Count,
             PtrTiles = ptrTiles,
@@ -151,20 +153,10 @@ public class SctProcessor
         var expectedHeightDataCount = mapWidthInTiles * mapHeightInTiles * 4;
         for (var i = 0; i < expectedHeightDataCount; i++)
         {
-            if (i < sctFile.HeightInfo.Count)
-            {
-                var heightData = sctFile.HeightInfo[i];
-                bw.Write(heightData.Height);
-                bw.Write(heightData.Constant1);
-                bw.Write(heightData.Constant2);
-            }
-            else
-            {
-                // Default data is we receive insufficient data
-                bw.Write((byte)0);
-                bw.Write((short)-1);
-                bw.Write((byte)0);
-            }
+            var heightData = i < sctFile.HeightInfo.Count
+                ? sctFile.HeightInfo[i]
+                : new HeightData { Constant1 = -1 };
+            WriteHeightData(bw, heightData, version);
         }
 
         bw.Write(minimapBytes);
@@ -270,17 +262,63 @@ public class SctProcessor
         return (tiles, tileIndices);
     }
 
-    private SctHeader ReadHeader(BinaryReader reader)
-    {
-        const int ExpectedVersion = 2;
+    private static int GetHeightEntrySize(int version) =>
+        version == SupportedVersionV2 ? HeightEntrySizeV2 : HeightEntrySizeV3;
 
-        var version = reader.ReadInt32();
-        if (version != ExpectedVersion)
+    private static List<HeightData> ReadHeightData(BinaryReader br, int version, int count)
+    {
+        var entrySize = GetHeightEntrySize(version);
+        var heightData = new List<HeightData>(count);
+
+        for (var i = 0; i < count; i++)
         {
-            throw new InvalidDataException($"Unsupported SCT version. Expected {ExpectedVersion}, got {version}.");
+            var entry = br.ReadBytes(entrySize);
+            if (entry.Length < HeightEntrySizeV3)
+            {
+                break;
+            }
+
+            var data = new HeightData
+            {
+                Height = entry[0],
+                Constant1 = BitConverter.ToInt16(entry, 1),
+                Constant2 = entry[3]
+            };
+
+            if (entrySize == HeightEntrySizeV2 && entry.Length >= HeightEntrySizeV2)
+            {
+                data.Reserved = BitConverter.ToUInt32(entry, 4);
+            }
+
+            heightData.Add(data);
         }
 
-        return new SctHeader
+        return heightData;
+    }
+
+    private static void WriteHeightData(BinaryWriter bw, HeightData heightData, int version)
+    {
+        bw.Write(heightData.Height);
+        bw.Write(heightData.Constant1);
+        bw.Write(heightData.Constant2);
+
+        if (version == SupportedVersionV2)
+        {
+            bw.Write(heightData.Reserved);
+        }
+    }
+
+    private SctHeader ReadHeader(BinaryReader reader)
+    {
+        var fileLength = reader.BaseStream.Length;
+        var version = reader.ReadInt32();
+        if (version != SupportedVersionV2 && version != SupportedVersionV3)
+        {
+            throw new InvalidDataException(
+                $"Unsupported SCT version. Expected {SupportedVersionV2} or {SupportedVersionV3}, got {version}.");
+        }
+
+        var header = new SctHeader
         {
             Version = version,
             PtrMinimap = reader.ReadInt32(),
@@ -290,5 +328,54 @@ public class SctProcessor
             Height = reader.ReadInt32(),
             PtrData = reader.ReadInt32()
         };
+
+        ValidateHeader(header, fileLength);
+        return header;
+    }
+
+    private static void ValidateHeader(SctHeader header, long fileLength)
+    {
+        if (header.NumTiles < 0 || header.Width <= 0 || header.Height <= 0)
+        {
+            throw new InvalidDataException("SCT header contains invalid dimensions or tile count.");
+        }
+
+        if (header.PtrTiles < HeaderSize || header.PtrTiles >= fileLength)
+        {
+            throw new InvalidDataException($"SCT PtrTiles ({header.PtrTiles}) is outside the file.");
+        }
+
+        if (header.PtrData < HeaderSize || header.PtrData >= fileLength)
+        {
+            throw new InvalidDataException($"SCT PtrData ({header.PtrData}) is outside the file.");
+        }
+
+        if (header.PtrMinimap > 0 && (header.PtrMinimap < HeaderSize || header.PtrMinimap >= fileLength))
+        {
+            throw new InvalidDataException($"SCT PtrMinimap ({header.PtrMinimap}) is outside the file.");
+        }
+
+        var tilesEnd = (long)header.PtrTiles + header.NumTiles * TileWidth * TileHeight;
+        if (tilesEnd > fileLength)
+        {
+            throw new InvalidDataException("SCT tile block extends past the end of the file.");
+        }
+
+        var tileMapBytes = (long)header.Width * header.Height * 2;
+        var heightBytes = (long)header.Width * 2 * header.Height * 2 * GetHeightEntrySize(header.Version);
+        var dataEnd = (long)header.PtrData + tileMapBytes + heightBytes;
+        if (dataEnd > fileLength)
+        {
+            throw new InvalidDataException("SCT section data extends past the end of the file.");
+        }
+
+        if (header.PtrMinimap > 0)
+        {
+            var minimapEnd = (long)header.PtrMinimap + MinimapSize * MinimapSize;
+            if (minimapEnd > fileLength)
+            {
+                throw new InvalidDataException("SCT minimap extends past the end of the file.");
+            }
+        }
     }
 }

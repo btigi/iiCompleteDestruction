@@ -13,7 +13,7 @@ iiCompleteDestruction is a C# library targetting .NET10 providing basic function
 | COB    | ✗   |   ✗   | 
 | CRT    | ✔   |   ✔   | TA: Kingdoms
 | FBI    | ✔   |   ✔   | TDF
-| FNT    | ✗   |   ✗   | 
+| FNT    | ✔   |   ✔   | 
 | GAF    | ✔   |   ✔   | 
 | GAO    | ✗   |   ✗   | TA: Kingdoms
 | GAO2   | ✗   |   ✗   | TA: Kingdoms
@@ -112,7 +112,7 @@ The HPI related code is largely based on original work by [JoeD](https://github.
 
 The ALP, LHT and SHD related code is based on original work by [Rahsennor](https://www.tauniverse.com/forum/member.php?u=20958)
 
-SCT handling code includes updates from [kbot](https://github.com/coreprime/kbot)
+FNT and SCT handling code includes updates from [kbot](https://github.com/coreprime/kbot)
 
 ## References
 https://units.tauniverse.com/tutorials/tadesign/tadesign/ta-files.htm

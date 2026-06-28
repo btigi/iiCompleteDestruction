@@ -26,7 +26,7 @@ iiCompleteDestruction is a C# library targetting .NET10 providing basic function
 | OTA    | ✔   |   ✔   | TDF
 | PCO    | ✗   |   ✗   | TA: Kingdoms
 | PCX    | ✔   |   ✗   | 
-| SCC    | ✗   |   ✗   | 
+| SCC    | ✔   |   ✔   | Visual SourceSafe metadata 
 | SCT    | ✔   |   ✔   | 
 | SHD    | ✗   |   ✔   | 
 | TAF    | ✔   |   ✔   | TA: Kingdoms
